@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NexoCRM - Demonstração</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+</head>
+
+<body>
+    <div class="app">
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="mark">NC</div>
+                <div>
+                    <strong>NexoCRM</strong>
+                    <span>Yurim Consultoria Digital</span>
+                </div>
+            </div>
+
+            <nav class="nav" aria-label="Menu principal">
+                <button class="active" type="button" title="Funil">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M4 6h16M7 12h10M10 18h4" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" />
+                    </svg>
+                    Funil
+                </button>
+                <button type="button" title="Clientes">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path
+                            d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    Clientes
+                </button>
+                <button type="button" title="Lembretes">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path
+                            d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                    Lembretes
+                </button>
+                <button type="button" title="Relatórios">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M4 19V5M4 19h16M8 16v-5M12 16V8M16 16v-3" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" />
+                    </svg>
+                    Relatórios
+                </button>
+            </nav>
+
+            <div class="sidebar-note">
+                <small>Base fictícia para apresentação. Depois, os dados podem ser trocados pelo comércio
+                    contratado.</small>
+            </div>
+        </aside>
+
+        <main class="main">
+            <header class="topbar">
+                <div class="title">
+                    <h1>Organização de clientes do WhatsApp</h1>
+                    <p>Painel profissional para acompanhar conversas, orçamentos e retornos.</p>
+                </div>
+                <div class="actions">
+                    <input class="search" id="search" type="search" placeholder="Buscar cliente, telefone ou serviço">
+                    <button class="secondary" type="button" id="demoDataBtn">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M3 12a9 9 0 1 0 3-6.7M3 4v6h6" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        Recarregar demo
+                    </button>
+                    <button class="primary" type="button" id="openModal">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        </svg>
+                        Novo cliente
+                    </button>
+                </div>
+            </header>
+
+            <section class="metrics" aria-label="Resumo">
+                <div class="metric">
+                    <span>Clientes ativos</span>
+                    <strong id="activeCount">0</strong>
+                </div>
+                <div class="metric">
+                    <span>Orçamentos abertos</span>
+                    <strong id="quoteCount">0</strong>
+                </div>
+                <div class="metric">
+                    <span>Retornos hoje</span>
+                    <strong id="reminderCount">0</strong>
+                </div>
+                <div class="metric">
+                    <span>Valor em negociação</span>
+                    <strong id="pipelineValue">R$ 0</strong>
+                </div>
+            </section>
+
+            <section class="layout">
+                <div class="board-wrap">
+                    <div class="board-head">
+                        <div>
+                            <strong>Funil de atendimento</strong>
+                            <span>Arraste clientes entre etapas ou use o formulário para cadastrar.</span>
+                        </div>
+                        <button class="icon-btn" type="button" title="Configurações">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <path
+                                    d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7ZM19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.36a1.7 1.7 0 0 0-1 .15 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1-1.55 1.7 1.7 0 0 0-1-.15 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.64 15a1.7 1.7 0 0 0-.15-1 1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.55-1 1.7 1.7 0 0 0 .15-1 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.64a1.7 1.7 0 0 0 1-.15 1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1 .15 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.36 9c.06.35.12.68.15 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1Z"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="board" id="board"></div>
+                </div>
+
+                <aside class="aside-panel">
+                    <div class="aside-section">
+                        <h3>Retornos de hoje</h3>
+                        <div id="reminders"></div>
+                    </div>
+                    <div class="aside-section">
+                        <h3>Movimento da semana</h3>
+                        <div class="mini-chart" aria-label="Gráfico de contatos por dia">
+                            <div class="bar" style="height: 38%"></div>
+                            <div class="bar" style="height: 62%"></div>
+                            <div class="bar" style="height: 48%"></div>
+                            <div class="bar" style="height: 76%"></div>
+                            <div class="bar" style="height: 56%"></div>
+                            <div class="bar" style="height: 84%"></div>
+                            <div class="bar" style="height: 42%"></div>
+                        </div>
+                    </div>
+                    <div class="aside-section">
+                        <h3>Últimas anotações</h3>
+                        <div class="activity">
+                            <strong>Marina Costa</strong>
+                            <span>Pediu orçamento e quer retorno antes das 16h.</span>
+                        </div>
+                        <div class="activity">
+                            <strong>Clínica Bella Forma</strong>
+                            <span>Lead vindo por indicação, alto potencial de fechamento.</span>
+                        </div>
+                        <div class="activity">
+                            <strong>Rafael Lima</strong>
+                            <span>Aguardando confirmação do pacote mensal.</span>
+                        </div>
+                    </div>
+                </aside>
+            </section>
+        </main>
+    </div>
+
+    <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal">
+            <div class="modal-head">
+                <h2 id="modalTitle">Novo cliente</h2>
+                <button class="icon-btn" type="button" id="closeModal" title="Fechar">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                </button>
+            </div>
+            <form class="form" id="clientForm">
+                <div class="field">
+                    <label for="name">Nome</label>
+                    <input id="name" name="name" required placeholder="Ex.: Camila Rocha">
+                </div>
+                <div class="field">
+                    <label for="phone">WhatsApp</label>
+                    <input id="phone" name="phone" required placeholder="Ex.: 11999990000">
+                </div>
+                <div class="field">
+                    <label for="service">Interesse</label>
+                    <input id="service" name="service" required placeholder="Ex.: orçamento mensal">
+                </div>
+                <div class="field">
+                    <label for="value">Valor estimado</label>
+                    <input id="value" name="value" type="number" min="0" step="50" placeholder="Ex.: 650">
+                </div>
+                <div class="field">
+                    <label for="stage">Etapa</label>
+                    <select id="stage" name="stage">
+                        <option value="novo">Novo</option>
+                        <option value="conversa">Em conversa</option>
+                        <option value="orcamento">Orçamento enviado</option>
+                        <option value="fechado">Fechado</option>
+                        <option value="perdido">Perdido</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="reminder">Retorno</label>
+                    <input id="reminder" name="reminder" placeholder="Ex.: Hoje 15:30">
+                </div>
+                <div class="field full">
+                    <label for="note">Observação</label>
+                    <textarea id="note" name="note" rows="3"
+                        placeholder="Resumo da conversa, preferência ou próximo passo"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button class="secondary" type="button" id="cancelModal">Cancelar</button>
+                    <button class="primary" type="submit">Salvar cliente</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="js/custom.js"></script>
+</body>
+
+</html>
