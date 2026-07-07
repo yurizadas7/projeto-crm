@@ -4,10 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>NexoCRM - Demonstração</title>
+    <title>NexoCRM - Demo Comercial</title>
     <link rel="stylesheet" href="css/style.css">
-</head>
-
 </head>
 
 <body>
@@ -17,19 +15,26 @@
                 <div class="mark">NC</div>
                 <div>
                     <strong>NexoCRM</strong>
-                    <span>Yurim Consultoria Digital</span>
+                    <span>CRM para vendas no WhatsApp</span>
                 </div>
             </div>
 
             <nav class="nav" aria-label="Menu principal">
-                <button class="active" type="button" title="Funil">
+                <button class="active" type="button" title="Funil" data-view="funil">
                     <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                         <path d="M4 6h16M7 12h10M10 18h4" stroke="currentColor" stroke-width="2"
                             stroke-linecap="round" />
                     </svg>
                     Funil
                 </button>
-                <button type="button" title="Clientes">
+                <button type="button" title="Perfil" data-view="perfil">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M20 21a8 8 0 0 0-16 0M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                    Perfil
+                </button>
+                <button type="button" title="Clientes" data-view="clientes">
                     <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                         <path
                             d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"
@@ -37,7 +42,7 @@
                     </svg>
                     Clientes
                 </button>
-                <button type="button" title="Lembretes">
+                <button type="button" title="Lembretes" data-view="lembretes">
                     <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                         <path
                             d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"
@@ -45,35 +50,55 @@
                     </svg>
                     Lembretes
                 </button>
-                <button type="button" title="Relatórios">
+                <button type="button" title="Relatorios" data-view="relatorios">
                     <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                         <path d="M4 19V5M4 19h16M8 16v-5M12 16V8M16 16v-3" stroke="currentColor" stroke-width="2"
                             stroke-linecap="round" />
                     </svg>
-                    Relatórios
+                    Relatorios
                 </button>
             </nav>
 
-            <div class="sidebar-note">
-                <small>Base fictícia para apresentação. Depois, os dados podem ser trocados pelo comércio
-                    contratado.</small>
+            <div class="sidebar-footer">
+                <div class="ember-footer">
+                    <div class="ember-card">
+                        <div class="ember-top">
+                            <img src="img/ember-labs.png" alt="EMBER Labs" class="ember-logo">
+                            <div>
+                                <span>Desenvolvido por</span>
+                                <strong>EMBER Labs</strong>
+                                <p>Tecnologia que impulsiona negocios.</p>
+                            </div>
+                        </div>
+                        <div class="ember-bottom">
+                            <strong>&copy; 2026 EMBER Labs</strong>
+                        </div>
+                    </div>
+                </div>
             </div>
         </aside>
 
         <main class="main">
             <header class="topbar">
                 <div class="title">
-                    <h1>Organização de clientes do WhatsApp</h1>
-                    <p>Painel profissional para acompanhar conversas, orçamentos e retornos.</p>
+                    <h1 id="pageTitle">CRM simples para vender mais pelo WhatsApp</h1>
+                    <p id="pageSubtitle">Organize leads, propostas e retornos em uma demo pronta para apresentacao.</p>
                 </div>
                 <div class="actions">
-                    <input class="search" id="search" type="search" placeholder="Buscar cliente, telefone ou serviço">
+                    <input class="search" id="search" type="search" placeholder="Buscar cliente, telefone ou servico">
                     <button class="secondary" type="button" id="demoDataBtn">
                         <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                             <path d="M3 12a9 9 0 1 0 3-6.7M3 4v6h6" stroke="currentColor" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                         Recarregar demo
+                    </button>
+                    <button class="secondary" type="button" id="exportClientsBtn">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M12 3v12M8 11l4 4 4-4M4 21h16" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        Exportar
                     </button>
                     <button class="primary" type="button" id="openModal">
                         <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -84,13 +109,27 @@
                 </div>
             </header>
 
+            <section class="demo-strip" aria-label="Roteiro da demonstracao">
+                <div>
+                    <span class="eyebrow">Demo comercial</span>
+                    <strong>Mostre o fluxo em menos de 2 minutos</strong>
+                </div>
+                <div class="demo-steps">
+                    <span>1. Cadastre um lead</span>
+                    <span>2. Mova no funil</span>
+                    <span>3. Marque retorno</span>
+                    <span>4. Abra WhatsApp</span>
+                    <span>5. Exporte a lista</span>
+                </div>
+            </section>
+
             <section class="metrics" aria-label="Resumo">
                 <div class="metric">
-                    <span>Clientes ativos</span>
+                    <span>Leads ativos</span>
                     <strong id="activeCount">0</strong>
                 </div>
                 <div class="metric">
-                    <span>Orçamentos abertos</span>
+                    <span>Propostas abertas</span>
                     <strong id="quoteCount">0</strong>
                 </div>
                 <div class="metric">
@@ -98,64 +137,161 @@
                     <strong id="reminderCount">0</strong>
                 </div>
                 <div class="metric">
-                    <span>Valor em negociação</span>
+                    <span>Potencial em vendas</span>
                     <strong id="pipelineValue">R$ 0</strong>
                 </div>
             </section>
 
-            <section class="layout">
-                <div class="board-wrap">
-                    <div class="board-head">
-                        <div>
-                            <strong>Funil de atendimento</strong>
-                            <span>Arraste clientes entre etapas ou use o formulário para cadastrar.</span>
+            <section class="view active" id="view-funil">
+                <div class="layout">
+                    <div class="board-wrap">
+                        <div class="board-head">
+                            <div>
+                                <strong>Funil de atendimento</strong>
+                            <span>Arraste oportunidades entre etapas e mostre como o atendimento fica organizado.</span>
+                            </div>
+                            <button class="icon-btn" type="button" title="Configuracoes">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path
+                                        d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7ZM19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.36a1.7 1.7 0 0 0-1 .15 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1-1.55 1.7 1.7 0 0 0-1-.15 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.64 15a1.7 1.7 0 0 0-.15-1 1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.55-1 1.7 1.7 0 0 0 .15-1 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.64a1.7 1.7 0 0 0 1-.15 1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1 .15 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.36 9c.06.35.12.68.15 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1Z"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </button>
                         </div>
-                        <button class="icon-btn" type="button" title="Configurações">
-                            <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                <path
-                                    d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7ZM19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.36a1.7 1.7 0 0 0-1 .15 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1-1.55 1.7 1.7 0 0 0-1-.15 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.64 15a1.7 1.7 0 0 0-.15-1 1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.55-1 1.7 1.7 0 0 0 .15-1 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.64a1.7 1.7 0 0 0 1-.15 1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1 .15 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.36 9c.06.35.12.68.15 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1Z"
-                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                            </svg>
-                        </button>
+                        <div class="board" id="board"></div>
                     </div>
-                    <div class="board" id="board"></div>
-                </div>
 
-                <aside class="aside-panel">
-                    <div class="aside-section">
-                        <h3>Retornos de hoje</h3>
-                        <div id="reminders"></div>
-                    </div>
-                    <div class="aside-section">
-                        <h3>Movimento da semana</h3>
-                        <div class="mini-chart" aria-label="Gráfico de contatos por dia">
-                            <div class="bar" style="height: 38%"></div>
-                            <div class="bar" style="height: 62%"></div>
-                            <div class="bar" style="height: 48%"></div>
-                            <div class="bar" style="height: 76%"></div>
-                            <div class="bar" style="height: 56%"></div>
-                            <div class="bar" style="height: 84%"></div>
-                            <div class="bar" style="height: 42%"></div>
+                    <aside class="aside-panel">
+                        <div class="aside-section">
+                            <h3>Retornos de hoje</h3>
+                            <div id="reminders"></div>
                         </div>
-                    </div>
-                    <div class="aside-section">
-                        <h3>Últimas anotações</h3>
-                        <div class="activity">
-                            <strong>Marina Costa</strong>
-                            <span>Pediu orçamento e quer retorno antes das 16h.</span>
+                        <div class="aside-section">
+                            <h3>Movimento da semana</h3>
+                            <div class="mini-chart" aria-label="Grafico de contatos por dia">
+                                <div class="chart-day"><div class="bar" style="height: 38%"></div><span>Seg</span></div>
+                                <div class="chart-day"><div class="bar" style="height: 62%"></div><span>Ter</span></div>
+                                <div class="chart-day"><div class="bar" style="height: 48%"></div><span>Qua</span></div>
+                                <div class="chart-day"><div class="bar" style="height: 76%"></div><span>Qui</span></div>
+                                <div class="chart-day"><div class="bar" style="height: 56%"></div><span>Sex</span></div>
+                                <div class="chart-day"><div class="bar" style="height: 84%"></div><span>Sab</span></div>
+                                <div class="chart-day"><div class="bar" style="height: 42%"></div><span>Dom</span></div>
+                            </div>
                         </div>
-                        <div class="activity">
-                            <strong>Clínica Bella Forma</strong>
-                            <span>Lead vindo por indicação, alto potencial de fechamento.</span>
+                        <div class="aside-section">
+                            <h3>Argumentos da demo</h3>
+                            <div id="activityList"></div>
                         </div>
-                        <div class="activity">
-                            <strong>Rafael Lima</strong>
-                            <span>Aguardando confirmação do pacote mensal.</span>
-                        </div>
-                    </div>
-                </aside>
+                    </aside>
+                </div>
             </section>
+
+            <section class="view" id="view-perfil">
+                <div class="profile-grid">
+                    <div class="profile-card hero-profile">
+                        <div class="profile-avatar">YD</div>
+                        <div>
+                            <span class="eyebrow">Produto demonstrativo</span>
+                            <h2>NexoCRM para WhatsApp</h2>
+                            <p>Uma solucao simples para pequenas empresas controlarem leads, propostas e retornos sem perder vendas.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="profile-card">
+                        <h3>Dados da empresa</h3>
+                        <div class="info-list">
+                            <div><span>Produto</span><strong>NexoCRM</strong></div>
+                            <div><span>Publico ideal</span><strong>Pequenos negocios</strong></div>
+                            <div><span>Canal principal</span><strong>WhatsApp</strong></div>
+                            <div><span>Entrega</span><strong>Demo + implantacao</strong></div>
+                        </div>
+                    </div>
+                    <div class="profile-card">
+                        <h3>Beneficios para vender</h3>
+                        <label class="check-row"><input type="checkbox" checked> Nao perder retorno de clientes</label>
+                        <label class="check-row"><input type="checkbox" checked> Visualizar propostas abertas</label>
+                        <label class="check-row"><input type="checkbox" checked> Exportar lista para acompanhamento</label>
+                    </div>
+                    <div class="profile-card wide">
+                        <h3>Mensagem pronta para WhatsApp</h3>
+                        <textarea
+                            rows="4">Ola! Vi seu interesse e deixei seu atendimento organizado aqui no nosso painel. Posso te chamar para seguirmos com a proposta?</textarea>
+                    </div>
+                    <div class="profile-card wide">
+                        <h3>Oferta sugerida</h3>
+                        <div class="offer-list">
+                            <div><strong>Implantacao</strong><span>Configuracao inicial, treinamento e entrega da demo personalizada.</span></div>
+                            <div><strong>Mensalidade</strong><span>Suporte, ajustes simples e evolucao do painel conforme o uso.</span></div>
+                            <div><strong>Diferencial</strong><span>Produto direto ao ponto para quem vende por WhatsApp e precisa de controle.</span></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="view" id="view-clientes">
+                <div class="table-panel">
+                    <div class="panel-head">
+                        <div>
+                            <strong>Lista de clientes</strong>
+                            <span>Consulta rapida com telefone, interesse, etapa e valor estimado.</span>
+                        </div>
+                        <button class="primary" type="button" id="openModalClients">Novo cliente</button>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Cliente</th>
+                                    <th>WhatsApp</th>
+                                    <th>Interesse</th>
+                                    <th>Origem</th>
+                                    <th>Prioridade</th>
+                                    <th>Responsavel</th>
+                                    <th>Etapa</th>
+                                    <th>Retorno</th>
+                                    <th>Valor</th>
+                                    <th>Acoes</th>
+                                </tr>
+                            </thead>
+                            <tbody id="clientRows"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section class="view" id="view-lembretes">
+                <div class="reminder-grid" id="reminderCards"></div>
+            </section>
+
+            <section class="view" id="view-relatorios">
+                <div class="report-grid">
+                    <div class="report-card">
+                        <span>Conversao</span>
+                        <strong id="conversionRate">0%</strong>
+                        <p>Clientes fechados sobre total de contatos.</p>
+                    </div>
+                    <div class="report-card">
+                        <span>Ticket medio</span>
+                        <strong id="averageTicket">R$ 0</strong>
+                        <p>Media dos clientes fechados.</p>
+                    </div>
+                    <div class="report-card">
+                        <span>Maior etapa</span>
+                        <strong id="largestStage">-</strong>
+                        <p>Onde ha mais clientes neste momento.</p>
+                    </div>
+                    <div class="report-card wide">
+                        <h3>Clientes por etapa</h3>
+                        <div class="stage-chart" id="stageChart"></div>
+                    </div>
+                    <div class="report-card wide">
+                        <h3>Resumo executivo</h3>
+                        <div class="summary-list" id="summaryList"></div>
+                    </div>
+                </div>
+            </section>
+
         </main>
     </div>
 
@@ -170,6 +306,7 @@
                 </button>
             </div>
             <form class="form" id="clientForm">
+                <input id="clientId" name="clientId" type="hidden">
                 <div class="field">
                     <label for="name">Nome</label>
                     <input id="name" name="name" required placeholder="Ex.: Camila Rocha">
@@ -180,38 +317,80 @@
                 </div>
                 <div class="field">
                     <label for="service">Interesse</label>
-                    <input id="service" name="service" required placeholder="Ex.: orçamento mensal">
+                    <input id="service" name="service" required placeholder="Ex.: orcamento mensal">
+                </div>
+                <div class="field">
+                    <label for="source">Origem</label>
+                    <select id="source" name="source">
+                        <option value="WhatsApp">WhatsApp</option>
+                        <option value="Instagram">Instagram</option>
+                        <option value="Indicacao">Indicacao</option>
+                        <option value="Site">Site</option>
+                        <option value="Presencial">Presencial</option>
+                        <option value="Outro">Outro</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="priority">Prioridade</label>
+                    <select id="priority" name="priority">
+                        <option value="Media">Media</option>
+                        <option value="Alta">Alta</option>
+                        <option value="Baixa">Baixa</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="owner">Responsavel</label>
+                    <input id="owner" name="owner" placeholder="Ex.: Yurim">
+                </div>
+                <div class="field">
+                    <label for="tags">Tags</label>
+                    <input id="tags" name="tags" placeholder="Ex.: urgente, indicacao">
                 </div>
                 <div class="field">
                     <label for="value">Valor estimado</label>
-                    <input id="value" name="value" type="number" min="0" step="50" placeholder="Ex.: 650">
+                    <input id="value" name="value" inputmode="decimal" placeholder="Ex.: 349,99">
                 </div>
                 <div class="field">
                     <label for="stage">Etapa</label>
                     <select id="stage" name="stage">
                         <option value="novo">Novo</option>
                         <option value="conversa">Em conversa</option>
-                        <option value="orcamento">Orçamento enviado</option>
+                        <option value="orcamento">Orcamento enviado</option>
                         <option value="fechado">Fechado</option>
                         <option value="perdido">Perdido</option>
                     </select>
                 </div>
                 <div class="field">
                     <label for="reminder">Retorno</label>
-                    <input id="reminder" name="reminder" placeholder="Ex.: Hoje 15:30">
+                    <input id="reminder" name="reminder" type="datetime-local">
                 </div>
                 <div class="field full">
-                    <label for="note">Observação</label>
+                    <label for="note">Observacao</label>
                     <textarea id="note" name="note" rows="3"
-                        placeholder="Resumo da conversa, preferência ou próximo passo"></textarea>
+                        placeholder="Resumo da conversa, preferencia ou proximo passo"></textarea>
                 </div>
                 <div class="modal-actions">
                     <button class="secondary" type="button" id="cancelModal">Cancelar</button>
-                    <button class="primary" type="submit">Salvar cliente</button>
+                    <button class="primary" type="submit" id="saveClientBtn">Salvar cliente</button>
                 </div>
             </form>
         </div>
     </div>
+
+    <aside class="detail-drawer" id="detailDrawer" aria-hidden="true">
+        <div class="drawer-backdrop" id="drawerBackdrop"></div>
+        <div class="drawer-panel">
+            <div class="modal-head">
+                <h2 id="detailName">Cliente</h2>
+                <button class="icon-btn" type="button" id="closeDrawer" title="Fechar">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                </button>
+            </div>
+            <div class="drawer-body" id="detailBody"></div>
+        </div>
+    </aside>
 
     <div class="toast" id="toast"></div>
 
