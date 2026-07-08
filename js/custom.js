@@ -39,11 +39,20 @@ const demoClients = [
   { id: 7, name: "Loja Vitrine Modas", phone: "11977889900", service: "CRM simples para loja", source: "Site", priority: "Baixa", owner: "Yurim", stage: "perdido", value: 299.90, reminderAt: "", note: "Preferiu avaliar no proximo mes, mas pediu contato futuro.", tags: ["Perdido", "Reativar"], history: ["Cliente recusou por enquanto.", "Pode voltar no proximo mes."] }
 ];
 
+const AUTH_KEY = "nexocrm-auth-session";
+
+let currentSession = loadAuthSession();
 let clients = loadClients();
 let draggedId = null;
 let currentView = "funil";
 let selectedClientId = null;
 
+const loginForm = document.getElementById("loginForm");
+const loginMessage = document.getElementById("loginMessage");
+const demoLoginBtn = document.getElementById("demoLoginBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+const accountEmail = document.getElementById("accountEmail");
+const accountWorkspace = document.getElementById("accountWorkspace");
 const board = document.getElementById("board");
 const search = document.getElementById("search");
 const modal = document.getElementById("modalBackdrop");
@@ -68,8 +77,45 @@ function addDaysAt(days, hour, minute) {
   return toInputDateTime(date);
 }
 
+function loadAuthSession() {
+  const stored = localStorage.getItem(AUTH_KEY) || sessionStorage.getItem(AUTH_KEY);
+  if (!stored) return null;
+
+  try {
+    const session = JSON.parse(stored);
+    return session?.email && session?.workspace ? session : null;
+  } catch (error) {
+    localStorage.removeItem(AUTH_KEY);
+    sessionStorage.removeItem(AUTH_KEY);
+    return null;
+  }
+}
+
+function saveAuthSession(session, remember) {
+  const storage = remember ? localStorage : sessionStorage;
+
+  localStorage.removeItem(AUTH_KEY);
+  sessionStorage.removeItem(AUTH_KEY);
+  storage.setItem(AUTH_KEY, JSON.stringify(session));
+}
+
+function workspaceSlug(value) {
+  return String(value || "demo")
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "") || "demo";
+}
+
+function clientsStorageKey() {
+  const workspace = currentSession?.workspaceId || "demo";
+  return `nexocrm-clients:${workspace}`;
+}
+
 function loadClients() {
-  const stored = JSON.parse(localStorage.getItem("nexocrm-clients") || "null");
+  const stored = JSON.parse(localStorage.getItem(clientsStorageKey()) || "null");
   const source = stored || demoClients.map(client => ({ ...client }));
 
   return source.map(client => ({
@@ -198,7 +244,57 @@ function initials(name) {
 }
 
 function save() {
-  localStorage.setItem("nexocrm-clients", JSON.stringify(clients));
+  localStorage.setItem(clientsStorageKey(), JSON.stringify(clients));
+}
+
+function setAuthState() {
+  document.body.classList.toggle("is-authenticated", Boolean(currentSession));
+
+  if (!currentSession) {
+    accountEmail.textContent = "";
+    accountWorkspace.textContent = "";
+    return;
+  }
+
+  accountEmail.textContent = currentSession.email;
+  accountWorkspace.textContent = currentSession.workspace;
+}
+
+function signIn(email, password, workspace, remember) {
+  if (!email || !workspace || String(password || "").length < 6) {
+    loginMessage.textContent = "Informe e-mail, senha com 6 caracteres e workspace.";
+    return;
+  }
+
+  currentSession = {
+    email: email.trim().toLowerCase(),
+    workspace: workspace.trim(),
+    workspaceId: workspaceSlug(workspace),
+    signedAt: new Date().toISOString()
+  };
+
+  saveAuthSession(currentSession, remember);
+  clients = loadClients();
+  selectedClientId = null;
+  search.value = "";
+  loginMessage.textContent = "";
+  closeModal();
+  closeDetails();
+  setView("funil");
+  setAuthState();
+  render();
+  showToast("Login realizado em " + currentSession.workspace + ".");
+}
+
+function signOut() {
+  localStorage.removeItem(AUTH_KEY);
+  sessionStorage.removeItem(AUTH_KEY);
+  currentSession = null;
+  selectedClientId = null;
+  closeModal();
+  closeDetails();
+  setAuthState();
+  showToast("Sessao encerrada.");
 }
 
 function showToast(message) {
@@ -616,6 +712,28 @@ document.getElementById("demoDataBtn").addEventListener("click", () => {
   showToast("Dados ficticios recarregados.");
 });
 
+loginForm.addEventListener("submit", event => {
+  event.preventDefault();
+
+  const data = new FormData(loginForm);
+  signIn(
+    data.get("email"),
+    data.get("password"),
+    data.get("workspace"),
+    Boolean(data.get("remember"))
+  );
+});
+
+demoLoginBtn.addEventListener("click", () => {
+  document.getElementById("loginEmail").value = "demo@nexocrm.com";
+  document.getElementById("loginPassword").value = "demo123";
+  document.getElementById("loginWorkspace").value = "NexoCRM Demo";
+  document.getElementById("loginRemember").checked = true;
+  signIn("demo@nexocrm.com", "demo123", "NexoCRM Demo", true);
+});
+
+logoutBtn.addEventListener("click", signOut);
+
 modal.addEventListener("click", event => {
   if (event.target === modal) closeModal();
 });
@@ -660,6 +778,7 @@ form.addEventListener("submit", event => {
   render();
 });
 
+setAuthState();
 render();
 
 function parseTags(value) {

@@ -9,7 +9,59 @@
 </head>
 
 <body>
-    <div class="app">
+    <section class="login-screen" id="loginScreen" aria-labelledby="loginTitle">
+        <div class="login-brand">
+            <div class="mark">NC</div>
+            <div>
+                <strong>NexoCRM</strong>
+                <span>CRM SaaS para vendas no WhatsApp</span>
+            </div>
+        </div>
+
+        <div class="login-shell">
+            <div class="login-copy">
+                <span class="eyebrow">Acesso seguro</span>
+                <h1 id="loginTitle">Entre no painel da sua empresa</h1>
+                <p>Gerencie leads, propostas e retornos em um ambiente simples para equipes comerciais.</p>
+                <div class="login-highlights" aria-label="Recursos do produto">
+                    <span>Funil visual</span>
+                    <span>Lembretes comerciais</span>
+                    <span>Base por workspace</span>
+                </div>
+            </div>
+
+            <form class="login-card" id="loginForm">
+                <div>
+                    <h2>Login</h2>
+                    <p>Acesse com seu e-mail corporativo ou use a demo.</p>
+                </div>
+                <div class="field">
+                    <label for="loginEmail">E-mail</label>
+                    <input id="loginEmail" name="email" type="email" autocomplete="email" required
+                        placeholder="voce@empresa.com">
+                </div>
+                <div class="field">
+                    <label for="loginPassword">Senha</label>
+                    <input id="loginPassword" name="password" type="password" autocomplete="current-password" required
+                        minlength="6" placeholder="Minimo de 6 caracteres">
+                </div>
+                <div class="field">
+                    <label for="loginWorkspace">Workspace</label>
+                    <input id="loginWorkspace" name="workspace" autocomplete="organization" required
+                        placeholder="Nome da empresa">
+                </div>
+                <label class="check-row login-remember">
+                    <input id="loginRemember" name="remember" type="checkbox" checked>
+                    Manter conectado neste dispositivo
+                </label>
+                <div class="login-error" id="loginMessage" role="alert"></div>
+                <button class="primary" type="submit">Entrar</button>
+                <button class="secondary" type="button" id="demoLoginBtn">Entrar na demo</button>
+            </form>
+        </div>
+    </section>
+
+    <div class="app" id="appShell">
         <aside class="sidebar">
             <div class="brand">
                 <div class="mark">NC</div>
@@ -105,6 +157,16 @@
                             <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
                         </svg>
                         Novo cliente
+                    </button>
+                    <div class="user-menu" aria-label="Usuario conectado">
+                        <span id="accountWorkspace">Workspace</span>
+                        <strong id="accountEmail">usuario@empresa.com</strong>
+                    </div>
+                    <button class="secondary icon-only" type="button" id="logoutBtn" title="Sair" aria-label="Sair">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M10 17l5-5-5-5M15 12H3M21 4v16" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
                     </button>
                 </div>
             </header>
