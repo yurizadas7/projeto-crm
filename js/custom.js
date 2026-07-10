@@ -919,10 +919,19 @@ function runAssistant(intent = assistantIntent.value, question = assistantQuesti
   assistantIntent.value = intent;
   const response = assistantResponse(intent, client, question);
 
+  const titles = {
+    message: "Mensagem pronta",
+    summary: "Resumo do cliente",
+    next: "Proxima acao sugerida",
+    priority: "Prioridade de atendimento",
+    help: "Ajuda do sistema"
+  };
+
   assistantAnswer.innerHTML = `
-    <span class="eyebrow">Sugestao</span>
+    <span class="eyebrow">${escapeHtml(titles[intent] || "Resposta do assistente")}</span>
     <p>${escapeHtml(response)}</p>
   `;
+  assistantAnswer.classList.add("ready");
   renderAssistant();
 }
 
@@ -1297,6 +1306,16 @@ document.getElementById("savePreferencesBtn").addEventListener("click", () => {
 currentRole.addEventListener("change", () => setCurrentRole(currentRole.value));
 
 document.getElementById("askAssistantBtn").addEventListener("click", () => runAssistant());
+
+document.querySelectorAll("[data-assistant-preset]").forEach(button => {
+  button.addEventListener("click", () => {
+    const intent = button.dataset.assistantPreset;
+    if (intent === "message" && !assistantQuestion.value.trim()) {
+      assistantQuestion.value = "Mensagem objetiva e amigavel";
+    }
+    runAssistant(intent, assistantQuestion.value);
+  });
+});
 
 apiMode.addEventListener("change", saveApiConfig);
 apiBaseUrl.addEventListener("change", saveApiConfig);

@@ -603,10 +603,86 @@ body.is-authenticated .login-screen {
   overflow: hidden;
 }
 
+.assistant-hero {
+  padding: 20px;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(135deg, #ffffff 0%, #f1faf7 100%);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: 16px;
+  align-items: center;
+}
+
+.assistant-hero h2 {
+  margin: 5px 0 8px;
+  font-size: 24px;
+  line-height: 1.15;
+}
+
+.assistant-hero p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.assistant-hero-steps {
+  display: grid;
+  gap: 8px;
+}
+
+.assistant-hero-steps span {
+  border: 1px solid #cfe3df;
+  border-radius: 8px;
+  background: white;
+  color: #115e59;
+  padding: 9px 10px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
 .assistant-body {
   padding: 18px;
   display: grid;
   gap: 14px;
+}
+
+.assistant-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.assistant-choice-grid button {
+  border: 1px solid #dce6ec;
+  border-radius: 8px;
+  background: white;
+  padding: 13px;
+  display: grid;
+  gap: 6px;
+  text-align: left;
+  cursor: pointer;
+  min-height: 104px;
+}
+
+.assistant-choice-grid button:hover {
+  border-color: #8db9b2;
+  background: #f4fbf8;
+}
+
+.assistant-choice-grid strong,
+.assistant-choice-grid span {
+  display: block;
+}
+
+.assistant-choice-grid strong {
+  color: var(--ink);
+  font-size: 14px;
+}
+
+.assistant-choice-grid span {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.35;
 }
 
 .assistant-controls {
@@ -636,6 +712,11 @@ body.is-authenticated .login-screen {
   display: grid;
   align-content: start;
   gap: 10px;
+}
+
+.assistant-answer.ready {
+  border-color: #b8d8d2;
+  background: #f3fbf8;
 }
 
 .assistant-answer p {
@@ -1949,6 +2030,11 @@ th {
     grid-template-columns: 1fr;
   }
 
+  .assistant-hero,
+  .assistant-choice-grid {
+    grid-template-columns: 1fr;
+  }
+
   .commercial-hero,
   .presentation-panel,
   .commercial-panels,
@@ -2022,6 +2108,14 @@ th {
 
   .assistant-controls {
     grid-template-columns: 1fr;
+  }
+
+  .assistant-hero {
+    padding: 16px;
+  }
+
+  .assistant-choice-grid button {
+    min-height: auto;
   }
 
   .api-grid {

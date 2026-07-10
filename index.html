@@ -789,47 +789,71 @@
             <section class="view" id="view-assistente">
                 <div class="assistant-layout">
                     <div class="assistant-panel">
-                        <div class="panel-head compact">
+                        <div class="assistant-hero">
                             <div>
-                                <strong>Assistente interno</strong>
-                                <span>Copiloto local para mensagem, resumo, proxima acao e prioridades.</span>
+                                <span class="eyebrow">Assistente interno</span>
+                                <h2>O que voce quer resolver agora?</h2>
+                                <p>Escolha uma acao pronta. O painel usa etapa, prioridade, retorno e valor do cliente para sugerir a resposta.</p>
+                            </div>
+                            <div class="assistant-hero-steps">
+                                <span>1. Escolha a tarefa</span>
+                                <span>2. Revise a sugestao</span>
+                                <span>3. Copie ou chame no WhatsApp</span>
                             </div>
                         </div>
                         <div class="assistant-body">
+                            <div class="assistant-choice-grid" aria-label="Acoes rapidas do assistente">
+                                <button type="button" data-assistant-preset="message">
+                                    <strong>Responder cliente</strong>
+                                    <span>Cria uma mensagem pronta para WhatsApp.</span>
+                                </button>
+                                <button type="button" data-assistant-preset="priority">
+                                    <strong>Quem chamar agora</strong>
+                                    <span>Lista os atendimentos mais urgentes.</span>
+                                </button>
+                                <button type="button" data-assistant-preset="summary">
+                                    <strong>Resumo rapido</strong>
+                                    <span>Mostra a situacao do cliente sem abrir historico.</span>
+                                </button>
+                                <button type="button" data-assistant-preset="next">
+                                    <strong>Proxima acao</strong>
+                                    <span>Sugere o melhor passo comercial.</span>
+                                </button>
+                            </div>
                             <div class="assistant-controls">
                                 <div class="field">
-                                    <label for="assistantClient">Cliente</label>
+                                    <label for="assistantClient">Cliente analisado</label>
                                     <select id="assistantClient"></select>
                                 </div>
                                 <div class="field">
-                                    <label for="assistantIntent">Ação</label>
-                                    <select id="assistantIntent">
-                                        <option value="message">Gerar mensagem para WhatsApp</option>
-                                        <option value="summary">Resumir cliente</option>
-                                        <option value="next">Sugerir proxima acao</option>
-                                        <option value="priority">Priorizar atendimentos</option>
-                                        <option value="help">Ajuda sobre o sistema</option>
+                                    <label for="assistantIntent">Tipo de ajuda</label>
+                                    <select id="assistantIntent" aria-label="Tipo de ajuda">
+                                        <option value="message">Responder no WhatsApp</option>
+                                        <option value="summary">Entender este cliente</option>
+                                        <option value="next">Decidir proxima acao</option>
+                                        <option value="priority">Priorizar minha fila</option>
+                                        <option value="help">Tirar duvida do sistema</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="field">
-                                <label for="assistantQuestion">Pergunta ou contexto extra</label>
+                                <label for="assistantQuestion">Detalhe opcional</label>
                                 <textarea id="assistantQuestion" rows="3"
-                                    placeholder="Ex.: quero uma mensagem curta, sem parecer insistente"></textarea>
+                                    placeholder="Ex.: mensagem curta, tom amigavel, cliente esta sem responder"></textarea>
                             </div>
                             <div class="assistant-actions">
-                                <button class="primary" type="button" id="askAssistantBtn">Gerar sugestao</button>
+                                <button class="primary" type="button" id="askAssistantBtn">Gerar resposta</button>
                                 <button class="secondary" type="button" id="copyAssistantBtn">Copiar resposta</button>
                             </div>
                             <div class="assistant-answer" id="assistantAnswer">
-                                <span class="eyebrow">Sugestao</span>
-                                <p>Escolha um cliente e uma acao para gerar a primeira sugestao.</p>
+                                <span class="eyebrow">Resposta do assistente</span>
+                                <p>Clique em uma acao pronta acima para gerar uma sugestao em poucos segundos.</p>
                             </div>
                         </div>
                     </div>
                     <aside class="assistant-side">
                         <div class="aside-section">
-                            <h3>Atalhos inteligentes</h3>
+                            <h3>Perguntas prontas</h3>
                             <div class="assistant-shortcuts">
                                 <button type="button" data-assistant-shortcut="priority">Quem eu devo chamar hoje?</button>
                                 <button type="button" data-assistant-shortcut="late">Mensagem para atrasados</button>
