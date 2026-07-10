@@ -30,34 +30,76 @@
                 </div>
             </div>
 
-            <form class="login-card" id="loginForm">
+            <div class="login-card">
                 <div>
-                    <h2>Login</h2>
-                    <p>Acesse com seu e-mail corporativo ou use a demo.</p>
+                    <h2 id="authCardTitle">Login</h2>
+                    <p id="authCardText">Acesse com seu e-mail corporativo ou use a demo.</p>
                 </div>
-                <div class="field">
-                    <label for="loginEmail">E-mail</label>
-                    <input id="loginEmail" name="email" type="email" autocomplete="email" required
-                        placeholder="voce@empresa.com">
+                <div class="auth-tabs" role="tablist" aria-label="Acesso">
+                    <button class="active" type="button" data-auth-mode="login">Entrar</button>
+                    <button type="button" data-auth-mode="signup">Criar conta</button>
+                    <button type="button" data-auth-mode="recovery">Recuperar</button>
                 </div>
-                <div class="field">
-                    <label for="loginPassword">Senha</label>
-                    <input id="loginPassword" name="password" type="password" autocomplete="current-password" required
-                        minlength="6" placeholder="Minimo de 6 caracteres">
-                </div>
-                <div class="field">
-                    <label for="loginWorkspace">Workspace</label>
-                    <input id="loginWorkspace" name="workspace" autocomplete="organization" required
-                        placeholder="Nome da empresa">
-                </div>
-                <label class="check-row login-remember">
-                    <input id="loginRemember" name="remember" type="checkbox" checked>
-                    Manter conectado neste dispositivo
-                </label>
+
+                <form class="auth-form active" id="loginForm" data-auth-panel="login">
+                    <div class="field">
+                        <label for="loginEmail">E-mail</label>
+                        <input id="loginEmail" name="email" type="email" autocomplete="email" required
+                            placeholder="voce@empresa.com">
+                    </div>
+                    <div class="field">
+                        <label for="loginPassword">Senha</label>
+                        <input id="loginPassword" name="password" type="password" autocomplete="current-password"
+                            required minlength="6" placeholder="Minimo de 6 caracteres">
+                    </div>
+                    <div class="field">
+                        <label for="loginWorkspace">Workspace</label>
+                        <input id="loginWorkspace" name="workspace" autocomplete="organization" required
+                            placeholder="Nome da empresa">
+                    </div>
+                    <label class="check-row login-remember">
+                        <input id="loginRemember" name="remember" type="checkbox" checked>
+                        Manter conectado neste dispositivo
+                    </label>
+                    <button class="primary" type="submit">Entrar</button>
+                    <button class="secondary" type="button" id="demoLoginBtn">Entrar na demo</button>
+                </form>
+
+                <form class="auth-form" id="signupForm" data-auth-panel="signup">
+                    <div class="field">
+                        <label for="signupName">Nome</label>
+                        <input id="signupName" name="name" autocomplete="name" required placeholder="Seu nome">
+                    </div>
+                    <div class="field">
+                        <label for="signupEmail">E-mail</label>
+                        <input id="signupEmail" name="email" type="email" autocomplete="email" required
+                            placeholder="voce@empresa.com">
+                    </div>
+                    <div class="field">
+                        <label for="signupWorkspace">Empresa</label>
+                        <input id="signupWorkspace" name="workspace" autocomplete="organization" required
+                            placeholder="Nome da empresa">
+                    </div>
+                    <div class="field">
+                        <label for="signupPassword">Senha</label>
+                        <input id="signupPassword" name="password" type="password" autocomplete="new-password" required
+                            minlength="6" placeholder="Minimo de 6 caracteres">
+                    </div>
+                    <button class="primary" type="submit">Criar workspace</button>
+                </form>
+
+                <form class="auth-form" id="recoveryForm" data-auth-panel="recovery">
+                    <div class="field">
+                        <label for="recoveryEmail">E-mail</label>
+                        <input id="recoveryEmail" name="email" type="email" autocomplete="email" required
+                            placeholder="voce@empresa.com">
+                    </div>
+                    <button class="primary" type="submit">Enviar instrucoes</button>
+                </form>
+
                 <div class="login-error" id="loginMessage" role="alert"></div>
-                <button class="primary" type="submit">Entrar</button>
-                <button class="secondary" type="button" id="demoLoginBtn">Entrar na demo</button>
-            </form>
+                <div class="auth-note" id="authNote">Ambiente local de demonstracao. Nenhum dado e enviado para banco.</div>
+            </div>
         </div>
     </section>
 
@@ -86,6 +128,15 @@
                     </svg>
                     Perfil
                 </button>
+                <button type="button" title="Comercial" data-view="comercial">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M4 19V5a2 2 0 0 1 2-2h10l4 4v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z" stroke="currentColor"
+                            stroke-width="2" stroke-linejoin="round" />
+                        <path d="M8 11h8M8 15h6M15 3v5h5" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    Comercial
+                </button>
                 <button type="button" title="Clientes" data-view="clientes">
                     <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                         <path
@@ -108,6 +159,37 @@
                             stroke-linecap="round" />
                     </svg>
                     Relatorios
+                </button>
+                <button type="button" title="Equipe" data-view="equipe">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path
+                            d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM22 8h-6M19 5v6"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                    Equipe
+                </button>
+                <button type="button" title="Configuracoes" data-view="configuracoes">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path
+                            d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7ZM19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.36a1.7 1.7 0 0 0-1 .15 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1-1.55 1.7 1.7 0 0 0-1-.15 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.64 15a1.7 1.7 0 0 0-.15-1 1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.55-1 1.7 1.7 0 0 0 .15-1 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.64a1.7 1.7 0 0 0 1-.15 1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1 .15 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.36 9c.06.35.12.68.15 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1Z"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    Config
+                </button>
+                <button type="button" title="Planos" data-view="planos">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M4 7h16M4 12h16M7 17h5M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                    Planos
+                </button>
+                <button type="button" title="Assistente" data-view="assistente">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path
+                            d="M12 3l1.4 3.6L17 8l-3.6 1.4L12 13l-1.4-3.6L7 8l3.6-1.4L12 3ZM19 13l.8 2.2L22 16l-2.2.8L19 19l-.8-2.2L16 16l2.2-.8L19 13ZM6 14l1 2.5L10 18l-3 1.5L6 22l-1-2.5L2 18l3-1.5L6 14Z"
+                            stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+                    </svg>
+                    Assistente
                 </button>
             </nav>
 
@@ -161,6 +243,7 @@
                     <div class="user-menu" aria-label="Usuario conectado">
                         <span id="accountWorkspace">Workspace</span>
                         <strong id="accountEmail">usuario@empresa.com</strong>
+                        <small id="accountRole">Admin</small>
                     </div>
                     <button class="secondary icon-only" type="button" id="logoutBtn" title="Sair" aria-label="Sair">
                         <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -174,14 +257,37 @@
             <section class="demo-strip" aria-label="Roteiro da demonstracao">
                 <div>
                     <span class="eyebrow">Demo comercial</span>
-                    <strong>Mostre o fluxo em menos de 2 minutos</strong>
+                    <strong>Mostre a dor, a rotina e o fechamento em menos de 2 minutos</strong>
                 </div>
                 <div class="demo-steps">
-                    <span>1. Cadastre um lead</span>
-                    <span>2. Mova no funil</span>
-                    <span>3. Marque retorno</span>
-                    <span>4. Abra WhatsApp</span>
-                    <span>5. Exporte a lista</span>
+                    <span id="workspacePlan">Plano demo</span>
+                    <button type="button" data-view-target="comercial">1. Pitch</button>
+                    <button type="button" data-view-target="clientes">2. Lead real</button>
+                    <button type="button" data-view-target="funil">3. Funil</button>
+                    <button type="button" data-view-target="assistente">4. Assistente</button>
+                    <button type="button" data-view-target="planos">5. Plano</button>
+                </div>
+            </section>
+
+            <section class="presentation-panel" aria-label="Resumo comercial">
+                <div class="presentation-copy">
+                    <span class="eyebrow">Como vender esta demo</span>
+                    <h2>Transforme conversas soltas do WhatsApp em uma rotina comercial simples.</h2>
+                    <p>Use os dados da tela para mostrar perda evitada, previsibilidade de retorno e valor mensal de manutencao.</p>
+                </div>
+                <div class="presentation-cards">
+                    <div>
+                        <strong>Problema</strong>
+                        <span>Cliente esquece retornos e perde propostas no WhatsApp.</span>
+                    </div>
+                    <div>
+                        <strong>Solucao</strong>
+                        <span>Funil, lembretes, equipe e assistente em um painel leve.</span>
+                    </div>
+                    <div>
+                        <strong>Fechamento</strong>
+                        <span>Implantacao inicial + mensalidade para suporte e evolucao.</span>
+                    </div>
                 </div>
             </section>
 
@@ -189,18 +295,22 @@
                 <div class="metric">
                     <span>Leads ativos</span>
                     <strong id="activeCount">0</strong>
+                    <small id="activeHint">Oportunidades em andamento</small>
                 </div>
                 <div class="metric">
                     <span>Propostas abertas</span>
                     <strong id="quoteCount">0</strong>
+                    <small id="quoteHint">Mostre o valor que ainda pode fechar</small>
                 </div>
                 <div class="metric">
                     <span>Retornos hoje</span>
                     <strong id="reminderCount">0</strong>
+                    <small id="reminderHint">Prioridade da rotina comercial</small>
                 </div>
                 <div class="metric">
                     <span>Potencial em vendas</span>
                     <strong id="pipelineValue">R$ 0</strong>
+                    <small id="pipelineHint">Argumento financeiro da demo</small>
                 </div>
             </section>
 
@@ -291,6 +401,107 @@
                 </div>
             </section>
 
+            <section class="view" id="view-comercial">
+                <div class="commercial-hero">
+                    <div>
+                        <span class="eyebrow">Venda consultiva</span>
+                        <h2>NexoCRM como SaaS mensal para pequenos negocios</h2>
+                        <p>Apresente o produto como uma operacao simples: organizar leads, acompanhar retornos, medir oportunidades e manter suporte continuo sem complexidade tecnica para o cliente.</p>
+                        <div class="commercial-actions">
+                            <button class="primary" type="button" data-view-target="clientes">Comecar por um lead</button>
+                            <button class="secondary" type="button" data-view-target="assistente">Mostrar assistente</button>
+                        </div>
+                    </div>
+                    <div class="commercial-offer">
+                        <span>Oferta recomendada</span>
+                        <strong>Implantacao + mensalidade</strong>
+                        <p>Entrada para configurar e treinar. Recorrencia para suporte, manutencao e evolucao.</p>
+                    </div>
+                </div>
+
+                <div class="commercial-grid">
+                    <div class="commercial-card">
+                        <span class="commercial-step">1</span>
+                        <strong>Diagnostico</strong>
+                        <p>Mapear onde o cliente perde vendas: retorno atrasado, proposta esquecida, falta de responsavel ou historico espalhado.</p>
+                    </div>
+                    <div class="commercial-card">
+                        <span class="commercial-step">2</span>
+                        <strong>Demo guiada</strong>
+                        <p>Cadastrar um lead real, mover no funil, marcar retorno, abrir WhatsApp e mostrar o relatorio de oportunidades.</p>
+                    </div>
+                    <div class="commercial-card">
+                        <span class="commercial-step">3</span>
+                        <strong>Plano ideal</strong>
+                        <p>Comecar no plano inicial quando e uma pessoa. Subir para profissional quando existe equipe, permissoes e rotina comercial.</p>
+                    </div>
+                    <div class="commercial-card">
+                        <span class="commercial-step">4</span>
+                        <strong>Fechamento</strong>
+                        <p>Vender clareza e acompanhamento: menos leads perdidos, rotina mais previsivel e suporte para ajustar o fluxo conforme o uso.</p>
+                    </div>
+                </div>
+
+                <div class="commercial-panels">
+                    <div class="commercial-panel wide">
+                        <div class="panel-head compact">
+                            <div>
+                                <strong>Script de 2 minutos</strong>
+                                <span>Sequencia pronta para apresentar sem improvisar.</span>
+                            </div>
+                        </div>
+                        <div class="script-grid">
+                            <label><input type="checkbox" checked> Abrir pela dor: "Quem precisa de retorno hoje?"</label>
+                            <label><input type="checkbox" checked> Cadastrar ou abrir um cliente real na tela Clientes.</label>
+                            <label><input type="checkbox" checked> Mover o lead no funil e marcar retorno.</label>
+                            <label><input type="checkbox" checked> Gerar mensagem pelo assistente e abrir WhatsApp.</label>
+                            <label><input type="checkbox" checked> Ir em Planos e explicar suporte mensal.</label>
+                        </div>
+                    </div>
+                    <div class="commercial-panel">
+                        <div class="panel-head compact">
+                            <div>
+                                <strong>Roteiro de apresentacao</strong>
+                                <span>Use em reuniao ou chamada rapida.</span>
+                            </div>
+                        </div>
+                        <ol class="commercial-list">
+                            <li>Comece pela dor: "Hoje voces sabem quem precisa de retorno?"</li>
+                            <li>Mostre a tela de clientes e filtre por prioridade.</li>
+                            <li>Abra o funil e mova uma oportunidade ate orcamento enviado.</li>
+                            <li>Gere uma mensagem no assistente e abra o WhatsApp.</li>
+                            <li>Finalize em planos, explicando suporte e manutencao mensal.</li>
+                        </ol>
+                    </div>
+                    <div class="commercial-panel">
+                        <div class="panel-head compact">
+                            <div>
+                                <strong>Implantacao sugerida</strong>
+                                <span>Entrega sem banco real nesta etapa.</span>
+                            </div>
+                        </div>
+                        <div class="commercial-timeline">
+                            <div><strong>Dia 1</strong><span>Ajuste visual, dados da empresa e funil comercial.</span></div>
+                            <div><strong>Dias 2-3</strong><span>Treinamento, cadastro inicial e validacao do fluxo.</span></div>
+                            <div><strong>Semana 1</strong><span>Acompanhamento dos primeiros atendimentos e ajustes finos.</span></div>
+                        </div>
+                    </div>
+                    <div class="commercial-panel wide">
+                        <div class="panel-head compact">
+                            <div>
+                                <strong>Mensagem de fechamento</strong>
+                                <span>Texto pronto para enviar depois da demo.</span>
+                            </div>
+                        </div>
+                        <div class="closing-copy">
+                            <p>Com o NexoCRM, voces deixam de depender de memoria ou conversa perdida no WhatsApp. Eu configuro o ambiente, treino a equipe e mantenho o suporte mensal para o painel acompanhar a rotina comercial de voces.</p>
+                            <button class="primary" type="button" data-view-target="planos">Ver planos</button>
+                            <button class="secondary" type="button" data-view-target="assistente">Gerar mensagem no assistente</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <section class="view" id="view-clientes">
                 <div class="table-panel">
                     <div class="panel-head">
@@ -351,6 +562,286 @@
                         <h3>Resumo executivo</h3>
                         <div class="summary-list" id="summaryList"></div>
                     </div>
+                </div>
+            </section>
+
+            <section class="view" id="view-equipe">
+                <div class="settings-grid">
+                    <div class="settings-card">
+                        <div class="panel-head compact">
+                            <div>
+                                <strong>Convidar membro</strong>
+                                <span>Simule a entrada de usuarios no workspace.</span>
+                            </div>
+                        </div>
+                        <form class="form compact-form" id="memberForm">
+                            <div class="field">
+                                <label for="memberName">Nome</label>
+                                <input id="memberName" name="name" required placeholder="Ex.: Ana Souza">
+                            </div>
+                            <div class="field">
+                                <label for="memberEmail">E-mail</label>
+                                <input id="memberEmail" name="email" type="email" required placeholder="ana@empresa.com">
+                            </div>
+                            <div class="field">
+                                <label for="memberRole">Papel</label>
+                                <select id="memberRole" name="role">
+                                    <option value="Atendente">Atendente</option>
+                                    <option value="Gestor">Gestor</option>
+                                    <option value="Admin">Admin</option>
+                                </select>
+                            </div>
+                            <div class="modal-actions">
+                                <button class="primary" type="submit" id="inviteMemberBtn">Adicionar membro</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="settings-card">
+                        <div class="panel-head compact">
+                            <div>
+                                <strong>Meu papel nesta demo</strong>
+                                <span>Altere o papel para ver permissoes no front.</span>
+                            </div>
+                        </div>
+                        <div class="settings-body">
+                            <div class="field">
+                                <label for="currentRole">Papel atual</label>
+                                <select id="currentRole">
+                                    <option value="Admin">Admin</option>
+                                    <option value="Gestor">Gestor</option>
+                                    <option value="Atendente">Atendente</option>
+                                </select>
+                            </div>
+                            <div class="permission-list" id="permissionList"></div>
+                        </div>
+                    </div>
+                    <div class="settings-card wide">
+                        <div class="panel-head compact">
+                            <div>
+                                <strong>Membros do workspace</strong>
+                                <span>Lista local para demonstrar controle de equipe.</span>
+                            </div>
+                        </div>
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>E-mail</th>
+                                        <th>Papel</th>
+                                        <th>Status</th>
+                                        <th>Acoes</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="memberRows"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="view" id="view-configuracoes">
+                <div class="settings-grid">
+                    <div class="settings-card">
+                        <div class="panel-head compact">
+                            <div>
+                                <strong>Empresa</strong>
+                                <span>Dados visuais do workspace.</span>
+                            </div>
+                        </div>
+                        <form class="form compact-form" id="settingsForm">
+                            <div class="field">
+                                <label for="companyName">Nome da empresa</label>
+                                <input id="companyName" name="companyName" required>
+                            </div>
+                            <div class="field">
+                                <label for="companySegment">Segmento</label>
+                                <input id="companySegment" name="segment" placeholder="Ex.: Estetica">
+                            </div>
+                            <div class="field">
+                                <label for="companyPlan">Plano</label>
+                                <select id="companyPlan" name="plan">
+                                    <option value="Plano inicial">Plano inicial</option>
+                                    <option value="Plano demo">Plano demo</option>
+                                    <option value="Plano profissional">Plano profissional</option>
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label for="defaultOwner">Responsavel padrao</label>
+                                <input id="defaultOwner" name="defaultOwner" placeholder="Ex.: Yurim">
+                            </div>
+                            <div class="modal-actions">
+                                <button class="primary" type="submit">Salvar configuracoes</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="settings-card">
+                        <div class="panel-head compact">
+                            <div>
+                                <strong>Preferencias comerciais</strong>
+                                <span>Valores usados na demo e nos novos leads.</span>
+                            </div>
+                        </div>
+                        <div class="settings-body">
+                            <label class="check-row"><input type="checkbox" id="autoReminder"> Sugerir retorno no mesmo dia</label>
+                            <label class="check-row"><input type="checkbox" id="restrictDelete"> Bloquear exclusao para atendentes</label>
+                            <div class="field">
+                                <label for="whatsappTemplate">Mensagem padrao do WhatsApp</label>
+                                <textarea id="whatsappTemplate" rows="5"></textarea>
+                            </div>
+                            <button class="secondary" type="button" id="savePreferencesBtn">Salvar preferencias</button>
+                        </div>
+                    </div>
+                    <div class="settings-card wide">
+                        <div class="panel-head compact">
+                            <div>
+                                <strong>Status do ambiente</strong>
+                                <span>Preparado para virar API real depois.</span>
+                            </div>
+                        </div>
+                        <div class="status-grid">
+                            <div><span>Banco de dados</span><strong>Nao conectado</strong></div>
+                            <div><span>Persistencia atual</span><strong>Local do navegador</strong></div>
+                            <div><span>Autenticacao</span><strong>Simulada</strong></div>
+                            <div><span>Backend futuro</span><strong>Pronto para API</strong></div>
+                        </div>
+                    </div>
+                    <div class="settings-card wide">
+                        <div class="panel-head compact">
+                            <div>
+                                <strong>Conexao com API mock</strong>
+                                <span>Opcional: testar o backend local sem banco de dados.</span>
+                            </div>
+                        </div>
+                        <div class="settings-body">
+                            <div class="api-grid">
+                                <div class="field">
+                                    <label for="apiMode">Modo de dados</label>
+                                    <select id="apiMode">
+                                        <option value="local">Local do navegador</option>
+                                        <option value="mock">Backend mock</option>
+                                    </select>
+                                </div>
+                                <div class="field">
+                                    <label for="apiBaseUrl">URL da API</label>
+                                    <input id="apiBaseUrl" placeholder="http://127.0.0.1:3333">
+                                </div>
+                            </div>
+                            <div class="assistant-actions">
+                                <button class="secondary" type="button" id="testApiBtn">Testar conexao</button>
+                                <button class="secondary" type="button" id="importApiBtn">Importar demo da API</button>
+                            </div>
+                            <div class="api-status" id="apiStatus">Modo atual: local do navegador.</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="view" id="view-planos">
+                <div class="settings-grid">
+                    <div class="settings-card wide">
+                        <div class="panel-head compact">
+                            <div>
+                                <strong>Assinatura atual</strong>
+                                <span>Controle visual de plano, limites e upgrade.</span>
+                            </div>
+                        </div>
+                        <div class="usage-grid" id="usageGrid"></div>
+                    </div>
+                    <div class="settings-card wide">
+                        <div class="panel-head compact">
+                            <div>
+                                <strong>Comparativo de planos</strong>
+                                <span>Modelo comercial pronto para apresentacao.</span>
+                            </div>
+                        </div>
+                        <div class="plan-grid" id="planGrid"></div>
+                    </div>
+                    <div class="settings-card wide">
+                        <div class="panel-head compact">
+                            <div>
+                                <strong>Manutencao e performance</strong>
+                                <span>Como explicar valor recorrente para o cliente.</span>
+                            </div>
+                        </div>
+                        <div class="maintenance-grid">
+                            <div>
+                                <strong>Corretiva</strong>
+                                <span>Bugs, ajustes de funcionamento e problemas de acesso.</span>
+                            </div>
+                            <div>
+                                <strong>Preventiva</strong>
+                                <span>Revisao de performance, seguranca, compatibilidade e backups futuros.</span>
+                            </div>
+                            <div>
+                                <strong>Evolutiva</strong>
+                                <span>Novas telas, automacoes, relatorios e integracoes sob demanda.</span>
+                            </div>
+                            <div>
+                                <strong>Performance</strong>
+                                <span>Interface leve, busca rapida, limites por plano e backend preparado para escalar.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="view" id="view-assistente">
+                <div class="assistant-layout">
+                    <div class="assistant-panel">
+                        <div class="panel-head compact">
+                            <div>
+                                <strong>Assistente interno</strong>
+                                <span>Copiloto local para mensagem, resumo, proxima acao e prioridades.</span>
+                            </div>
+                        </div>
+                        <div class="assistant-body">
+                            <div class="assistant-controls">
+                                <div class="field">
+                                    <label for="assistantClient">Cliente</label>
+                                    <select id="assistantClient"></select>
+                                </div>
+                                <div class="field">
+                                    <label for="assistantIntent">Ação</label>
+                                    <select id="assistantIntent">
+                                        <option value="message">Gerar mensagem para WhatsApp</option>
+                                        <option value="summary">Resumir cliente</option>
+                                        <option value="next">Sugerir proxima acao</option>
+                                        <option value="priority">Priorizar atendimentos</option>
+                                        <option value="help">Ajuda sobre o sistema</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label for="assistantQuestion">Pergunta ou contexto extra</label>
+                                <textarea id="assistantQuestion" rows="3"
+                                    placeholder="Ex.: quero uma mensagem curta, sem parecer insistente"></textarea>
+                            </div>
+                            <div class="assistant-actions">
+                                <button class="primary" type="button" id="askAssistantBtn">Gerar sugestao</button>
+                                <button class="secondary" type="button" id="copyAssistantBtn">Copiar resposta</button>
+                            </div>
+                            <div class="assistant-answer" id="assistantAnswer">
+                                <span class="eyebrow">Sugestao</span>
+                                <p>Escolha um cliente e uma acao para gerar a primeira sugestao.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <aside class="assistant-side">
+                        <div class="aside-section">
+                            <h3>Atalhos inteligentes</h3>
+                            <div class="assistant-shortcuts">
+                                <button type="button" data-assistant-shortcut="priority">Quem eu devo chamar hoje?</button>
+                                <button type="button" data-assistant-shortcut="late">Mensagem para atrasados</button>
+                                <button type="button" data-assistant-shortcut="proposal">Follow-up de proposta</button>
+                                <button type="button" data-assistant-shortcut="help">Como usar o CRM?</button>
+                            </div>
+                        </div>
+                        <div class="aside-section">
+                            <h3>Contexto usado</h3>
+                            <div class="assistant-context" id="assistantContext"></div>
+                        </div>
+                    </aside>
                 </div>
             </section>
 
@@ -454,8 +945,57 @@
         </div>
     </aside>
 
+    <div class="modal-backdrop" id="onboardingBackdrop" role="dialog" aria-modal="true"
+        aria-labelledby="onboardingTitle">
+        <div class="modal onboarding-modal">
+            <div class="modal-head">
+                <h2 id="onboardingTitle">Primeiros passos</h2>
+                <button class="icon-btn" type="button" id="closeOnboarding" title="Fechar">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                </button>
+            </div>
+            <form class="form compact-form" id="onboardingForm">
+                <div class="field">
+                    <label for="onboardingCompany">Empresa</label>
+                    <input id="onboardingCompany" name="company" required>
+                </div>
+                <div class="field">
+                    <label for="onboardingSegment">Segmento</label>
+                    <input id="onboardingSegment" name="segment" placeholder="Ex.: Estetica, oficina, moda">
+                </div>
+                <div class="field">
+                    <label for="onboardingFirstClient">Primeiro cliente</label>
+                    <input id="onboardingFirstClient" name="client" placeholder="Ex.: Camila Rocha">
+                </div>
+                <div class="field">
+                    <label for="onboardingInterest">Interesse</label>
+                    <input id="onboardingInterest" name="interest" placeholder="Ex.: CRM para WhatsApp">
+                </div>
+                <div class="field">
+                    <label for="onboardingChannel">Canal principal</label>
+                    <select id="onboardingChannel" name="channel">
+                        <option value="WhatsApp">WhatsApp</option>
+                        <option value="Instagram">Instagram</option>
+                        <option value="Indicacao">Indicacao</option>
+                        <option value="Site">Site</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button class="secondary" type="button" id="skipOnboarding">Pular</button>
+                    <button class="primary" type="submit">Configurar demo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="toast" id="toast"></div>
 
+    <script src="js/utils.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/local-api.js"></script>
+    <script src="js/api-client.js"></script>
     <script src="js/custom.js"></script>
 </body>
 

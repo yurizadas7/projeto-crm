@@ -1,58 +1,39 @@
-const stages = [
-  { id: "novo", label: "Novo" },
-  { id: "conversa", label: "Em conversa" },
-  { id: "orcamento", label: "Orcamento enviado" },
-  { id: "fechado", label: "Fechado" },
-  { id: "perdido", label: "Perdido" }
-];
-
-const pageCopy = {
-  funil: {
-    title: "CRM simples para vender mais pelo WhatsApp",
-    subtitle: "Organize leads, propostas e retornos em uma demo pronta para apresentacao."
-  },
-  perfil: {
-    title: "Perfil",
-    subtitle: "Argumentos, beneficios e oferta sugerida para apresentar o produto."
-  },
-  clientes: {
-    title: "Clientes",
-    subtitle: "Base comercial com origem, prioridade, responsavel e valor de proposta."
-  },
-  lembretes: {
-    title: "Lembretes",
-    subtitle: "Retornos marcados e proximos passos de cada atendimento."
-  },
-  relatorios: {
-    title: "Relatorios",
-    subtitle: "Indicadores para mostrar oportunidade, conversao e potencial em vendas."
-  }
-};
-
-const demoClients = [
-  { id: 1, name: "Clara Andrade - Studio Glow", phone: "11984321002", service: "Pacote de CRM para estetica", source: "Instagram", priority: "Alta", owner: "Yurim", stage: "novo", value: 349.99, reminderAt: todayAt(15, 30), note: "Tem muitos pedidos no direct e perde retornos pelo WhatsApp.", tags: ["Lead quente", "Estetica"], history: ["Lead criado para demonstracao comercial.", "Dor principal: falta de controle dos retornos."] },
-  { id: 2, name: "Clinica Bella Forma", phone: "11977118822", service: "Implantacao com treinamento", source: "Indicacao", priority: "Alta", owner: "Yurim", stage: "conversa", value: 899.90, reminderAt: todayAt(17, 0), note: "Dona pediu uma proposta para duas atendentes acompanharem os leads.", tags: ["Alto potencial", "Equipe"], history: ["Lead recebido por indicacao.", "Conversa em andamento com alto potencial de fechamento."] },
-  { id: 3, name: "Rafael Lima - Oficina Prime", phone: "11966442210", service: "CRM para orcamentos de oficina", source: "WhatsApp", priority: "Media", owner: "Yurim", stage: "orcamento", value: 499.90, reminderAt: addDaysAt(1, 10, 0), note: "Aguardando aprovacao do socio para comecar ainda esta semana.", tags: ["Orcamento enviado", "Retornar"], history: ["Orcamento enviado.", "Aguardando aprovacao interna."] },
-  { id: 4, name: "Studio Mares Pilates", phone: "11955221908", service: "Organizacao de leads e retornos", source: "WhatsApp", priority: "Alta", owner: "Yurim", stage: "conversa", value: 599.90, reminderAt: todayAt(11, 40), note: "Recebe contatos pelo WhatsApp e quer saber quem precisa de retorno.", tags: ["WhatsApp", "Urgente"], history: ["Cliente relatou demora nos retornos.", "Necessidade clara de organizacao."] },
-  { id: 5, name: "Ana Paula - Boutique Donna", phone: "11922334455", service: "Plano mensal de acompanhamento", source: "Instagram", priority: "Media", owner: "Yurim", stage: "fechado", value: 349.99, reminderAt: "", note: "Fechou primeira mensalidade apos ver a demo do funil.", tags: ["Fechado", "Pix"], history: ["Cliente fechada.", "Pagamento realizado por Pix."] },
-  { id: 6, name: "Oficina Central", phone: "11988776655", service: "Controle de orcamentos no WhatsApp", source: "Indicacao", priority: "Alta", owner: "Yurim", stage: "novo", value: 449.90, reminderAt: todayAt(14, 10), note: "Recebe muitos contatos e nao sabe quais propostas estao abertas.", tags: ["Dor clara", "Orcamentos"], history: ["Novo lead cadastrado.", "Dor principal: perda de propostas."] },
-  { id: 7, name: "Loja Vitrine Modas", phone: "11977889900", service: "CRM simples para loja", source: "Site", priority: "Baixa", owner: "Yurim", stage: "perdido", value: 299.90, reminderAt: "", note: "Preferiu avaliar no proximo mes, mas pediu contato futuro.", tags: ["Perdido", "Reativar"], history: ["Cliente recusou por enquanto.", "Pode voltar no proximo mes."] }
-];
-
-const AUTH_KEY = "nexocrm-auth-session";
-
-let currentSession = loadAuthSession();
+const { stages, pageCopy, demoClients, planRules, planOrder, rolePermissions } = window.NexoConfig;
+const { addDaysAt, escapeHtml, money, parseMoney, todayAt } = window.NexoUtils;
+const NexoApi = window.NexoLocalApi;
+let currentSession = NexoApi.loadSession();
 let clients = loadClients();
+let workspaceSettings = NexoApi.loadSettings(currentSession?.workspaceId || "demo", currentSession);
+let members = NexoApi.loadMembers(currentSession?.workspaceId || "demo", currentSession);
 let draggedId = null;
 let currentView = "funil";
 let selectedClientId = null;
 
 const loginForm = document.getElementById("loginForm");
+const signupForm = document.getElementById("signupForm");
+const recoveryForm = document.getElementById("recoveryForm");
 const loginMessage = document.getElementById("loginMessage");
+const authCardTitle = document.getElementById("authCardTitle");
+const authCardText = document.getElementById("authCardText");
 const demoLoginBtn = document.getElementById("demoLoginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
 const accountEmail = document.getElementById("accountEmail");
 const accountWorkspace = document.getElementById("accountWorkspace");
+const accountRole = document.getElementById("accountRole");
+const workspacePlan = document.getElementById("workspacePlan");
+const memberForm = document.getElementById("memberForm");
+const settingsForm = document.getElementById("settingsForm");
+const currentRole = document.getElementById("currentRole");
+const assistantClient = document.getElementById("assistantClient");
+const assistantIntent = document.getElementById("assistantIntent");
+const assistantQuestion = document.getElementById("assistantQuestion");
+const assistantAnswer = document.getElementById("assistantAnswer");
+const assistantContext = document.getElementById("assistantContext");
+const onboardingBackdrop = document.getElementById("onboardingBackdrop");
+const onboardingForm = document.getElementById("onboardingForm");
+const apiMode = document.getElementById("apiMode");
+const apiBaseUrl = document.getElementById("apiBaseUrl");
+const apiStatus = document.getElementById("apiStatus");
 const board = document.getElementById("board");
 const search = document.getElementById("search");
 const modal = document.getElementById("modalBackdrop");
@@ -64,59 +45,8 @@ const detailDrawer = document.getElementById("detailDrawer");
 const detailBody = document.getElementById("detailBody");
 const detailName = document.getElementById("detailName");
 
-function todayAt(hour, minute) {
-  const date = new Date();
-  date.setHours(hour, minute, 0, 0);
-  return toInputDateTime(date);
-}
-
-function addDaysAt(days, hour, minute) {
-  const date = new Date();
-  date.setDate(date.getDate() + days);
-  date.setHours(hour, minute, 0, 0);
-  return toInputDateTime(date);
-}
-
-function loadAuthSession() {
-  const stored = localStorage.getItem(AUTH_KEY) || sessionStorage.getItem(AUTH_KEY);
-  if (!stored) return null;
-
-  try {
-    const session = JSON.parse(stored);
-    return session?.email && session?.workspace ? session : null;
-  } catch (error) {
-    localStorage.removeItem(AUTH_KEY);
-    sessionStorage.removeItem(AUTH_KEY);
-    return null;
-  }
-}
-
-function saveAuthSession(session, remember) {
-  const storage = remember ? localStorage : sessionStorage;
-
-  localStorage.removeItem(AUTH_KEY);
-  sessionStorage.removeItem(AUTH_KEY);
-  storage.setItem(AUTH_KEY, JSON.stringify(session));
-}
-
-function workspaceSlug(value) {
-  return String(value || "demo")
-    .trim()
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "") || "demo";
-}
-
-function clientsStorageKey() {
-  const workspace = currentSession?.workspaceId || "demo";
-  return `nexocrm-clients:${workspace}`;
-}
-
 function loadClients() {
-  const stored = JSON.parse(localStorage.getItem(clientsStorageKey()) || "null");
-  const source = stored || demoClients.map(client => ({ ...client }));
+  const source = NexoApi.loadClients(currentSession?.workspaceId || "demo");
 
   return source.map(client => ({
     ...client,
@@ -128,6 +58,13 @@ function loadClients() {
   }));
 }
 
+function reloadWorkspaceState() {
+  const workspaceId = currentSession?.workspaceId || "demo";
+  clients = loadClients();
+  workspaceSettings = NexoApi.loadSettings(workspaceId, currentSession);
+  members = NexoApi.loadMembers(workspaceId, currentSession);
+}
+
 function inferSource(client) {
   const tags = (client.tags || []).join(" ").toLowerCase();
   if (tags.includes("instagram")) return "Instagram";
@@ -137,47 +74,16 @@ function inferSource(client) {
 }
 
 function migrateReminder(reminder) {
-  if (!reminder) return "";
-  const text = String(reminder).toLowerCase();
-  const match = text.match(/(\d{1,2}):(\d{2})/);
-  const hour = match ? Number(match[1]) : 9;
-  const minute = match ? Number(match[2]) : 0;
+  const text = String(reminder || "").toLowerCase();
+  if (!text) return "";
+
+  const timeMatch = text.match(/(\d{1,2})h(?:(\d{2}))?/);
+  const hour = timeMatch ? Number(timeMatch[1]) : 17;
+  const minute = timeMatch?.[2] ? Number(timeMatch[2]) : 0;
 
   if (text.includes("amanha")) return addDaysAt(1, hour, minute);
   if (text.includes("hoje")) return todayAt(hour, minute);
   return "";
-}
-
-function toInputDateTime(date) {
-  const pad = value => String(value).padStart(2, "0");
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
-}
-
-function escapeHtml(value) {
-  return String(value || "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-
-function money(value) {
-  return new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  }).format(value || 0);
-}
-
-function parseMoney(value) {
-  const normalized = String(value || "")
-    .replace(/\./g, "")
-    .replace(",", ".")
-    .replace(/[^\d.]/g, "");
-
-  return Number(normalized || 0);
 }
 
 function stageLabel(stageId) {
@@ -229,7 +135,11 @@ function whatsappNumber(phone) {
 
 function whatsappLink(client) {
   const number = whatsappNumber(client.phone);
-  const message = `Ola, ${client.name}. Tudo bem? Estou retornando sobre ${client.service}.`;
+  const template = workspaceSettings.whatsappTemplate || "Ola, {{nome}}. Tudo bem? Estou retornando sobre {{interesse}}.";
+  const message = template
+    .replaceAll("{{nome}}", client.name)
+    .replaceAll("{{interesse}}", client.service)
+    .replaceAll("{{empresa}}", workspaceSettings.companyName || currentSession?.workspace || "NexoCRM");
   return `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
 }
 
@@ -244,7 +154,44 @@ function initials(name) {
 }
 
 function save() {
-  localStorage.setItem(clientsStorageKey(), JSON.stringify(clients));
+  NexoApi.saveClients(currentSession?.workspaceId || "demo", clients);
+}
+
+function saveWorkspaceSettings() {
+  NexoApi.saveSettings(currentSession?.workspaceId || "demo", workspaceSettings);
+}
+
+function saveMembers() {
+  NexoApi.saveMembers(currentSession?.workspaceId || "demo", members);
+}
+
+function permissions() {
+  return rolePermissions[currentSession?.role || "Admin"] || rolePermissions.Admin;
+}
+
+function currentPlan() {
+  return planRules[workspaceSettings.plan] || planRules["Plano inicial"];
+}
+
+function formatLimit(value) {
+  return value === Infinity ? "Ilimitado" : String(value);
+}
+
+function usagePercent(used, limit) {
+  if (limit === Infinity) return 12;
+  return Math.min(100, Math.round((used / Math.max(limit, 1)) * 100));
+}
+
+function hasCapacity(kind) {
+  const plan = currentPlan();
+  if (kind === "leads") return plan.leads === Infinity || clients.length < plan.leads;
+  if (kind === "users") return plan.users === Infinity || members.length < plan.users;
+  return true;
+}
+
+function can(action) {
+  if (action === "deleteClient" && workspaceSettings.restrictDelete === false) return true;
+  return Boolean(permissions()[action]);
 }
 
 function setAuthState() {
@@ -253,31 +200,34 @@ function setAuthState() {
   if (!currentSession) {
     accountEmail.textContent = "";
     accountWorkspace.textContent = "";
+    accountRole.textContent = "";
+    workspacePlan.textContent = "Plano demo";
     return;
   }
 
   accountEmail.textContent = currentSession.email;
-  accountWorkspace.textContent = currentSession.workspace;
+  accountWorkspace.textContent = workspaceSettings.companyName || currentSession.workspace;
+  accountRole.textContent = currentSession.role || "Admin";
+  workspacePlan.textContent = workspaceSettings.plan || currentSession.plan || "Plano demo";
 }
 
 function signIn(email, password, workspace, remember) {
   if (!email || !workspace || String(password || "").length < 6) {
-    loginMessage.textContent = "Informe e-mail, senha com 6 caracteres e workspace.";
+    showAuthMessage("Informe e-mail, senha com 6 caracteres e workspace.", "error");
     return;
   }
 
-  currentSession = {
-    email: email.trim().toLowerCase(),
-    workspace: workspace.trim(),
-    workspaceId: workspaceSlug(workspace),
-    signedAt: new Date().toISOString()
-  };
+  try {
+    currentSession = NexoApi.signIn({ email, password, workspace, remember });
+  } catch (error) {
+    showAuthMessage(error.message, "error");
+    return;
+  }
 
-  saveAuthSession(currentSession, remember);
-  clients = loadClients();
+  reloadWorkspaceState();
   selectedClientId = null;
   search.value = "";
-  loginMessage.textContent = "";
+  showAuthMessage("", "error");
   closeModal();
   closeDetails();
   setView("funil");
@@ -286,15 +236,94 @@ function signIn(email, password, workspace, remember) {
   showToast("Login realizado em " + currentSession.workspace + ".");
 }
 
+function signUp(name, email, password, workspace) {
+  if (!name || !email || !workspace || String(password || "").length < 6) {
+    showAuthMessage("Preencha nome, e-mail, empresa e senha com 6 caracteres.", "error");
+    return;
+  }
+
+  try {
+    currentSession = NexoApi.signUp({ name, email, password, workspace });
+    NexoApi.saveSession(currentSession, true);
+  } catch (error) {
+    showAuthMessage(error.message, "error");
+    return;
+  }
+
+  reloadWorkspaceState();
+  selectedClientId = null;
+  search.value = "";
+  showAuthMessage("", "error");
+  setView("funil");
+  setAuthState();
+  render();
+  openOnboarding();
+  showToast("Workspace criado para " + currentSession.workspace + ".");
+}
+
+function requestRecovery(email) {
+  if (!email) {
+    showAuthMessage("Informe o e-mail para recuperar o acesso.", "error");
+    return;
+  }
+
+  NexoApi.requestPasswordRecovery(email);
+  showAuthMessage("Instrucoes simuladas geradas para " + email + ".", "success");
+}
+
 function signOut() {
-  localStorage.removeItem(AUTH_KEY);
-  sessionStorage.removeItem(AUTH_KEY);
+  NexoApi.clearSession();
   currentSession = null;
   selectedClientId = null;
   closeModal();
   closeDetails();
   setAuthState();
   showToast("Sessao encerrada.");
+}
+
+function setCurrentRole(role) {
+  if (!currentSession) return;
+
+  currentSession.role = role;
+  NexoApi.saveSession(currentSession, true);
+  const currentMember = members.find(member => member.email === currentSession.email);
+
+  if (currentMember) {
+    currentMember.role = role;
+    saveMembers();
+  }
+
+  setAuthState();
+  if (currentView === "relatorios" && !can("viewReports")) {
+    setView("funil");
+  }
+  render();
+  showToast("Papel alterado para " + role + ".");
+}
+
+function showAuthMessage(message, tone = "error") {
+  loginMessage.textContent = message;
+  loginMessage.classList.toggle("success", tone === "success");
+}
+
+function setAuthMode(mode) {
+  const copy = {
+    login: ["Login", "Acesse com seu e-mail corporativo ou use a demo."],
+    signup: ["Criar conta", "Crie um workspace local para apresentar o fluxo SaaS."],
+    recovery: ["Recuperar acesso", "Simule o envio de instrucoes sem conectar banco ou e-mail real."]
+  };
+
+  document.querySelectorAll("[data-auth-mode]").forEach(button => {
+    button.classList.toggle("active", button.dataset.authMode === mode);
+  });
+
+  document.querySelectorAll("[data-auth-panel]").forEach(panel => {
+    panel.classList.toggle("active", panel.dataset.authPanel === mode);
+  });
+
+  authCardTitle.textContent = copy[mode][0];
+  authCardText.textContent = copy[mode][1];
+  showAuthMessage("", "error");
 }
 
 function showToast(message) {
@@ -426,11 +455,27 @@ function renderAside() {
 
 function renderMetrics() {
   const active = clients.filter(client => !["fechado", "perdido"].includes(client.stage));
+  const quotes = clients.filter(client => client.stage === "orcamento");
+  const criticalReminders = clients.filter(client => ["late", "today"].includes(reminderStatus(client)));
+  const pipeline = active.reduce((sum, client) => sum + Number(client.value || 0), 0);
 
   document.getElementById("activeCount").textContent = active.length;
-  document.getElementById("quoteCount").textContent = clients.filter(client => client.stage === "orcamento").length;
-  document.getElementById("reminderCount").textContent = clients.filter(client => ["late", "today"].includes(reminderStatus(client))).length;
-  document.getElementById("pipelineValue").textContent = money(active.reduce((sum, client) => sum + Number(client.value || 0), 0));
+  document.getElementById("quoteCount").textContent = quotes.length;
+  document.getElementById("reminderCount").textContent = criticalReminders.length;
+  document.getElementById("pipelineValue").textContent = money(pipeline);
+
+  document.getElementById("activeHint").textContent = active.length === 1
+    ? "1 oportunidade ainda precisa de acompanhamento"
+    : `${active.length} oportunidades ainda precisam de acompanhamento`;
+  document.getElementById("quoteHint").textContent = quotes.length
+    ? `${money(quotes.reduce((sum, client) => sum + Number(client.value || 0), 0))} em propostas abertas`
+    : "Nenhuma proposta aberta neste momento";
+  document.getElementById("reminderHint").textContent = criticalReminders.length
+    ? "Use esta lista para mostrar urgencia comercial"
+    : "Sem retorno critico agora";
+  document.getElementById("pipelineHint").textContent = pipeline
+    ? "Valor que justifica a rotina e a mensalidade"
+    : "Cadastre leads para demonstrar potencial";
 }
 
 function renderClientsTable() {
@@ -439,19 +484,20 @@ function renderClientsTable() {
 
   rows.innerHTML = visible.map(client => `
     <tr>
-      <td><button class="link-btn js-details" type="button" data-id="${client.id}">${escapeHtml(client.name)}</button></td>
-      <td>${escapeHtml(client.phone)}</td>
-      <td>${escapeHtml(client.service)}</td>
-      <td>${escapeHtml(client.source || "-")}</td>
-      <td><span class="stage-pill priority-${String(client.priority || "").toLowerCase()}">${escapeHtml(client.priority || "Media")}</span></td>
-      <td>${escapeHtml(client.owner || "-")}</td>
-      <td><span class="stage-pill">${stageLabel(client.stage)}</span></td>
-      <td><span class="stage-pill ${reminderStatus(client)}">${escapeHtml(reminderText(client))}</span></td>
-      <td>${money(client.value)}</td>
-      <td>
+      <td data-label="Nome"><button class="link-btn js-details" type="button" data-id="${client.id}">${escapeHtml(client.name)}</button></td>
+      <td data-label="WhatsApp">${escapeHtml(client.phone)}</td>
+      <td data-label="Interesse">${escapeHtml(client.service)}</td>
+      <td data-label="Origem">${escapeHtml(client.source || "-")}</td>
+      <td data-label="Prioridade"><span class="stage-pill priority-${String(client.priority || "").toLowerCase()}">${escapeHtml(client.priority || "Media")}</span></td>
+      <td data-label="Responsavel">${escapeHtml(client.owner || "-")}</td>
+      <td data-label="Etapa"><span class="stage-pill">${stageLabel(client.stage)}</span></td>
+      <td data-label="Retorno"><span class="stage-pill ${reminderStatus(client)}">${escapeHtml(reminderText(client))}</span></td>
+      <td data-label="Valor">${money(client.value)}</td>
+      <td data-label="Acoes">
         <div class="row-actions">
           <button class="mini-btn js-edit" type="button" data-id="${client.id}">Editar</button>
-          <button class="mini-btn danger js-delete" type="button" data-id="${client.id}">Excluir</button>
+          <button class="mini-btn js-assist" type="button" data-id="${client.id}">Assistente</button>
+          <button class="mini-btn danger js-delete" type="button" data-id="${client.id}" ${can("deleteClient") ? "" : "disabled"}>Excluir</button>
         </div>
       </td>
     </tr>
@@ -463,6 +509,10 @@ function renderClientsTable() {
 
   rows.querySelectorAll(".js-edit").forEach(button => {
     button.addEventListener("click", () => openModal(Number(button.dataset.id)));
+  });
+
+  rows.querySelectorAll(".js-assist").forEach(button => {
+    button.addEventListener("click", () => openAssistantForClient(Number(button.dataset.id)));
   });
 
   rows.querySelectorAll(".js-delete").forEach(button => {
@@ -545,6 +595,345 @@ function renderReports() {
   `).join("");
 }
 
+function renderMembers() {
+  const rows = document.getElementById("memberRows");
+  if (!rows) return;
+
+  rows.innerHTML = members.map(member => `
+    <tr>
+      <td data-label="Nome">${escapeHtml(member.name)}</td>
+      <td data-label="E-mail">${escapeHtml(member.email)}</td>
+      <td data-label="Papel"><span class="stage-pill">${escapeHtml(member.role)}</span></td>
+      <td data-label="Status">${escapeHtml(member.status || "Convidado")}</td>
+      <td data-label="Acoes">
+        <button class="mini-btn danger js-remove-member" type="button" data-id="${member.id}" ${can("manageTeam") && member.email !== currentSession?.email ? "" : "disabled"}>Remover</button>
+      </td>
+    </tr>
+  `).join("");
+
+  rows.querySelectorAll(".js-remove-member").forEach(button => {
+    button.addEventListener("click", () => removeMember(Number(button.dataset.id)));
+  });
+}
+
+function renderPermissions() {
+  const list = document.getElementById("permissionList");
+  if (!list) return;
+
+  const items = [
+    ["Excluir clientes", "deleteClient"],
+    ["Exportar base", "exportClients"],
+    ["Recarregar demo", "reloadDemo"],
+    ["Gerenciar equipe", "manageTeam"],
+    ["Ver relatorios", "viewReports"],
+    ["Editar configuracoes", "editSettings"]
+  ];
+
+  list.innerHTML = items.map(([label, key]) => `
+    <div class="permission-item ${can(key) ? "" : "blocked"}">
+      <span>${label}</span>
+      <strong>${can(key) ? "Liberado" : "Bloqueado"}</strong>
+    </div>
+  `).join("");
+}
+
+function renderSettings() {
+  const companyName = document.getElementById("companyName");
+  if (!companyName) return;
+
+  companyName.value = workspaceSettings.companyName || currentSession?.workspace || "";
+  document.getElementById("companySegment").value = workspaceSettings.segment || "";
+  document.getElementById("companyPlan").value = workspaceSettings.plan || "Plano demo";
+  document.getElementById("defaultOwner").value = workspaceSettings.defaultOwner || "";
+  document.getElementById("autoReminder").checked = Boolean(workspaceSettings.autoReminder);
+  document.getElementById("restrictDelete").checked = workspaceSettings.restrictDelete !== false;
+  document.getElementById("whatsappTemplate").value = workspaceSettings.whatsappTemplate || "";
+  currentRole.value = currentSession?.role || "Admin";
+
+  document.getElementById("inviteMemberBtn").classList.toggle("is-disabled", !can("manageTeam"));
+  settingsForm.querySelectorAll("input, select, textarea, button").forEach(field => {
+    field.disabled = !can("editSettings");
+  });
+}
+
+function renderPermissionState() {
+  document.getElementById("exportClientsBtn").classList.toggle("is-disabled", !can("exportClients"));
+  document.getElementById("demoDataBtn").classList.toggle("is-disabled", !can("reloadDemo"));
+  document.querySelector('[data-view="relatorios"]').classList.toggle("is-disabled", !can("viewReports"));
+}
+
+function renderApiConfig() {
+  if (!apiMode || !window.NexoHttpApi) return;
+
+  const config = window.NexoHttpApi.loadConfig();
+  apiMode.value = config.mode;
+  apiBaseUrl.value = config.baseUrl;
+  apiStatus.textContent = config.mode === "mock"
+    ? "Modo atual: backend mock configurado."
+    : "Modo atual: local do navegador.";
+  apiStatus.classList.remove("ok", "error");
+}
+
+function saveApiConfig() {
+  if (!window.NexoHttpApi) return;
+
+  window.NexoHttpApi.saveConfig({
+    mode: apiMode.value,
+    baseUrl: apiBaseUrl.value.trim() || "http://127.0.0.1:3333"
+  });
+  renderApiConfig();
+}
+
+function openOnboarding() {
+  if (!currentSession) return;
+
+  document.getElementById("onboardingCompany").value = workspaceSettings.companyName || currentSession.workspace || "";
+  document.getElementById("onboardingSegment").value = workspaceSettings.segment || "";
+  onboardingBackdrop.classList.add("open");
+}
+
+function closeOnboarding() {
+  onboardingBackdrop.classList.remove("open");
+  onboardingForm.reset();
+}
+
+function applyOnboarding(data) {
+  workspaceSettings = {
+    ...workspaceSettings,
+    companyName: data.get("company") || workspaceSettings.companyName,
+    segment: data.get("segment") || workspaceSettings.segment,
+    defaultOwner: currentSession?.name || workspaceSettings.defaultOwner,
+    plan: workspaceSettings.plan || "Plano inicial"
+  };
+
+  if (currentSession) {
+    currentSession.workspace = workspaceSettings.companyName;
+    currentSession.plan = workspaceSettings.plan;
+    NexoApi.saveSession(currentSession, true);
+  }
+
+  const clientName = String(data.get("client") || "").trim();
+  if (clientName) {
+    clients.unshift({
+      id: Date.now(),
+      name: clientName,
+      phone: "",
+      service: data.get("interest") || "Interesse inicial",
+      source: data.get("channel") || "WhatsApp",
+      priority: "Alta",
+      owner: workspaceSettings.defaultOwner || currentSession?.name || "",
+      tags: ["Onboarding"],
+      stage: "novo",
+      value: 0,
+      reminderAt: workspaceSettings.autoReminder ? todayAt(17, 0) : "",
+      note: "Primeiro lead criado no onboarding.",
+      history: ["Lead criado durante os primeiros passos."]
+    });
+    save();
+  }
+
+  saveWorkspaceSettings();
+  closeOnboarding();
+  render();
+  showToast("Onboarding configurado.");
+}
+
+function renderPlans() {
+  const usageGrid = document.getElementById("usageGrid");
+  const planGrid = document.getElementById("planGrid");
+  if (!usageGrid || !planGrid) return;
+
+  const plan = currentPlan();
+  const activeClients = clients.filter(client => !["fechado", "perdido"].includes(client.stage)).length;
+  const leadPercent = usagePercent(clients.length, plan.leads);
+  const userPercent = usagePercent(members.length, plan.users);
+
+  usageGrid.innerHTML = `
+    <div>
+      <strong>${escapeHtml(plan.name)}</strong>
+      <span>Plano atual do workspace</span>
+    </div>
+    <div>
+      <strong>${members.length}/${formatLimit(plan.users)}</strong>
+      <span>Usuarios da equipe</span>
+      <div class="usage-bar ${userPercent >= 85 ? "limit" : ""}"><div style="width: ${userPercent}%"></div></div>
+    </div>
+    <div>
+      <strong>${clients.length}/${formatLimit(plan.leads)}</strong>
+      <span>Clientes cadastrados</span>
+      <div class="usage-bar ${leadPercent >= 85 ? "limit" : ""}"><div style="width: ${leadPercent}%"></div></div>
+    </div>
+    <div>
+      <strong>${activeClients}</strong>
+      <span>Oportunidades ativas</span>
+    </div>
+  `;
+
+  planGrid.innerHTML = planOrder.map(planName => {
+    const option = planRules[planName];
+    const current = option.name === plan.name;
+
+    return `
+      <article class="plan-card ${current ? "current" : ""}">
+        <div>
+          <h3>${escapeHtml(option.name)}</h3>
+          <span>${escapeHtml(option.maintenance)}</span>
+        </div>
+        <div class="plan-price">${escapeHtml(option.price)}</div>
+        <span>${formatLimit(option.users)} usuarios • ${formatLimit(option.leads)} leads</span>
+        <span>${escapeHtml(option.support)}</span>
+        <ul class="plan-features">
+          ${option.features.map(feature => `<li>${escapeHtml(feature)}</li>`).join("")}
+        </ul>
+        <button class="${current ? "secondary" : "primary"} js-plan-change" type="button" data-plan="${escapeHtml(option.name)}">
+          ${current ? "Plano atual" : "Simular upgrade"}
+        </button>
+      </article>
+    `;
+  }).join("");
+
+  planGrid.querySelectorAll(".js-plan-change").forEach(button => {
+    button.addEventListener("click", () => changePlan(button.dataset.plan));
+  });
+}
+
+function selectedAssistantClient() {
+  const id = Number(assistantClient?.value || 0);
+  return clients.find(client => client.id === id) || sortedReminders(clients)[0] || clients[0] || null;
+}
+
+function clientPain(client) {
+  const note = String(client?.note || "").toLowerCase();
+  if (note.includes("retorno") || note.includes("perde")) return "perda de retornos no WhatsApp";
+  if (note.includes("orcamento") || note.includes("proposta")) return "controle de propostas abertas";
+  if (note.includes("equipe") || note.includes("atendente")) return "organizacao da equipe comercial";
+  return client?.service || "organizacao dos atendimentos";
+}
+
+function clientSummary(client) {
+  if (!client) return "Nenhum cliente selecionado.";
+
+  return `${client.name} veio de ${client.source || "origem nao informada"}, esta na etapa ${stageLabel(client.stage)} e tem prioridade ${client.priority || "Media"}. Interesse: ${client.service}. Dor principal: ${clientPain(client)}. Valor estimado: ${money(client.value)}. Retorno: ${reminderText(client)}.`;
+}
+
+function suggestedMessage(client, extra = "") {
+  if (!client) return "Selecione um cliente para gerar a mensagem.";
+
+  const status = reminderStatus(client);
+  const pain = clientPain(client);
+  const stage = client.stage;
+  let message = `Oi, ${client.name}! Tudo bem?`;
+
+  if (stage === "novo") {
+    message += ` Vi seu interesse em ${client.service} e queria entender melhor como voces lidam hoje com ${pain}.`;
+  } else if (stage === "conversa") {
+    message += ` Passando para seguir nossa conversa sobre ${client.service}. Pelo que entendi, o ponto principal e ${pain}.`;
+  } else if (stage === "orcamento") {
+    message += ` Conseguiu avaliar a proposta sobre ${client.service}? Posso tirar alguma duvida para avancarmos?`;
+  } else if (stage === "fechado") {
+    message += ` Obrigado pela confianca. Vou deixar os proximos passos organizados para a implantacao.`;
+  } else {
+    message += ` Sei que talvez agora nao seja o melhor momento, mas posso te chamar quando fizer sentido retomar ${client.service}?`;
+  }
+
+  if (status === "late") message += " Vi que nosso retorno ficou pendente, entao quis te chamar por aqui.";
+  if (extra) message += `\n\nAjuste solicitado: ${extra}`;
+
+  return message;
+}
+
+function nextAction(client) {
+  if (!client) return "Cadastre ou selecione um cliente para receber uma sugestao.";
+
+  if (reminderStatus(client) === "late") {
+    return `Prioridade alta: chamar ${client.name} agora, porque o retorno esta atrasado. Use uma mensagem curta e direta sobre ${clientPain(client)}.`;
+  }
+
+  if (client.stage === "novo") return `Mover ${client.name} para conversa depois do primeiro contato e registrar a dor principal.`;
+  if (client.stage === "conversa") return `Marcar retorno com ${client.name} e transformar a conversa em proposta objetiva.`;
+  if (client.stage === "orcamento") return `Fazer follow-up com ${client.name}, reforcando valor e removendo duvidas antes do fechamento.`;
+  if (client.stage === "fechado") return `Registrar proximos passos de implantacao para ${client.name}.`;
+  return `Agendar reativacao futura para ${client.name}, sem insistir agora.`;
+}
+
+function priorityList() {
+  const scored = clients.map(client => {
+    let score = 0;
+    if (client.priority === "Alta") score += 3;
+    if (reminderStatus(client) === "late") score += 4;
+    if (reminderStatus(client) === "today") score += 2;
+    if (client.stage === "orcamento") score += 2;
+    if (client.stage === "conversa") score += 1;
+    return { client, score };
+  }).sort((first, second) => second.score - first.score);
+
+  const top = scored.filter(item => item.score > 0).slice(0, 4);
+  if (!top.length) return "Nenhuma prioridade critica agora. Foque em novos leads e mantenha retornos agendados.";
+
+  return top.map((item, index) => {
+    const client = item.client;
+    return `${index + 1}. ${client.name} - ${stageLabel(client.stage)}, ${statusLabel(client)}, ${money(client.value)}. Acao: ${nextAction(client)}`;
+  }).join("\n\n");
+}
+
+function systemHelp(question) {
+  const text = String(question || "").toLowerCase();
+  if (text.includes("export")) return "Para exportar, use o botao Exportar no topo. Admin e Gestor podem exportar; Atendente fica bloqueado nesta demo.";
+  if (text.includes("equipe") || text.includes("usuario")) return "Abra Equipe para adicionar membros, mudar papeis e testar permissoes simuladas.";
+  if (text.includes("plano")) return "Abra Planos para ver limites, uso atual e simular upgrade entre Inicial, Profissional e Premium.";
+  if (text.includes("excluir")) return "A exclusao depende do papel e da preferencia Bloquear exclusao para atendentes, em Config.";
+  return "Use o funil para mover oportunidades, Clientes para consultar a base, Lembretes para retornos, Equipe para permissoes e Config para preferencias do workspace.";
+}
+
+function assistantResponse(intent, client, question = "") {
+  if (intent === "summary") return clientSummary(client);
+  if (intent === "next") return nextAction(client);
+  if (intent === "priority") return priorityList();
+  if (intent === "help") return systemHelp(question);
+  return suggestedMessage(client, question);
+}
+
+function renderAssistant() {
+  if (!assistantClient) return;
+
+  const previous = assistantClient.value;
+  assistantClient.innerHTML = clients.map(client => `
+    <option value="${client.id}">${escapeHtml(client.name)} - ${escapeHtml(stageLabel(client.stage))}</option>
+  `).join("");
+
+  if (clients.some(client => String(client.id) === previous)) {
+    assistantClient.value = previous;
+  }
+
+  const client = selectedAssistantClient();
+  assistantContext.innerHTML = client ? `
+    <div><span>Etapa</span><strong>${escapeHtml(stageLabel(client.stage))}</strong></div>
+    <div><span>Prioridade</span><strong>${escapeHtml(client.priority || "Media")}</strong></div>
+    <div><span>Retorno</span><strong>${escapeHtml(reminderText(client))}</strong></div>
+    <div><span>Valor</span><strong>${money(client.value)}</strong></div>
+  ` : `<div><span>Status</span><strong>Nenhum cliente cadastrado</strong></div>`;
+}
+
+function runAssistant(intent = assistantIntent.value, question = assistantQuestion.value) {
+  const client = selectedAssistantClient();
+  assistantIntent.value = intent;
+  const response = assistantResponse(intent, client, question);
+
+  assistantAnswer.innerHTML = `
+    <span class="eyebrow">Sugestao</span>
+    <p>${escapeHtml(response)}</p>
+  `;
+  renderAssistant();
+}
+
+function openAssistantForClient(id, intent = "message") {
+  setView("assistente");
+  renderAssistant();
+  assistantClient.value = String(id);
+  assistantIntent.value = intent;
+  runAssistant(intent, assistantQuestion.value);
+}
+
 function openWhatsApp(client) {
   const number = whatsappNumber(client.phone);
 
@@ -599,6 +988,7 @@ function openDetails(id) {
     <div class="drawer-actions">
       <button class="primary" type="button" id="detailWhatsapp">WhatsApp</button>
       <button class="secondary" type="button" id="detailEdit">Editar</button>
+      <button class="secondary" type="button" id="detailAssist">Assistente</button>
       <button class="secondary danger" type="button" id="detailDelete">Excluir</button>
     </div>
     <div class="history-list">
@@ -609,6 +999,10 @@ function openDetails(id) {
 
   document.getElementById("detailWhatsapp").addEventListener("click", () => openWhatsApp(client));
   document.getElementById("detailEdit").addEventListener("click", () => openModal(client.id));
+  document.getElementById("detailAssist").addEventListener("click", () => {
+    closeDetails();
+    openAssistantForClient(client.id);
+  });
   document.getElementById("detailDelete").addEventListener("click", () => deleteClient(client.id));
   detailDrawer.classList.add("open");
   detailDrawer.setAttribute("aria-hidden", "false");
@@ -624,6 +1018,11 @@ function deleteClient(id) {
   const client = clients.find(item => item.id === id);
   if (!client) return;
 
+  if (!can("deleteClient")) {
+    showToast("Seu papel atual nao permite excluir clientes.");
+    return;
+  }
+
   if (!window.confirm("Excluir " + client.name + "?")) return;
 
   clients = clients.filter(item => item.id !== id);
@@ -634,6 +1033,11 @@ function deleteClient(id) {
 }
 
 function setView(view) {
+  if (view === "relatorios" && !can("viewReports")) {
+    showToast("Atendente nao acessa relatorios nesta demo.");
+    return;
+  }
+
   currentView = view;
 
   document.querySelectorAll(".nav button").forEach(button => {
@@ -649,16 +1053,84 @@ function setView(view) {
 }
 
 function render() {
+  setAuthState();
+  renderPermissionState();
   renderMetrics();
   renderBoard();
   renderAside();
   renderClientsTable();
   renderReminderCards();
   renderReports();
+  renderMembers();
+  renderPermissions();
+  renderSettings();
+  renderPlans();
+  renderAssistant();
+  renderApiConfig();
 
   if (selectedClientId && clients.some(client => client.id === selectedClientId)) {
     openDetails(selectedClientId);
   }
+}
+
+function addMember(name, email, role) {
+  if (!can("manageTeam")) {
+    showToast("Seu papel atual nao permite gerenciar equipe.");
+    return;
+  }
+
+  if (!hasCapacity("users")) {
+    showToast("Limite de usuarios do plano atingido.");
+    setView("planos");
+    return;
+  }
+
+  const normalizedEmail = String(email || "").trim().toLowerCase();
+  if (members.some(member => member.email === normalizedEmail)) {
+    showToast("Este e-mail ja esta na equipe.");
+    return;
+  }
+
+  members.push({
+    id: Date.now(),
+    name: String(name || "").trim(),
+    email: normalizedEmail,
+    role,
+    status: "Convidado"
+  });
+
+  saveMembers();
+  render();
+  showToast("Membro adicionado a equipe.");
+}
+
+function removeMember(id) {
+  if (!can("manageTeam")) {
+    showToast("Seu papel atual nao permite remover membros.");
+    return;
+  }
+
+  members = members.filter(member => member.id !== id);
+  saveMembers();
+  render();
+  showToast("Membro removido.");
+}
+
+function changePlan(planName) {
+  if (workspaceSettings.plan === planName) {
+    showToast("Este ja e o plano atual.");
+    return;
+  }
+
+  workspaceSettings.plan = planName;
+  if (currentSession) {
+    currentSession.plan = planName;
+    NexoApi.saveSession(currentSession, true);
+  }
+
+  saveWorkspaceSettings();
+  render();
+  showToast("Plano alterado para " + planName + ".");
 }
 
 function openModal(id = null) {
@@ -681,6 +1153,11 @@ function openModal(id = null) {
     document.getElementById("stage").value = client.stage || "novo";
     document.getElementById("reminder").value = client.reminderAt || "";
     document.getElementById("note").value = client.note || "";
+  } else {
+    document.getElementById("owner").value = workspaceSettings.defaultOwner || currentSession?.name || "";
+    if (workspaceSettings.autoReminder) {
+      document.getElementById("reminder").value = todayAt(17, 0);
+    }
   }
 
   modal.classList.add("open");
@@ -696,20 +1173,40 @@ document.querySelectorAll(".nav button").forEach(button => {
   button.addEventListener("click", () => setView(button.dataset.view));
 });
 
+document.querySelectorAll("[data-view-target]").forEach(button => {
+  button.addEventListener("click", () => setView(button.dataset.viewTarget));
+});
+
 document.getElementById("openModal").addEventListener("click", () => openModal());
 document.getElementById("openModalClients").addEventListener("click", () => openModal());
-document.getElementById("exportClientsBtn").addEventListener("click", exportClients);
+document.getElementById("exportClientsBtn").addEventListener("click", () => {
+  if (!can("exportClients")) {
+    showToast("Seu papel atual nao permite exportar clientes.");
+    return;
+  }
+
+  exportClients();
+});
 document.getElementById("closeModal").addEventListener("click", closeModal);
 document.getElementById("cancelModal").addEventListener("click", closeModal);
 document.getElementById("closeDrawer").addEventListener("click", closeDetails);
 document.getElementById("drawerBackdrop").addEventListener("click", closeDetails);
 
 document.getElementById("demoDataBtn").addEventListener("click", () => {
+  if (!can("reloadDemo")) {
+    showToast("Seu papel atual nao permite recarregar a demo.");
+    return;
+  }
+
   clients = demoClients.map(client => ({ ...client, history: [...client.history] }));
   save();
   closeDetails();
   render();
   showToast("Dados ficticios recarregados.");
+});
+
+document.querySelectorAll("[data-auth-mode]").forEach(button => {
+  button.addEventListener("click", () => setAuthMode(button.dataset.authMode));
 });
 
 loginForm.addEventListener("submit", event => {
@@ -722,6 +1219,171 @@ loginForm.addEventListener("submit", event => {
     data.get("workspace"),
     Boolean(data.get("remember"))
   );
+});
+
+signupForm.addEventListener("submit", event => {
+  event.preventDefault();
+
+  const data = new FormData(signupForm);
+  signUp(
+    data.get("name"),
+    data.get("email"),
+    data.get("password"),
+    data.get("workspace")
+  );
+});
+
+recoveryForm.addEventListener("submit", event => {
+  event.preventDefault();
+
+  const data = new FormData(recoveryForm);
+  requestRecovery(data.get("email"));
+});
+
+memberForm.addEventListener("submit", event => {
+  event.preventDefault();
+
+  const data = new FormData(memberForm);
+  addMember(data.get("name"), data.get("email"), data.get("role"));
+  memberForm.reset();
+});
+
+settingsForm.addEventListener("submit", event => {
+  event.preventDefault();
+
+  if (!can("editSettings")) {
+    showToast("Seu papel atual nao permite editar configuracoes.");
+    return;
+  }
+
+  const data = new FormData(settingsForm);
+  workspaceSettings = {
+    ...workspaceSettings,
+    companyName: data.get("companyName"),
+    segment: data.get("segment"),
+    plan: data.get("plan"),
+    defaultOwner: data.get("defaultOwner")
+  };
+
+  if (currentSession) {
+    currentSession.workspace = workspaceSettings.companyName;
+    currentSession.plan = workspaceSettings.plan;
+    NexoApi.saveSession(currentSession, true);
+  }
+
+  saveWorkspaceSettings();
+  render();
+  showToast("Configuracoes salvas.");
+});
+
+document.getElementById("savePreferencesBtn").addEventListener("click", () => {
+  if (!can("editSettings")) {
+    showToast("Seu papel atual nao permite editar preferencias.");
+    return;
+  }
+
+  workspaceSettings = {
+    ...workspaceSettings,
+    autoReminder: document.getElementById("autoReminder").checked,
+    restrictDelete: document.getElementById("restrictDelete").checked,
+    whatsappTemplate: document.getElementById("whatsappTemplate").value
+  };
+
+  saveWorkspaceSettings();
+  render();
+  showToast("Preferencias salvas.");
+});
+
+currentRole.addEventListener("change", () => setCurrentRole(currentRole.value));
+
+document.getElementById("askAssistantBtn").addEventListener("click", () => runAssistant());
+
+apiMode.addEventListener("change", saveApiConfig);
+apiBaseUrl.addEventListener("change", saveApiConfig);
+
+document.getElementById("testApiBtn").addEventListener("click", async () => {
+  saveApiConfig();
+  try {
+    const health = await window.NexoHttpApi.health();
+    apiStatus.textContent = `API online: ${health.mode}. Banco: ${health.database}.`;
+    apiStatus.classList.add("ok");
+    apiStatus.classList.remove("error");
+  } catch (error) {
+    apiStatus.textContent = "Nao foi possivel conectar na API mock.";
+    apiStatus.classList.add("error");
+    apiStatus.classList.remove("ok");
+  }
+});
+
+document.getElementById("importApiBtn").addEventListener("click", async () => {
+  saveApiConfig();
+  try {
+    const login = await window.NexoHttpApi.login({
+      email: "demo@nexocrm.com",
+      password: "demo123",
+      workspace: "NexoCRM Demo"
+    });
+    window.NexoHttpApi.saveConfig({ token: login.token, mode: "mock" });
+    const remoteClients = await window.NexoHttpApi.clients();
+    clients = remoteClients.map(client => ({ ...client, history: client.history || ["Importado da API mock."] }));
+    save();
+    render();
+    apiStatus.textContent = "Clientes importados da API mock para a demo local.";
+    apiStatus.classList.add("ok");
+    apiStatus.classList.remove("error");
+  } catch (error) {
+    apiStatus.textContent = "Falha ao importar dados da API mock.";
+    apiStatus.classList.add("error");
+    apiStatus.classList.remove("ok");
+  }
+});
+
+document.getElementById("closeOnboarding").addEventListener("click", closeOnboarding);
+document.getElementById("skipOnboarding").addEventListener("click", closeOnboarding);
+onboardingBackdrop.addEventListener("click", event => {
+  if (event.target === onboardingBackdrop) closeOnboarding();
+});
+onboardingForm.addEventListener("submit", event => {
+  event.preventDefault();
+  applyOnboarding(new FormData(onboardingForm));
+});
+
+document.getElementById("copyAssistantBtn").addEventListener("click", async () => {
+  const text = assistantAnswer.innerText.replace("Sugestao", "").trim();
+  if (!text) {
+    showToast("Gere uma sugestao primeiro.");
+    return;
+  }
+
+  try {
+    await navigator.clipboard.writeText(text);
+    showToast("Resposta copiada.");
+  } catch (error) {
+    showToast("Nao foi possivel copiar automaticamente.");
+  }
+});
+
+document.querySelectorAll("[data-assistant-shortcut]").forEach(button => {
+  button.addEventListener("click", () => {
+    const shortcut = button.dataset.assistantShortcut;
+    if (shortcut === "late") {
+      const late = clients.find(client => reminderStatus(client) === "late") || selectedAssistantClient();
+      if (late) assistantClient.value = String(late.id);
+      assistantQuestion.value = "Mensagem curta para retorno atrasado";
+      runAssistant("message", assistantQuestion.value);
+      return;
+    }
+
+    if (shortcut === "proposal") {
+      const proposal = clients.find(client => client.stage === "orcamento") || selectedAssistantClient();
+      if (proposal) assistantClient.value = String(proposal.id);
+      assistantQuestion.value = "Follow-up de proposta enviada";
+      runAssistant("message", assistantQuestion.value);
+      return;
+    }
+
+    runAssistant(shortcut === "help" ? "help" : "priority", shortcut === "help" ? "Como usar o CRM?" : "");
+  });
 });
 
 demoLoginBtn.addEventListener("click", () => {
@@ -765,6 +1427,13 @@ form.addEventListener("submit", event => {
     addHistory(existing, "Dados do cliente atualizados.");
     showToast("Cliente atualizado.");
   } else {
+    if (!hasCapacity("leads")) {
+      closeModal();
+      setView("planos");
+      showToast("Limite de clientes do plano atingido.");
+      return;
+    }
+
     clients.unshift({
       id: Date.now(),
       ...payload,
