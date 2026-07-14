@@ -1,0 +1,184 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizzaria do Yulipe</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header>
+        <div class="busca">
+            <input id="buscaCardapio" type="search" placeholder="Buscar no cardapio...">
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#salgadas">Pizzas salgadas</a></li>
+                <li><a href="#doces">Pizzas doces</a></li>
+                <li><a href="#bebidas">Bebidas</a></li>
+            </ul>
+        </nav>
+
+        <button id="perfilClienteBtn" class="perfil-cliente-btn" type="button">Meu perfil</button>
+        <button id="tema-btn" type="button" aria-label="Alternar tema">Lua</button>
+    </header>
+
+    <main>
+        <section class="cliente-status" id="clienteStatus" aria-label="Perfil do cliente"></section>
+
+        <section id="inicio" class="banner">
+            <img src="midias/logo.jpg" alt="Logo da Pizzaria do Yulipe">
+        </section>
+
+        <section class="info-pizzaria">
+            <h1>Pizzaria do Yulipe</h1>
+            <p>Rua Exemplo, 123 - Delivery e retirada</p>
+            <div class="status">
+                <span>Aberto agora</span>
+                <span>Entrega e retirada</span>
+            </div>
+        </section>
+
+        <section class="categorias" aria-label="Categorias do cardapio">
+            <button type="button" data-scroll-target="salgadas">Pizzas salgadas</button>
+            <button type="button" data-scroll-target="doces">Pizzas doces</button>
+            <button type="button" data-scroll-target="bebidas">Bebidas</button>
+        </section>
+
+                <section id="salgadas" class="produtos">
+            <div id="lista-produtos">
+                <h2>Pizzas salgadas</h2>
+                <article class="produto" data-nome="Broto salgada" data-tipo="salgada" data-limite="2" data-preco="39.99">
+                    <h3>Broto salgada</h3>
+                    <p>Ate 2 sabores</p>
+                    <strong>R$ 39,99</strong>
+                    <button class="abrir-modal" type="button">Selecionar</button>
+                </article>
+                <article class="produto" data-nome="Grande salgada" data-tipo="salgada" data-limite="3" data-preco="54.99">
+                    <h3>Grande salgada</h3>
+                    <p>Ate 3 sabores</p>
+                    <strong>R$ 54,99</strong>
+                    <button class="abrir-modal" type="button">Selecionar</button>
+                </article>
+            </div>
+        </section>
+
+        <section id="doces" class="produtos">
+            <h2>Pizzas doces</h2>
+            <article class="produto" data-nome="Broto doce" data-tipo="doce" data-limite="2" data-preco="41.99">
+                <h3>Broto doce</h3>
+                <p>Ate 2 sabores</p>
+                <strong>R$ 41,99</strong>
+                <button class="abrir-modal" type="button">Selecionar</button>
+            </article>
+            <article class="produto" data-nome="Grande doce" data-tipo="doce" data-limite="3" data-preco="58.99">
+                <h3>Grande doce</h3>
+                <p>Ate 3 sabores</p>
+                <strong>R$ 58,99</strong>
+                <button class="abrir-modal" type="button">Selecionar</button>
+            </article>
+        </section>
+
+        <section id="bebidas" class="produtos">
+            <h2>Bebidas</h2>
+            <article class="produto">
+                <h3>Coca-Cola 2L</h3>
+                <p>Refrigerante</p>
+                <strong>R$ 12,00</strong>
+                <button class="adicionar-bebida" type="button" data-nome="Coca-Cola 2L" data-preco="12">Adicionar</button>
+            </article>
+            <article class="produto">
+                <h3>Guarana Antarctica 2L</h3>
+                <p>Refrigerante</p>
+                <strong>R$ 10,00</strong>
+                <button class="adicionar-bebida" type="button" data-nome="Guarana Antarctica 2L" data-preco="10">Adicionar</button>
+            </article>
+            <article class="produto">
+                <h3>Fanta Laranja 2L</h3>
+                <p>Refrigerante</p>
+                <strong>R$ 11,00</strong>
+                <button class="adicionar-bebida" type="button" data-nome="Fanta Laranja 2L" data-preco="11">Adicionar</button>
+            </article>
+            <article class="produto">
+                <h3>Agua mineral</h3>
+                <p>500ml</p>
+                <strong>R$ 3,50</strong>
+                <button class="adicionar-bebida" type="button" data-nome="Agua mineral" data-preco="3.5">Adicionar</button>
+            </article>
+        </section>
+    </main>
+
+    <aside class="sacola">
+        <h2>Sua sacola</h2>
+        <div class="itens-sacola"><p>Sacola vazia</p></div>
+        <hr>
+        <p id="subtotalSacola">Subtotal: R$ 0,00</p>
+        <p id="taxaSacola">Taxa de entrega: R$ 0,00</p>
+        <h3 id="totalSacola">Total: R$ 0,00</h3>
+        <button id="finalizarPedido" type="button">Finalizar pedido</button>
+    </aside>
+
+    <div class="modal" aria-hidden="true">
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="tituloPizza">
+            <button class="fechar" type="button" aria-label="Fechar">&times;</button>
+            <h2 id="tituloPizza">Montar pizza</h2>
+            <h3>Escolha os sabores</h3>
+            <div id="saboresOpcoes" class="sabores-opcoes"></div>
+            <hr>
+            <h3>Borda recheada</h3>
+            <select id="borda">
+                <option value="sem">Sem borda</option>
+                <option value="catupiry">Catupiry (+R$ 8,00)</option>
+                <option value="cheddar">Cheddar (+R$ 8,00)</option>
+                <option value="chocolate">Chocolate (+R$ 10,00)</option>
+            </select>
+            <hr>
+            <textarea id="obs" placeholder="Ex.: sem cebola, massa bem assada..."></textarea>
+            <hr>
+            <button id="addCarrinho" type="button">Adicionar ao carrinho</button>
+        </div>
+    </div>
+
+    <div class="checkout-modal" id="checkoutModal" aria-hidden="true">
+        <div class="checkout-content" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+            <button class="fechar-checkout" type="button" aria-label="Fechar">&times;</button>
+            <h2 id="checkoutTitle">Confirmar pedido</h2>
+
+            <section class="checkout-section">
+                <h3>Entrega</h3>
+                <div id="checkoutCliente" class="checkout-box"></div>
+                <button id="editarPerfilCheckout" class="link-action" type="button">Editar perfil</button>
+            </section>
+
+            <section class="checkout-section">
+                <h3>Resumo</h3>
+                <div id="checkoutResumo" class="checkout-box"></div>
+            </section>
+
+            <section class="checkout-section">
+                <h3>Pagamento</h3>
+                <div class="payment-options">
+                    <label><input type="radio" name="paymentMethod" value="Pix" checked> Pix</label>
+                    <label><input type="radio" name="paymentMethod" value="Cartao na entrega"> Cartao na entrega</label>
+                    <label><input type="radio" name="paymentMethod" value="Dinheiro"> Dinheiro</label>
+                </div>
+                <div class="field-troco" id="trocoField">
+                    <label for="trocoPara">Troco para quanto?</label>
+                    <input id="trocoPara" inputmode="decimal" placeholder="Ex.: 100,00">
+                </div>
+            </section>
+
+            <button id="confirmarPedido" type="button">Confirmar pedido</button>
+        </div>
+    </div>
+
+    <div id="pedidoCardContainer" aria-live="polite"></div>
+
+    <script src="js/custom.js"></script>
+</body>
+</html>
+

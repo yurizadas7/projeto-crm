@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yulipe Cozinha</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="logo">
+            <h2>Yulipe Cozinha</h2>
+        </div>
+        <div class="stats">
+            <div class="stat"><strong id="totalPedidos">0</strong><span>Pedidos</span></div>
+            <div class="stat"><strong id="emPreparo">0</strong><span>Preparando</span></div>
+            <div class="stat"><strong id="prontos">0</strong><span>Prontos</span></div>
+        </div>
+        <div class="acoes-topo">
+            <button id="btnFullscreen" type="button">Tela cheia</button>
+            <span id="relogio"></span>
+        </div>
+    </header>
+
+    <main class="kanban">
+        <section class="coluna">
+            <h3>Novos</h3>
+            <div id="novos" class="dropzone" data-status="Pendente"></div>
+        </section>
+        <section class="coluna">
+            <h3>Preparando</h3>
+            <div id="preparando" class="dropzone" data-status="Em preparo"></div>
+        </section>
+        <section class="coluna">
+            <h3>Prontos</h3>
+            <div id="prontosColuna" class="dropzone" data-status="Entregue"></div>
+        </section>
+    </main>
+
+    <div id="statusMessage" class="status-message" aria-live="polite"></div>
+    <script src="js/custom.js?v=3"></script>
+</body>
+</html>

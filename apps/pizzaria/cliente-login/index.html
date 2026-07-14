@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yulipe - Perfil do Cliente</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <main class="login-page">
+        <section class="brand-panel">
+            <span class="eyebrow">Pedido online</span>
+            <h1>Antes de pedir, crie seu perfil de entrega.</h1>
+            <p>Esses dados ficam salvos neste dispositivo para agilizar seus proximos pedidos.</p>
+            <div class="steps" aria-label="Etapas do pedido">
+                <span>1. Perfil</span>
+                <span>2. Cardapio</span>
+                <span>3. Pagamento</span>
+            </div>
+        </section>
+
+        <section class="form-panel" aria-labelledby="profileTitle">
+            <h2 id="profileTitle">Perfil do cliente</h2>
+            <p>Informe os dados de quem vai receber o pedido.</p>
+
+            <form id="customerForm" class="profile-form">
+                <div class="field">
+                    <label for="customerName">Nome completo</label>
+                    <input id="customerName" name="name" required autocomplete="name" placeholder="Ex.: Joao Silva">
+                </div>
+
+                <div class="field">
+                    <label for="customerPhone">WhatsApp</label>
+                    <input id="customerPhone" name="phone" required inputmode="tel" autocomplete="tel"
+                        placeholder="Ex.: 11999990000">
+                </div>
+
+                <div class="field">
+                    <label for="customerNeighborhood">Bairro</label>
+                    <input id="customerNeighborhood" name="neighborhood" required autocomplete="address-level2"
+                        placeholder="Ex.: Centro">
+                </div>
+
+                <div class="field">
+                    <label for="customerStreet">Rua</label>
+                    <input id="customerStreet" name="street" required autocomplete="address-line1"
+                        placeholder="Ex.: Rua das Flores">
+                </div>
+
+                <div class="field small">
+                    <label for="customerNumber">Numero</label>
+                    <input id="customerNumber" name="number" required autocomplete="address-line2"
+                        placeholder="Ex.: 123">
+                </div>
+
+                <div class="field">
+                    <label for="customerComplement">Complemento</label>
+                    <input id="customerComplement" name="complement" placeholder="Apto, bloco, casa">
+                </div>
+
+                <div class="field full">
+                    <label for="customerReference">Referencia</label>
+                    <textarea id="customerReference" name="reference" rows="3"
+                        placeholder="Ex.: portao preto, perto da farmacia"></textarea>
+                </div>
+
+                <button class="primary" type="submit">Entrar no cardapio</button>
+                <a class="secondary" href="../acesso/index.html">Voltar</a>
+            </form>
+        </section>
+    </main>
+
+    <script src="js/custom.js"></script>
+</body>
+
+</html>

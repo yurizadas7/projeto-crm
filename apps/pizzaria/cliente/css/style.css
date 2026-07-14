@@ -1,0 +1,622 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 80px;
+    border-bottom: 1px solid #ddd;
+    z-index: 1000;
+}
+
+.busca input {
+    width: 400px;
+    max-width: 100%;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 8px;
+    background: #f0f0f0;
+    outline: none;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+    transition: .3s;
+}
+
+nav a:hover {
+    color: #d62828;
+}
+
+#tema-btn {
+    border: 0;
+    border-radius: 8px;
+    background: #111;
+    color: white;
+    min-height: 38px;
+    padding: 0 12px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.perfil-cliente-btn {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: white;
+    color: #333;
+    min-height: 38px;
+    padding: 0 12px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+main {
+    margin-top: 100px;
+    padding: 30px 80px;
+    width: 100%;
+    min-width: 0;
+}
+
+.cliente-status {
+    margin-bottom: 18px;
+    padding: 14px 16px;
+    border: 1px solid #f0d2d2;
+    border-radius: 10px;
+    background: #fff7f7;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.cliente-status strong,
+.cliente-status span {
+    display: block;
+}
+
+.cliente-status strong {
+    color: #1f2933;
+    font-size: 15px;
+}
+
+.cliente-status span {
+    margin-top: 3px;
+    color: #667085;
+    font-size: 13px;
+}
+
+.banner {
+    width: 100%;
+    height: 450px;
+    margin-bottom: 30px;
+    overflow: hidden;
+    background: white;
+    border-radius: 12px;
+}
+
+.banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.info-pizzaria {
+    margin-bottom: 30px;
+}
+
+.info-pizzaria h1,
+.produtos h2 {
+    margin-bottom: 10px;
+}
+
+.info-pizzaria p {
+    margin-bottom: 10px;
+}
+
+.info-pizzaria span {
+    display: inline-block;
+    margin-right: 10px;
+    padding: 8px 14px;
+    background: #ffffff;
+    border-radius: 20px;
+    font-size: .9rem;
+    font-weight: 600;
+}
+
+.categorias {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.categorias button,
+.produto button,
+.sacola button,
+#addCarrinho,
+.remover-item {
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: .3s;
+}
+
+.categorias button {
+    background: rgb(255, 253, 253);
+    padding: 12px 20px;
+}
+
+.categorias button:hover {
+    background: #d62828;
+    color: white;
+}
+
+.produtos {
+    margin-bottom: 40px;
+    scroll-margin-top: 110px;
+}
+
+.produto {
+    background: white;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 1px solid #e5e5e5;
+    transition: .3s;
+}
+
+.produto:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .08);
+}
+
+.produto h3,
+.produto p {
+    margin-bottom: 10px;
+}
+
+.produto p {
+    color: #666;
+}
+
+.produto strong {
+    color: #000;
+}
+
+.produto button {
+    margin-top: 15px;
+    padding: 10px 15px;
+    background: #d62828;
+    color: white;
+}
+
+.produto.aviso {
+    border-color: #f1c0c0;
+    background: #fff5f5;
+}
+
+.sacola {
+    position: sticky;
+    top: 120px;
+    height: fit-content;
+    margin-top: 100px;
+    margin-right: 30px;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .08);
+}
+
+.sacola h2,
+.sacola p,
+.sacola h3 {
+    margin-bottom: 14px;
+}
+
+.sacola button,
+#addCarrinho {
+    width: 100%;
+    padding: 15px;
+    background: #d62828;
+    color: white;
+}
+
+.sacola button:hover,
+#addCarrinho:hover,
+.produto button:hover {
+    background: #b71c1c;
+}
+
+.item {
+    margin-bottom: 10px;
+}
+
+.item small {
+    color: #666;
+}
+
+.remover-item {
+    width: auto !important;
+    margin-top: 8px;
+    padding: 7px 10px !important;
+    background: #f1f1f1 !important;
+    color: #333 !important;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .5);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: 18px;
+}
+
+.checkout-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .55);
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    padding: 18px;
+}
+
+.checkout-content {
+    width: min(620px, 100%);
+    max-height: 92vh;
+    overflow-y: auto;
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    display: grid;
+    gap: 16px;
+}
+
+.checkout-content h2,
+.checkout-content h3 {
+    margin: 0;
+}
+
+.checkout-section {
+    display: grid;
+    gap: 10px;
+}
+
+.checkout-box {
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    background: #fafafa;
+    padding: 12px;
+    display: grid;
+    gap: 8px;
+    color: #333;
+}
+
+.checkout-line {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.checkout-line span:last-child {
+    text-align: right;
+    font-weight: 700;
+}
+
+.payment-options {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.payment-options label {
+    min-height: 42px;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fafafa;
+}
+
+.field-troco {
+    display: none;
+    gap: 6px;
+}
+
+.field-troco.show {
+    display: grid;
+}
+
+.field-troco input {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    min-height: 40px;
+    padding: 10px;
+}
+
+.fechar-checkout {
+    justify-self: end;
+    border: 0;
+    background: transparent;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.link-action {
+    border: 0;
+    background: transparent;
+    color: #d62828;
+    font-weight: 800;
+    cursor: pointer;
+    justify-self: start;
+}
+
+#confirmarPedido {
+    border: none;
+    border-radius: 8px;
+    min-height: 46px;
+    background: #d62828;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.modal-content {
+    background: white;
+    width: 500px;
+    max-width: 100%;
+    max-height: 92vh;
+    overflow-y: auto;
+    padding: 25px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.fechar {
+    align-self: flex-end;
+    border: 0;
+    background: transparent;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.modal-content select,
+.modal-content textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+body.dark {
+    background-color: #121212;
+    color: #e4e4e4;
+}
+
+body.dark header,
+body.dark .produto,
+body.dark .sacola,
+body.dark .modal-content,
+body.dark .checkout-content,
+body.dark .checkout-box,
+body.dark .payment-options label,
+body.dark .banner,
+body.dark .cliente-status,
+body.dark .perfil-cliente-btn,
+body.dark .info-pizzaria span,
+body.dark .categorias button {
+    background: #1e1e1e;
+    border-color: #2c2c2c;
+}
+
+body.dark nav a,
+body.dark .produto strong,
+body.dark .cliente-status strong,
+body.dark .perfil-cliente-btn,
+body.dark .info-pizzaria span {
+    color: #49c14b;
+}
+
+body.dark .busca input,
+body.dark .modal-content select,
+body.dark .modal-content textarea,
+body.dark .field-troco input {
+    background: #2c2c2c;
+    color: #ffffff;
+    border: 1px solid #444;
+}
+
+body.dark .produto p,
+body.dark .item small,
+body.dark .cliente-status span,
+body.dark .checkout-box {
+    color: #cfcfcf;
+}
+
+body.dark .produto button,
+body.dark .sacola button,
+body.dark #addCarrinho,
+body.dark #confirmarPedido,
+body.dark .categorias button:hover {
+    background: #49c14b;
+    color: #121212;
+}
+
+#pedidoCardContainer {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+    transition: all 0.35s ease;
+}
+
+#pedidoCardContainer.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.pedido-confirmado {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    width: 280px;
+    animation: pop 0.25s ease;
+}
+
+.pedido-confirmado h2 {
+    color: #d62828;
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.pedido-confirmado p {
+    color: #333;
+    margin: 8px 0;
+}
+
+@keyframes pop {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+@media (max-width: 1024px) {
+    body {
+        display: block;
+    }
+
+    header {
+        padding: 20px;
+    }
+
+    main {
+        padding: 20px;
+    }
+
+    .sacola {
+        position: static;
+        margin: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        position: static;
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+
+    main {
+        margin-top: 0;
+    }
+
+    .busca,
+    .busca input,
+    .perfil-cliente-btn,
+    #tema-btn {
+        width: 100%;
+    }
+
+    .cliente-status {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 14px;
+    }
+
+    .banner {
+        height: 250px;
+    }
+
+    #pedidoCardContainer {
+        left: 12px;
+        right: 12px;
+    }
+
+    .pedido-confirmado {
+        width: 100%;
+    }
+
+    .payment-options {
+        grid-template-columns: 1fr;
+    }
+
+    .checkout-line {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .checkout-line span:last-child {
+        text-align: left;
+    }
+}
+
+.sabores-opcoes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px 14px;
+}
+
+.sabores-opcoes label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+@media (max-width: 520px) {
+    .sabores-opcoes {
+        grid-template-columns: 1fr;
+    }
+}

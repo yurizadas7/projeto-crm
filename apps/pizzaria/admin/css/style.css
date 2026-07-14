@@ -1,0 +1,402 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #f5f7fb;
+    color: #101828;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+button,
+select {
+    font: inherit;
+}
+
+.wrapper {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+}
+
+.sidebar {
+    background: #1f2937;
+    color: white;
+    padding: 25px;
+}
+
+.logo {
+    margin-bottom: 38px;
+}
+
+.logo h3 {
+    margin: 0;
+    font-size: 26px;
+}
+
+.logo span {
+    display: block;
+    margin-top: 8px;
+    color: #f97316;
+    font-weight: 700;
+}
+
+.menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 12px;
+}
+
+.menu a {
+    min-height: 46px;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    border-radius: 10px;
+}
+
+.menu a:hover {
+    background: #374151;
+}
+
+.menu .active a {
+    background: #f97316;
+}
+
+.content {
+    min-width: 0;
+    padding: 30px;
+}
+
+.topbar,
+.section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.topbar h1 {
+    margin: 0 0 8px;
+    font-size: 32px;
+}
+
+.topbar small {
+    color: #667085;
+}
+
+.top-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.btn {
+    border: 0;
+    border-radius: 8px;
+    min-height: 40px;
+    padding: 0 14px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.btn-dark {
+    background: #111827;
+    color: white;
+}
+
+.btn-save {
+    background: #f97316;
+    color: white;
+}
+
+.avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.metrics-grid {
+    margin-top: 28px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.card {
+    background: white;
+    border: 1px solid #e4e7ec;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 10px 28px rgba(16, 24, 40, 0.06);
+}
+
+.dashboard-card {
+    min-height: 122px;
+}
+
+.dashboard-card h2,
+.card h2 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.dashboard-card strong {
+    display: block;
+    margin-top: 20px;
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.chart-card {
+    margin-top: 24px;
+}
+
+.section-head {
+    margin-bottom: 18px;
+}
+
+.section-head select {
+    border: 1px solid #d0d5dd;
+    border-radius: 8px;
+    min-height: 38px;
+    padding: 0 12px;
+    background: white;
+}
+
+#graficoVendas {
+    width: 100%;
+    max-height: 310px;
+}
+
+.admin-grid {
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.7fr) minmax(260px, 0.8fr);
+    gap: 24px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 14px;
+}
+
+th,
+td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #e4e7ec;
+    text-align: left;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    padding: 0 8px;
+    border-radius: 6px;
+    color: white;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.badge.warning {
+    background: #f59e0b;
+}
+
+.badge.primary {
+    background: #2563eb;
+}
+
+.sales-list {
+    list-style: none;
+    margin: 14px 0 0;
+    padding: 0;
+    border: 1px solid #e4e7ec;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.sales-list li {
+    padding: 12px 14px;
+    border-bottom: 1px solid #e4e7ec;
+}
+
+.sales-list li:last-child {
+    border-bottom: 0;
+}
+
+.summary-list {
+    display: grid;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.summary-item {
+    border: 1px solid #e4e7ec;
+    border-radius: 8px;
+    padding: 10px;
+    background: #fafafa;
+}
+
+.summary-item strong,
+.summary-item span {
+    display: block;
+}
+
+.summary-item span {
+    margin-top: 4px;
+    color: #667085;
+    font-size: 13px;
+}
+
+.config-form {
+    margin-top: 14px;
+    display: grid;
+    gap: 12px;
+}
+
+.config-form label,
+.config-form fieldset {
+    display: grid;
+    gap: 6px;
+    color: #475467;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.config-form input,
+.config-form textarea {
+    width: 100%;
+    border: 1px solid #d0d5dd;
+    border-radius: 8px;
+    min-height: 40px;
+    padding: 9px 10px;
+    font: inherit;
+}
+
+.config-form textarea {
+    resize: vertical;
+}
+
+.config-form fieldset {
+    border: 1px solid #e4e7ec;
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.config-form fieldset label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #101828;
+    font-weight: 500;
+}
+
+.dark {
+    background: #111827;
+    color: white;
+}
+
+.dark .content {
+    background: #111827;
+}
+
+.dark .card,
+.dark .section-head select,
+.dark .summary-item,
+.dark .config-form input,
+.dark .config-form textarea,
+.dark .config-form fieldset {
+    background: #1f2937;
+    color: white;
+    border-color: #374151;
+}
+
+.dark .topbar small,
+.dark .card p,
+.dark .summary-item span,
+.dark .config-form label,
+.dark .config-form fieldset label {
+    color: #d0d5dd;
+}
+
+.dark th,
+.dark td,
+.dark .sales-list,
+.dark .sales-list li {
+    border-color: #374151;
+}
+
+@media (max-width: 980px) {
+    .wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        min-height: auto;
+    }
+
+    .menu {
+        grid-template-columns: repeat(6, minmax(120px, 1fr));
+        overflow-x: auto;
+    }
+
+    .metrics-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .admin-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 620px) {
+    .content,
+    .sidebar {
+        padding: 18px;
+    }
+
+    .topbar,
+    .section-head {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .metrics-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .menu {
+        grid-template-columns: repeat(6, max-content);
+    }
+
+    table,
+    thead,
+    tbody,
+    tr,
+    td {
+        display: block;
+    }
+
+    thead {
+        display: none;
+    }
+
+    tr {
+        border-bottom: 1px solid #e4e7ec;
+        padding: 10px 0;
+    }
+
+    td {
+        border-bottom: 0;
+        padding: 6px 0;
+    }
+}

@@ -1,0 +1,237 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family:Arial, Helvetica, sans-serif;
+
+    background:#f4f4f4;
+
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.container{
+    text-align:center;
+}
+
+h1{
+    color:#d62828;
+    margin-bottom:10px;
+}
+
+p{
+    margin-bottom:30px;
+}
+
+.cards{
+
+    display:flex;
+    gap:30px;
+
+    flex-wrap:wrap;
+
+    justify-content:center;
+}
+
+.card{
+
+    width:300px;
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:15px;
+
+    box-shadow:
+    0 10px 20px rgba(0,0,0,.1);
+
+    transition:.3s;
+}
+
+.card:hover{
+
+    transform:translateY(-8px);
+
+}
+
+.icone{
+
+    min-height:70px;
+
+    margin-bottom:15px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:#d62828;
+    font-size:22px;
+    font-weight:800;
+}
+
+.card button{
+
+    width:100%;
+
+    margin-top:20px;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:#d62828;
+
+    color:white;
+
+    cursor:pointer;
+}
+
+.modal{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:100%;
+
+    background:rgba(0,0,0,.7);
+
+    display:none;
+
+    justify-content:center;
+    align-items:center;
+}
+
+.modal.ativo{
+
+    display:flex;
+}
+
+.modal-box{
+
+    width:420px;
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:15px;
+
+    display:flex;
+    flex-direction:column;
+
+    gap:12px;
+
+    position:relative;
+}
+
+.modal-box input{
+
+    padding:12px;
+
+    border:1px solid #ddd;
+
+    border-radius:8px;
+}
+
+.modal-box button{
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:#d62828;
+
+    color:white;
+
+    cursor:pointer;
+}
+
+.fechar{
+
+    position:absolute;
+
+    right:15px;
+    top:10px;
+
+    width:auto;
+    margin:0;
+    padding:0;
+    border:none;
+    background:transparent;
+    color:inherit;
+    font-size:30px;
+
+    cursor:pointer;
+}
+
+.login-hint{
+    color:#666;
+    font-size:12px;
+    text-align:center;
+}
+
+
+#tema-btn{
+
+    position:fixed;
+
+    right:20px;
+    top:20px;
+
+    width:50px;
+    height:50px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#d62828;
+
+    color:white;
+
+    cursor:pointer;
+}
+
+
+body.dark{
+
+    background:#121212;
+    color:white;
+}
+
+body.dark .card{
+
+    background:#1e1e1e;
+}
+
+body.dark .modal-box{
+
+    background:#1e1e1e;
+}
+
+body.dark input{
+
+    background:#2a2a2a;
+    color:white;
+
+    border:1px solid #444;
+}
+
+body.dark .login-hint{
+    color:#bbb;
+}

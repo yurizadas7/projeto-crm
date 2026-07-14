@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yulipe Admin</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <aside class="sidebar">
+            <div class="logo">
+                <h3>YULIPE</h3>
+                <span>Dono / Gerente</span>
+            </div>
+
+            <ul class="menu">
+                <li class="active"><a href="#dashboard">Dashboard</a></li>
+                <li><a href="../cozinha/index.html">Pedidos</a></li>
+                <li><a href="#produtos">Produtos</a></li>
+                <li><a href="#clientes">Clientes</a></li>
+                <li><a href="#relatorios">Relatorios</a></li>
+                <li><a href="#configuracoes">Configuracoes</a></li>
+            </ul>
+        </aside>
+
+        <main class="content">
+            <header class="topbar">
+                <div>
+                    <h1>Painel Administrativo</h1>
+                    <small>Bem-vindo de volta ao painel da pizzaria</small>
+                </div>
+
+                <div class="top-actions">
+                    <button id="darkModeBtn" class="btn btn-dark" type="button">Lua</button>
+                    <img src="perfil admin/img.jpg" class="avatar" alt="Perfil da pizzaria">
+                </div>
+            </header>
+
+            <section class="metrics-grid" id="dashboard" aria-label="Resumo da operacao">
+                <div class="card dashboard-card">
+                    <h2>Pedidos Hoje</h2>
+                    <strong>148</strong>
+                </div>
+                <div class="card dashboard-card">
+                    <h2>Faturamento</h2>
+                    <strong>R$ 8.920</strong>
+                </div>
+                <div class="card dashboard-card">
+                    <h2>Clientes</h2>
+                    <strong>324</strong>
+                </div>
+                <div class="card dashboard-card">
+                    <h2>Ticket Medio</h2>
+                    <strong>R$ 60,27</strong>
+                </div>
+                <div class="card dashboard-card">
+                    <h2>Faturamento Mensal</h2>
+                    <strong>R$ 52.800</strong>
+                </div>
+                <div class="card dashboard-card">
+                    <h2>Pedidos no Mes</h2>
+                    <strong>863</strong>
+                </div>
+                <div class="card dashboard-card">
+                    <h2>Clientes Recorrentes</h2>
+                    <strong>74%</strong>
+                </div>
+                <div class="card dashboard-card">
+                    <h2>Taxa de Cancelamento</h2>
+                    <strong>2,1%</strong>
+                </div>
+            </section>
+
+            <section class="card chart-card" id="relatorios">
+                <div class="section-head">
+                    <h2>Analise de Vendas</h2>
+                    <select id="periodoGrafico">
+                        <option value="semana">Ultimos 7 dias</option>
+                        <option value="mes">Ultimos 30 dias</option>
+                        <option value="ano">Ultimos 12 meses</option>
+                    </select>
+                </div>
+                <canvas id="graficoVendas"></canvas>
+            </section>
+
+            <section class="admin-grid">
+                <div class="card table-card">
+                    <h2>Pedidos Recentes</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Cliente</th>
+                                <th>Status</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1025</td>
+                                <td>Joao</td>
+                                <td><span class="badge warning">Preparando</span></td>
+                                <td>R$ 72,00</td>
+                            </tr>
+                            <tr>
+                                <td>1026</td>
+                                <td>Maria</td>
+                                <td><span class="badge primary">Entrega</span></td>
+                                <td>R$ 95,00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card" id="produtos">
+                    <h2>Mais Vendidas</h2>
+                    <ul class="sales-list">
+                        <li>Calabresa</li>
+                        <li>Portuguesa</li>
+                        <li>Frango Catupiry</li>
+                        <li>Chocolate</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="admin-grid">
+                <div class="card" id="clientes">
+                    <h2>Clientes</h2>
+                    <div id="clientesResumo" class="summary-list"></div>
+                </div>
+                <div class="card" id="configuracoes">
+                    <h2>Configuracoes</h2>
+                    <form id="storeConfigForm" class="config-form">
+                        <label>Nome da pizzaria
+                            <input id="storeName" name="name" placeholder="Pizzaria do Yulipe">
+                        </label>
+                        <label>Telefone / WhatsApp
+                            <input id="storePhone" name="phone" placeholder="11999990000">
+                        </label>
+                        <label>Endereco
+                            <input id="storeAddress" name="address" placeholder="Rua Exemplo, 123">
+                        </label>
+                        <label>Taxa de entrega
+                            <input id="deliveryFee" name="deliveryFee" inputmode="decimal" placeholder="5,00">
+                        </label>
+                        <label>Horario de funcionamento
+                            <input id="openingHours" name="openingHours" placeholder="18h as 23h">
+                        </label>
+                        <label>Bairros atendidos
+                            <textarea id="deliveryAreas" name="deliveryAreas" rows="3" placeholder="Centro, Jardim, Vila Nova"></textarea>
+                        </label>
+                        <fieldset>
+                            <legend>Pagamentos aceitos</legend>
+                            <label><input type="checkbox" name="payments" value="Pix"> Pix</label>
+                            <label><input type="checkbox" name="payments" value="Cartao na entrega"> Cartao na entrega</label>
+                            <label><input type="checkbox" name="payments" value="Dinheiro"> Dinheiro</label>
+                        </fieldset>
+                        <button class="btn btn-save" type="submit">Salvar configuracoes</button>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/custom.js"></script>
+</body>
+
+</html>

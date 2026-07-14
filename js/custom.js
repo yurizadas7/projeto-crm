@@ -8,6 +8,7 @@ let members = NexoApi.loadMembers(currentSession?.workspaceId || "demo", current
 let draggedId = null;
 let currentView = "funil";
 let selectedClientId = null;
+let selectedProduct = "crm";
 
 const loginForm = document.getElementById("loginForm");
 const signupForm = document.getElementById("signupForm");
@@ -16,6 +17,7 @@ const loginMessage = document.getElementById("loginMessage");
 const authCardTitle = document.getElementById("authCardTitle");
 const authCardText = document.getElementById("authCardText");
 const demoLoginBtn = document.getElementById("demoLoginBtn");
+const productActions = document.getElementById("productActions");
 const logoutBtn = document.getElementById("logoutBtn");
 const accountEmail = document.getElementById("accountEmail");
 const accountWorkspace = document.getElementById("accountWorkspace");
@@ -213,7 +215,7 @@ function setAuthState() {
 
 function signIn(email, password, workspace, remember) {
   if (!email || !workspace || String(password || "").length < 6) {
-    showAuthMessage("Informe e-mail, senha com 6 caracteres e workspace.", "error");
+    showAuthMessage("Informe e-mail, senha com 6 caracteres e empresa.", "error");
     return;
   }
 
@@ -234,6 +236,10 @@ function signIn(email, password, workspace, remember) {
   setAuthState();
   render();
   showToast("Login realizado em " + currentSession.workspace + ".");
+
+  if (selectedProduct === "pizzaria") {
+    openSelectedProduct();
+  }
 }
 
 function signUp(name, email, password, workspace) {
@@ -259,6 +265,10 @@ function signUp(name, email, password, workspace) {
   render();
   openOnboarding();
   showToast("Workspace criado para " + currentSession.workspace + ".");
+
+  if (selectedProduct === "pizzaria") {
+    openSelectedProduct();
+  }
 }
 
 function requestRecovery(email) {
@@ -308,8 +318,8 @@ function showAuthMessage(message, tone = "error") {
 
 function setAuthMode(mode) {
   const copy = {
-    login: ["Login", "Acesse com seu e-mail corporativo ou use a demo."],
-    signup: ["Criar conta", "Crie um workspace local para apresentar o fluxo SaaS."],
+    login: ["Login administrativo", "Acesse com seu e-mail corporativo ou use a demo."],
+    signup: ["Criar acesso admin", "Crie uma empresa local para apresentar o fluxo SaaS."],
     recovery: ["Recuperar acesso", "Simule o envio de instrucoes sem conectar banco ou e-mail real."]
   };
 
@@ -324,6 +334,42 @@ function setAuthMode(mode) {
   authCardTitle.textContent = copy[mode][0];
   authCardText.textContent = copy[mode][1];
   showAuthMessage("", "error");
+  updateProductCopy();
+}
+
+function selectProduct(product) {
+  selectedProduct = product === "pizzaria" ? "pizzaria" : "crm";
+
+  document.querySelectorAll("[data-product]").forEach(button => {
+    button.classList.toggle("active", button.dataset.product === selectedProduct);
+  });
+
+  updateProductCopy();
+}
+
+function updateProductCopy() {
+  const isPizzaria = selectedProduct === "pizzaria";
+  const activeMode = document.querySelector("[data-auth-mode].active")?.dataset.authMode || "login";
+  const submitButton = loginForm.querySelector("button.primary");
+
+  if (activeMode === "login") {
+    authCardText.textContent = isPizzaria
+      ? "Acesso administrativo para dono, gerente ou equipe autorizada acompanhar pedidos e operacao."
+      : "Acesso de dono ou admin para gerenciar leads, equipe e rotina comercial.";
+  }
+
+  if (submitButton) {
+    submitButton.textContent = isPizzaria ? "Entrar no painel administrativo" : "Entrar no CRM";
+  }
+
+  demoLoginBtn.textContent = isPizzaria ? "Entrar na demo administrativa" : "Entrar como admin do CRM";
+  productActions.classList.toggle("show", isPizzaria);
+}
+
+function openSelectedProduct() {
+  if (selectedProduct === "pizzaria") {
+    window.location.href = "apps/pizzaria/acesso/index.html";
+  }
 }
 
 function showToast(message) {
@@ -1218,6 +1264,10 @@ document.querySelectorAll("[data-auth-mode]").forEach(button => {
   button.addEventListener("click", () => setAuthMode(button.dataset.authMode));
 });
 
+document.querySelectorAll("[data-product]").forEach(button => {
+  button.addEventListener("click", () => selectProduct(button.dataset.product));
+});
+
 loginForm.addEventListener("submit", event => {
   event.preventDefault();
 
@@ -1406,11 +1456,23 @@ document.querySelectorAll("[data-assistant-shortcut]").forEach(button => {
 });
 
 demoLoginBtn.addEventListener("click", () => {
-  document.getElementById("loginEmail").value = "demo@nexocrm.com";
-  document.getElementById("loginPassword").value = "demo123";
-  document.getElementById("loginWorkspace").value = "NexoCRM Demo";
+  const demo = selectedProduct === "pizzaria"
+    ? {
+      email: "dono@pizzaria.com",
+      password: "demo123",
+      workspace: "Pizzaria do Yulipe"
+    }
+    : {
+      email: "demo@nexocrm.com",
+      password: "demo123",
+      workspace: "NexoCRM Demo"
+    };
+
+  document.getElementById("loginEmail").value = demo.email;
+  document.getElementById("loginPassword").value = demo.password;
+  document.getElementById("loginWorkspace").value = demo.workspace;
   document.getElementById("loginRemember").checked = true;
-  signIn("demo@nexocrm.com", "demo123", "NexoCRM Demo", true);
+  signIn(demo.email, demo.password, demo.workspace, true);
 });
 
 logoutBtn.addEventListener("click", signOut);
@@ -1467,6 +1529,7 @@ form.addEventListener("submit", event => {
 });
 
 setAuthState();
+updateProductCopy();
 render();
 
 function parseTags(value) {

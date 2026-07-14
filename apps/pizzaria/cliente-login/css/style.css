@@ -1,0 +1,196 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f5f7;
+    color: #1f2933;
+}
+
+button,
+input,
+textarea {
+    font: inherit;
+}
+
+.login-page {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(360px, 520px);
+}
+
+.brand-panel {
+    padding: 48px;
+    background:
+        linear-gradient(135deg, rgba(17, 24, 39, 0.94), rgba(214, 40, 40, 0.78)),
+        url("../../cliente/midias/logo.jpg") center / cover no-repeat;
+    color: white;
+    display: grid;
+    align-content: center;
+    gap: 18px;
+}
+
+.eyebrow {
+    color: #ffd166;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.brand-panel h1 {
+    max-width: 620px;
+    font-size: 46px;
+    line-height: 1.05;
+}
+
+.brand-panel p {
+    max-width: 540px;
+    color: #fff3e0;
+    font-size: 17px;
+    line-height: 1.5;
+}
+
+.steps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.steps span {
+    min-height: 34px;
+    border: 1px solid rgba(255, 255, 255, 0.34);
+    border-radius: 999px;
+    padding: 8px 13px;
+    background: rgba(255, 255, 255, 0.12);
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.form-panel {
+    padding: 42px;
+    background: white;
+    display: grid;
+    align-content: center;
+}
+
+.form-panel h2 {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.form-panel > p {
+    color: #667085;
+    line-height: 1.45;
+    margin-bottom: 22px;
+}
+
+.profile-form {
+    display: grid;
+    grid-template-columns: 1fr 150px;
+    gap: 14px;
+}
+
+.field {
+    display: grid;
+    gap: 6px;
+    grid-column: 1 / -1;
+}
+
+.field.small {
+    grid-column: auto;
+}
+
+.field.small + .field {
+    grid-column: auto;
+}
+
+.field.full {
+    grid-column: 1 / -1;
+}
+
+label {
+    color: #475467;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+input,
+textarea {
+    width: 100%;
+    border: 1px solid #d9e0e8;
+    border-radius: 8px;
+    min-height: 42px;
+    padding: 10px 12px;
+    outline: none;
+}
+
+textarea {
+    resize: vertical;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #d62828;
+    box-shadow: 0 0 0 3px rgba(214, 40, 40, 0.12);
+}
+
+.primary,
+.secondary {
+    min-height: 44px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.primary {
+    grid-column: 1 / -1;
+    border: 0;
+    background: #d62828;
+    color: white;
+}
+
+.secondary {
+    grid-column: 1 / -1;
+    border: 1px solid #d9e0e8;
+    background: white;
+    color: #1f2933;
+}
+
+@media (max-width: 880px) {
+    .login-page {
+        grid-template-columns: 1fr;
+    }
+
+    .brand-panel,
+    .form-panel {
+        padding: 24px;
+    }
+
+    .brand-panel {
+        min-height: 340px;
+    }
+
+    .brand-panel h1 {
+        font-size: 34px;
+    }
+}
+
+@media (max-width: 520px) {
+    .profile-form {
+        grid-template-columns: 1fr;
+    }
+
+    .field.small,
+    .field.small + .field {
+        grid-column: 1 / -1;
+    }
+}

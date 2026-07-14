@@ -4,38 +4,50 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>NexoCRM - Demo Comercial</title>
+    <title>EMBER CRM - Demo Comercial</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
     <section class="login-screen" id="loginScreen" aria-labelledby="loginTitle">
         <div class="login-brand">
-            <div class="mark">NC</div>
+            <div class="mark">EM</div>
             <div>
-                <strong>NexoCRM</strong>
+                <strong>EMBER CRM</strong>
                 <span>CRM SaaS para vendas no WhatsApp</span>
             </div>
         </div>
 
         <div class="login-shell">
             <div class="login-copy">
-                <span class="eyebrow">Acesso seguro</span>
-                <h1 id="loginTitle">Entre no painel da sua empresa</h1>
-                <p>Gerencie leads, propostas e retornos em um ambiente simples para equipes comerciais.</p>
+                <span class="eyebrow">Acesso administrativo</span>
+                <h1 id="loginTitle">Entre no painel de gestao da sua empresa</h1>
+                <p>Portal exclusivo para donos, gestores e administradores acessarem os produtos SaaS da EMBER.</p>
                 <div class="login-highlights" aria-label="Recursos do produto">
-                    <span>Funil visual</span>
-                    <span>Lembretes comerciais</span>
-                    <span>Base por workspace</span>
+                    <span>Donos e admins</span>
+                    <span>Gestao comercial</span>
+                    <span>Operacao delivery</span>
                 </div>
             </div>
 
             <div class="login-card">
                 <div>
                     <h2 id="authCardTitle">Login</h2>
-                    <p id="authCardText">Acesse com seu e-mail corporativo ou use a demo.</p>
+                    <p id="authCardText">Escolha o sistema e acesse o painel de gestao com sua conta autorizada.</p>
                 </div>
-                <div class="auth-tabs" role="tablist" aria-label="Acesso">
+
+                <div class="product-switcher" aria-label="Escolha do sistema">
+                    <button class="active" type="button" data-product="crm">
+                        <strong>EMBER CRM</strong>
+                        <span>Gestao de leads, equipe e rotina comercial</span>
+                    </button>
+                    <button type="button" data-product="pizzaria">
+                        <strong>Pizzaria SaaS</strong>
+                        <span>Pedidos, cozinha e operacao do restaurante</span>
+                    </button>
+                </div>
+
+                <div class="auth-tabs auth-tabs-hidden" role="tablist" aria-label="Acesso">
                     <button class="active" type="button" data-auth-mode="login">Entrar</button>
                     <button type="button" data-auth-mode="signup">Criar conta</button>
                     <button type="button" data-auth-mode="recovery">Recuperar</button>
@@ -53,9 +65,9 @@
                             required minlength="6" placeholder="Minimo de 6 caracteres">
                     </div>
                     <div class="field">
-                        <label for="loginWorkspace">Workspace</label>
+                        <label for="loginWorkspace">Empresa</label>
                         <input id="loginWorkspace" name="workspace" autocomplete="organization" required
-                            placeholder="Nome da empresa">
+                            placeholder="Nome da empresa ou unidade">
                     </div>
                     <label class="check-row login-remember">
                         <input id="loginRemember" name="remember" type="checkbox" checked>
@@ -98,7 +110,12 @@
                 </form>
 
                 <div class="login-error" id="loginMessage" role="alert"></div>
-                <div class="auth-note" id="authNote">Ambiente local de demonstracao. Nenhum dado e enviado para banco.</div>
+                <div class="product-actions" id="productActions" hidden>
+                    <a class="secondary" href="apps/pizzaria/acesso/index.html">Abrir acesso da pizzaria</a>
+                    <a class="secondary" href="apps/pizzaria/admin/index.html">Abrir painel admin</a>
+                    <a class="secondary" href="apps/pizzaria/cliente-login/index.html">Login do cliente</a>
+                </div>
+                <div class="auth-note" id="authNote">Acesso administrativo para dono, gerente ou equipe autorizada. O cliente final entra pelo link publico de pedidos.</div>
             </div>
         </div>
     </section>
@@ -106,9 +123,9 @@
     <div class="app" id="appShell">
         <aside class="sidebar">
             <div class="brand">
-                <div class="mark">NC</div>
+                <div class="mark">EM</div>
                 <div>
-                    <strong>NexoCRM</strong>
+                    <strong>EMBER CRM</strong>
                     <span>CRM para vendas no WhatsApp</span>
                 </div>
             </div>

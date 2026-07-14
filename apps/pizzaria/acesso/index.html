@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yulipe Acesso</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <button id="tema-btn" type="button" aria-label="Alternar tema">Lua</button>
+
+    <div class="container">
+        <h1>Yulipe Pizzaria</h1>
+        <p>Escolha seu tipo de acesso.</p>
+
+        <div class="cards">
+            <div class="card cliente">
+                <div class="icone">Cliente</div>
+                <h2>Cliente</h2>
+                <p>Fazer pedidos online</p>
+                <button class="btn-cliente" type="button">Entrar</button>
+            </div>
+
+            <div class="card restaurante" id="abrirLogin">
+                <div class="icone">Admin</div>
+                <h2>Restaurante</h2>
+                <p>Area administrativa</p>
+                <button type="button">Acessar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modalLogin" aria-hidden="true">
+        <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <button class="fechar" type="button" aria-label="Fechar">&times;</button>
+            <h2 id="modalTitle">Acesso Restaurante</h2>
+
+            <label for="codigo">Codigo da loja</label>
+            <input type="text" id="codigo" autocomplete="organization" placeholder="Ex.: YULIPE-001">
+
+            <label for="pin">PIN</label>
+            <input type="password" id="pin" maxlength="6" inputmode="numeric" placeholder="Ex.: 123456">
+
+            <button id="btnEntrar" type="button">Entrar no painel</button>
+            <small class="login-hint">Demo: YULIPE-001 / 123456</small>
+        </div>
+    </div>
+
+    <script src="js/custom.js"></script>
+</body>
+
+</html>
