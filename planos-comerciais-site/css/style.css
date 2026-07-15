@@ -62,6 +62,7 @@ body {
 .value-strip,
 .modules-section,
 .plans-section,
+.contact-section,
 .process-section,
 .closing-panel {
   border: 1px solid var(--line);
@@ -219,6 +220,7 @@ body {
 
 .modules-section,
 .plans-section,
+.contact-section,
 .process-section,
 .closing-panel {
   margin-top: 18px;
@@ -256,6 +258,54 @@ body {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
+}
+
+.whatsapp-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.whatsapp-card {
+  border: 1px solid rgba(37, 211, 102, 0.38);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(37, 211, 102, 0.18), rgba(216, 173, 85, 0.08)),
+    rgba(255, 255, 255, 0.045);
+  color: var(--text);
+  display: block;
+  min-height: 136px;
+  padding: 20px;
+  text-decoration: none;
+  transition: transform .2s ease, border-color .2s ease, background .2s ease;
+}
+
+.whatsapp-card:hover {
+  border-color: rgba(37, 211, 102, 0.76);
+  transform: translateY(-2px);
+}
+
+.whatsapp-card span,
+.whatsapp-card strong,
+.whatsapp-card small {
+  display: block;
+}
+
+.whatsapp-card span {
+  color: #8ef2b2;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.whatsapp-card strong {
+  margin-top: 12px;
+  font-size: clamp(24px, 3vw, 34px);
+}
+
+.whatsapp-card small {
+  color: var(--muted);
+  margin-top: 10px;
 }
 
 .modules-grid article {
@@ -398,6 +448,7 @@ body {
 @media (max-width: 920px) {
   .value-strip,
   .modules-grid,
+  .whatsapp-grid,
   .plans-grid,
   .process-grid,
   .closing-panel {
@@ -418,6 +469,7 @@ body {
   .hero,
   .modules-section,
   .plans-section,
+  .contact-section,
   .process-section,
   .closing-panel {
     padding: 18px;
