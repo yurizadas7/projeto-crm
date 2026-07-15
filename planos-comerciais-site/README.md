@@ -1,12 +1,17 @@
-# Planos Comerciais NexoCRM
+# Apresentação Comercial EMBER SaaS
 
-Pagina comercial em HTML para apresentar os planos do CRM com visual EMBER Labs.
+Página comercial em HTML para apresentar os produtos EMBER CRM e Pizzaria SaaS com visual profissional, responsivo e pronto para publicação.
 
-## Arquivos
+## Estrutura
 
-- `index.html`: pagina principal.
+- `index.html`: vitrine principal dos planos comerciais.
+- `crm/index.html`: apresentação individual do EMBER CRM.
+- `pizzaria/index.html`: apresentação individual da Pizzaria SaaS.
+- `contato/index.html`: perfis comerciais e links de atendimento pelo WhatsApp.
 - `css/style.css`: identidade visual preto/dourado e layout responsivo.
-- `js/app.js`: animacao do fundo aquatico.
-- `assets/ember-labs.png`: logo usada como marca visual.
+- `js/app.js`: animação fluida do fundo.
+- `assets/`: logo EMBER e fotos otimizadas dos perfis comerciais.
 
-Abra `index.html` no navegador para visualizar.
+## Publicação
+
+O site pode ser publicado via GitHub Pages usando a branch `main` e a pasta raiz do repositório.

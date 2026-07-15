@@ -478,6 +478,16 @@ body {
   width: 74px;
 }
 
+.profile-photo {
+  aspect-ratio: 1;
+  border: 1px solid rgba(241, 213, 144, 0.42);
+  border-radius: 8px;
+  height: 96px;
+  object-fit: cover;
+  object-position: center 22%;
+  width: 96px;
+}
+
 .profile-card h2 {
   font-size: clamp(30px, 4vw, 44px);
   line-height: 1;
@@ -598,6 +608,11 @@ body {
   .profile-avatar {
     height: 62px;
     width: 62px;
+  }
+
+  .profile-photo {
+    height: 76px;
+    width: 76px;
   }
 
   .profile-card h2 {
