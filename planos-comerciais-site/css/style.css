@@ -60,6 +60,7 @@ body {
 
 .hero,
 .value-strip,
+.modules-section,
 .plans-section,
 .process-section,
 .closing-panel {
@@ -216,6 +217,7 @@ body {
   font-size: 13px;
 }
 
+.modules-section,
 .plans-section,
 .process-section,
 .closing-panel {
@@ -248,6 +250,44 @@ body {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
   align-items: stretch;
+}
+
+.modules-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.modules-grid article {
+  border: 1px solid rgba(216, 173, 85, 0.22);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(216, 173, 85, 0.08), rgba(255, 255, 255, 0.035)),
+    rgba(255, 255, 255, 0.045);
+  min-height: 190px;
+  padding: 18px;
+}
+
+.modules-grid span,
+.modules-grid strong {
+  display: block;
+}
+
+.modules-grid span {
+  color: var(--gold-soft);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.modules-grid strong {
+  margin-top: 10px;
+  font-size: 23px;
+}
+
+.modules-grid p {
+  color: var(--muted);
+  line-height: 1.45;
+  margin: 10px 0 0;
 }
 
 .plan-card {
@@ -357,6 +397,7 @@ body {
 
 @media (max-width: 920px) {
   .value-strip,
+  .modules-grid,
   .plans-grid,
   .process-grid,
   .closing-panel {
@@ -375,6 +416,7 @@ body {
   }
 
   .hero,
+  .modules-section,
   .plans-section,
   .process-section,
   .closing-panel {
