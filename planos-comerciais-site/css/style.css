@@ -60,11 +60,11 @@ body {
 
 .hero,
 .value-strip,
-.modules-section,
 .plans-section,
-.contact-section,
+.included-section,
 .process-section,
-.closing-panel {
+.cta-panel,
+.commercial-note {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--panel);
@@ -126,8 +126,7 @@ body {
 }
 
 .hero h1,
-.section-head h2,
-.closing-panel h2 {
+.section-head h2 {
   margin: 0;
   font-weight: 900;
   line-height: 1.02;
@@ -195,6 +194,7 @@ body {
 
 .value-strip strong,
 .value-strip span,
+.value-strip a,
 .plan-card span,
 .plan-card small,
 .process-grid span,
@@ -208,7 +208,8 @@ body {
 .plan-card li,
 .plan-card small,
 .process-grid p,
-.closing-panel p {
+.commercial-note p,
+.profile-list {
   color: var(--muted);
   line-height: 1.45;
 }
@@ -218,11 +219,11 @@ body {
   font-size: 13px;
 }
 
-.modules-section,
 .plans-section,
-.contact-section,
+.included-section,
 .process-section,
-.closing-panel {
+.cta-panel,
+.commercial-note {
   margin-top: 18px;
   padding: 28px;
 }
@@ -237,7 +238,7 @@ body {
 }
 
 .section-head h2,
-.closing-panel h2 {
+.commercial-note h2 {
   margin-top: 8px;
   font-size: clamp(32px, 4vw, 48px);
 }
@@ -254,90 +255,42 @@ body {
   align-items: stretch;
 }
 
-.modules-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-}
-
-.whatsapp-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-}
-
-.whatsapp-card {
-  border: 1px solid rgba(37, 211, 102, 0.38);
-  border-radius: 8px;
-  background:
-    linear-gradient(135deg, rgba(37, 211, 102, 0.18), rgba(216, 173, 85, 0.08)),
-    rgba(255, 255, 255, 0.045);
-  color: var(--text);
-  display: block;
-  min-height: 136px;
-  padding: 20px;
-  text-decoration: none;
-  transition: transform .2s ease, border-color .2s ease, background .2s ease;
-}
-
-.whatsapp-card:hover {
-  border-color: rgba(37, 211, 102, 0.76);
-  transform: translateY(-2px);
-}
-
-.whatsapp-card span,
-.whatsapp-card strong,
-.whatsapp-card small {
-  display: block;
-}
-
-.whatsapp-card span {
-  color: #8ef2b2;
-  font-size: 12px;
-  font-weight: 900;
-  text-transform: uppercase;
-}
-
-.whatsapp-card strong {
-  margin-top: 12px;
-  font-size: clamp(24px, 3vw, 34px);
-}
-
-.whatsapp-card small {
-  color: var(--muted);
-  margin-top: 10px;
-}
-
-.modules-grid article {
-  border: 1px solid rgba(216, 173, 85, 0.22);
-  border-radius: 8px;
-  background:
-    linear-gradient(180deg, rgba(216, 173, 85, 0.08), rgba(255, 255, 255, 0.035)),
-    rgba(255, 255, 255, 0.045);
-  min-height: 190px;
-  padding: 18px;
-}
-
-.modules-grid span,
-.modules-grid strong {
-  display: block;
-}
-
-.modules-grid span {
+.value-strip a {
   color: var(--gold-soft);
   font-size: 12px;
   font-weight: 900;
+  margin-top: 12px;
+  text-decoration: none;
+  text-transform: uppercase;
 }
 
-.modules-grid strong {
-  margin-top: 10px;
-  font-size: 23px;
+.included-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
 }
 
-.modules-grid p {
+.included-grid div {
+  border: 1px solid rgba(216, 173, 85, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.045);
+  padding: 16px;
+}
+
+.included-grid strong,
+.included-grid span {
+  display: block;
+}
+
+.included-grid strong {
+  color: var(--text);
+  font-size: 18px;
+}
+
+.included-grid span {
   color: var(--muted);
   line-height: 1.45;
-  margin: 10px 0 0;
+  margin-top: 8px;
 }
 
 .plan-card {
@@ -433,30 +386,140 @@ body {
   font-size: 14px;
 }
 
-.closing-panel {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 390px;
-  gap: 24px;
+.cta-panel {
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 20px;
 }
 
-.closing-panel p {
+.cta-panel h2 {
+  font-size: clamp(30px, 4vw, 46px);
+  line-height: 1.05;
+  margin: 8px 0 0;
+}
+
+.mobile-contact-bar {
+  display: none;
+}
+
+.commercial-note {
+  display: grid;
+  gap: 8px;
+}
+
+.commercial-note strong {
+  color: var(--gold-soft);
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.commercial-note p {
+  font-size: 15px;
   margin: 0;
-  font-size: 18px;
+}
+
+.contact-page {
+  min-height: 100vh;
+}
+
+.contact-hero,
+.profile-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
+}
+
+.contact-hero {
+  display: grid;
+  gap: 28px;
+  min-height: 420px;
+  padding: 34px;
+}
+
+.contact-hero h1 {
+  font-size: clamp(42px, 6vw, 78px);
+  line-height: 1.02;
+  margin: 10px 0 0;
+}
+
+.contact-back {
+  width: fit-content;
+}
+
+.profile-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 18px;
+}
+
+.profile-card {
+  display: grid;
+  gap: 16px;
+  min-height: 390px;
+  padding: 26px;
+}
+
+.profile-avatar {
+  align-items: center;
+  background:
+    linear-gradient(135deg, rgba(241, 213, 144, 0.95), rgba(216, 173, 85, 0.82));
+  border-radius: 8px;
+  color: #111;
+  display: flex;
+  font-size: 24px;
+  font-weight: 900;
+  height: 74px;
+  justify-content: center;
+  width: 74px;
+}
+
+.profile-card h2 {
+  font-size: clamp(30px, 4vw, 44px);
+  line-height: 1;
+  margin: 0;
+}
+
+.profile-card p {
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.profile-list {
+  border-top: 1px solid rgba(216, 173, 85, 0.18);
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 16px 0 0 18px;
 }
 
 @media (max-width: 920px) {
   .value-strip,
-  .modules-grid,
-  .whatsapp-grid,
   .plans-grid,
+  .included-grid,
   .process-grid,
-  .closing-panel {
+  .cta-panel,
+  .commercial-note {
     grid-template-columns: 1fr;
+  }
+
+  .cta-panel {
+    align-items: stretch;
+    flex-direction: column;
   }
 
   .plan-card.featured {
     transform: none;
+  }
+
+  .profile-grid {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -467,16 +530,48 @@ body {
   }
 
   .hero,
-  .modules-section,
+  .contact-hero,
   .plans-section,
-  .contact-section,
+  .included-section,
   .process-section,
-  .closing-panel {
+  .cta-panel,
+  .commercial-note {
     padding: 18px;
   }
 
   .hero {
     min-height: auto;
+    gap: 26px;
+  }
+
+  .contact-hero {
+    gap: 22px;
+    min-height: auto;
+  }
+
+  .hero h1,
+  .contact-hero h1 {
+    font-size: 34px;
+    line-height: 1.05;
+  }
+
+  .section-head h2,
+  .cta-panel h2 {
+    font-size: 28px;
+    line-height: 1.08;
+  }
+
+  .plan-card h3 {
+    font-size: 24px;
+  }
+
+  .price {
+    font-size: 32px;
+    line-height: 1.08;
+  }
+
+  .price span {
+    font-size: 14px;
   }
 
   .brand-logo {
@@ -489,8 +584,49 @@ body {
   }
 
   .hero-actions,
+  .contact-back,
   .primary-action,
   .secondary-action {
     width: 100%;
+  }
+
+  .profile-card {
+    min-height: auto;
+    padding: 20px;
+  }
+
+  .profile-avatar {
+    height: 62px;
+    width: 62px;
+  }
+
+  .profile-card h2 {
+    font-size: 30px;
+  }
+
+  .included-grid strong {
+    font-size: 17px;
+  }
+
+  .mobile-contact-bar {
+    align-items: center;
+    background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+    bottom: 12px;
+    border-radius: 8px;
+    box-shadow: 0 16px 42px rgba(0, 0, 0, 0.45);
+    color: #111;
+    display: flex;
+    font-weight: 900;
+    height: 48px;
+    justify-content: center;
+    left: 12px;
+    position: fixed;
+    right: 12px;
+    text-decoration: none;
+    z-index: 5;
+  }
+
+  body {
+    padding-bottom: 72px;
   }
 }
