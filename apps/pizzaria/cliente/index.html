@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pizzaria do Yulipe</title>
+    <meta name="theme-color" content="#0f5132">
+    <link rel="manifest" href="../manifest.webmanifest">
     <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -29,9 +31,15 @@
 
     <main>
         <section class="cliente-status" id="clienteStatus" aria-label="Perfil do cliente"></section>
+        <section class="pedido-tracking" id="pedidoTracking" aria-label="Acompanhamento do pedido"></section>
 
         <section id="inicio" class="banner">
             <img src="midias/logo.jpg" alt="Logo da Pizzaria do Yulipe">
+            <div class="hero-copy">
+                <span>Pedido online</span>
+                <h1>Pizzaria do Yulipe</h1>
+                <p>Pizzas artesanais, montagem por sabores e entrega com acompanhamento.</p>
+            </div>
         </section>
 
         <section class="info-pizzaria">
@@ -53,14 +61,20 @@
             <div id="lista-produtos">
                 <h2>Pizzas salgadas</h2>
                 <article class="produto" data-nome="Broto salgada" data-tipo="salgada" data-limite="2" data-preco="39.99">
-                    <h3>Broto salgada</h3>
-                    <p>Ate 2 sabores</p>
+                    <div class="produto-info">
+                        <span class="produto-tag">Ate 2 sabores</span>
+                        <h3>Broto salgada</h3>
+                        <p>Ideal para uma pessoa, com montagem personalizada.</p>
+                    </div>
                     <strong>R$ 39,99</strong>
                     <button class="abrir-modal" type="button">Selecionar</button>
                 </article>
                 <article class="produto" data-nome="Grande salgada" data-tipo="salgada" data-limite="3" data-preco="54.99">
-                    <h3>Grande salgada</h3>
-                    <p>Ate 3 sabores</p>
+                    <div class="produto-info">
+                        <span class="produto-tag">Ate 3 sabores</span>
+                        <h3>Grande salgada</h3>
+                        <p>Tamanho familia com combinacao de sabores.</p>
+                    </div>
                     <strong>R$ 54,99</strong>
                     <button class="abrir-modal" type="button">Selecionar</button>
                 </article>
@@ -70,14 +84,20 @@
         <section id="doces" class="produtos">
             <h2>Pizzas doces</h2>
             <article class="produto" data-nome="Broto doce" data-tipo="doce" data-limite="2" data-preco="41.99">
-                <h3>Broto doce</h3>
-                <p>Ate 2 sabores</p>
+                <div class="produto-info">
+                    <span class="produto-tag">Ate 2 sabores</span>
+                    <h3>Broto doce</h3>
+                    <p>Sobremesa quente com bordas opcionais.</p>
+                </div>
                 <strong>R$ 41,99</strong>
                 <button class="abrir-modal" type="button">Selecionar</button>
             </article>
             <article class="produto" data-nome="Grande doce" data-tipo="doce" data-limite="3" data-preco="58.99">
-                <h3>Grande doce</h3>
-                <p>Ate 3 sabores</p>
+                <div class="produto-info">
+                    <span class="produto-tag">Ate 3 sabores</span>
+                    <h3>Grande doce</h3>
+                    <p>Pizza doce para dividir no fim do pedido.</p>
+                </div>
                 <strong>R$ 58,99</strong>
                 <button class="abrir-modal" type="button">Selecionar</button>
             </article>
@@ -86,26 +106,38 @@
         <section id="bebidas" class="produtos">
             <h2>Bebidas</h2>
             <article class="produto">
-                <h3>Coca-Cola 2L</h3>
-                <p>Refrigerante</p>
+                <div class="produto-info">
+                    <span class="produto-tag">Bebida</span>
+                    <h3>Coca-Cola 2L</h3>
+                    <p>Refrigerante gelado.</p>
+                </div>
                 <strong>R$ 12,00</strong>
                 <button class="adicionar-bebida" type="button" data-nome="Coca-Cola 2L" data-preco="12">Adicionar</button>
             </article>
             <article class="produto">
-                <h3>Guarana Antarctica 2L</h3>
-                <p>Refrigerante</p>
+                <div class="produto-info">
+                    <span class="produto-tag">Bebida</span>
+                    <h3>Guarana Antarctica 2L</h3>
+                    <p>Refrigerante gelado.</p>
+                </div>
                 <strong>R$ 10,00</strong>
                 <button class="adicionar-bebida" type="button" data-nome="Guarana Antarctica 2L" data-preco="10">Adicionar</button>
             </article>
             <article class="produto">
-                <h3>Fanta Laranja 2L</h3>
-                <p>Refrigerante</p>
+                <div class="produto-info">
+                    <span class="produto-tag">Bebida</span>
+                    <h3>Fanta Laranja 2L</h3>
+                    <p>Refrigerante gelado.</p>
+                </div>
                 <strong>R$ 11,00</strong>
                 <button class="adicionar-bebida" type="button" data-nome="Fanta Laranja 2L" data-preco="11">Adicionar</button>
             </article>
             <article class="produto">
-                <h3>Agua mineral</h3>
-                <p>500ml</p>
+                <div class="produto-info">
+                    <span class="produto-tag">Bebida</span>
+                    <h3>Agua mineral</h3>
+                    <p>500ml.</p>
+                </div>
                 <strong>R$ 3,50</strong>
                 <button class="adicionar-bebida" type="button" data-nome="Agua mineral" data-preco="3.5">Adicionar</button>
             </article>
@@ -114,11 +146,13 @@
 
     <aside class="sacola">
         <h2>Sua sacola</h2>
+        <div class="sacola-empty-hint">Monte sua primeira pizza e acompanhe o pedido por aqui.</div>
         <div class="itens-sacola"><p>Sacola vazia</p></div>
         <hr>
         <p id="subtotalSacola">Subtotal: R$ 0,00</p>
         <p id="taxaSacola">Taxa de entrega: R$ 0,00</p>
         <h3 id="totalSacola">Total: R$ 0,00</h3>
+        <p id="sacolaMessage" class="sacola-message" role="status" aria-live="polite"></p>
         <button id="finalizarPedido" type="button">Finalizar pedido</button>
     </aside>
 
@@ -128,6 +162,7 @@
             <h2 id="tituloPizza">Montar pizza</h2>
             <h3>Escolha os sabores</h3>
             <div id="saboresOpcoes" class="sabores-opcoes"></div>
+            <p id="pizzaMessage" class="pizza-message" role="status" aria-live="polite"></p>
             <hr>
             <h3>Borda recheada</h3>
             <select id="borda">
@@ -160,11 +195,29 @@
             </section>
 
             <section class="checkout-section">
-                <h3>Pagamento</h3>
-                <div class="payment-options">
-                    <label><input type="radio" name="paymentMethod" value="Pix" checked> Pix</label>
-                    <label><input type="radio" name="paymentMethod" value="Cartao na entrega"> Cartao na entrega</label>
-                    <label><input type="radio" name="paymentMethod" value="Dinheiro"> Dinheiro</label>
+                <div class="payment-head">
+                    <div>
+                        <span>Pagamento</span>
+                        <h3>Como voce prefere pagar?</h3>
+                    </div>
+                    <small id="paymentHint">Confirmacao rapida via Pix.</small>
+                </div>
+                <div class="payment-options payment-cards">
+                    <label>
+                        <input type="radio" name="paymentMethod" value="Pix" checked>
+                        <strong>Pix</strong>
+                        <span>Chave enviada na confirmacao</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="paymentMethod" value="Cartao na entrega">
+                        <strong>Cartao</strong>
+                        <span>Credito ou debito na entrega</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="paymentMethod" value="Dinheiro">
+                        <strong>Dinheiro</strong>
+                        <span>Informe o troco se precisar</span>
+                    </label>
                 </div>
                 <div class="field-troco" id="trocoField">
                     <label for="trocoPara">Troco para quanto?</label>
@@ -172,6 +225,7 @@
                 </div>
             </section>
 
+            <p id="checkoutMessage" class="checkout-message" role="status" aria-live="polite"></p>
             <button id="confirmarPedido" type="button">Confirmar pedido</button>
         </div>
     </div>
@@ -179,6 +233,7 @@
     <div id="pedidoCardContainer" aria-live="polite"></div>
 
     <script src="js/custom.js"></script>
+    <script src="../pwa.js"></script>
 </body>
 </html>
 

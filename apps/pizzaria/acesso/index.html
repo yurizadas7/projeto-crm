@@ -5,31 +5,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yulipe Acesso</title>
+    <meta name="theme-color" content="#0f5132">
+    <link rel="manifest" href="../manifest.webmanifest">
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <button id="tema-btn" type="button" aria-label="Alternar tema">Lua</button>
-
-    <div class="container">
-        <h1>Yulipe Pizzaria</h1>
-        <p>Escolha seu tipo de acesso.</p>
-
-        <div class="cards">
-            <div class="card cliente">
-                <div class="icone">Cliente</div>
-                <h2>Cliente</h2>
-                <p>Fazer pedidos online</p>
-                <button class="btn-cliente" type="button">Entrar</button>
+    <div class="app-shell">
+        <header class="topbar">
+            <div class="brand">
+                <span class="brand-mark">Y</span>
+                <div>
+                    <strong>Yulipe Pizzaria</strong>
+                    <small>Portal interno da equipe</small>
+                </div>
             </div>
+        </header>
 
-            <div class="card restaurante" id="abrirLogin">
-                <div class="icone">Admin</div>
-                <h2>Restaurante</h2>
-                <p>Area administrativa</p>
-                <button type="button">Acessar</button>
-            </div>
-        </div>
+        <main class="container">
+            <section class="intro">
+                <span class="eyebrow">Acesso operacional</span>
+                <h1>Ambiente interno da pizzaria</h1>
+                <p>Entrada exclusiva para a equipe acompanhar pedidos, operar a cozinha e administrar produtos, clientes e configuracoes da loja.</p>
+
+                <div class="status-card">
+                    <span class="status-dot"></span>
+                    <div>
+                        <strong>Operacao centralizada</strong>
+                        <small>Painel administrativo e cozinha separados do fluxo do cliente.</small>
+                    </div>
+                </div>
+            </section>
+
+            <section class="cards" aria-label="Acessos internos">
+                <div class="card restaurante" id="abrirLogin">
+                    <div class="icone">A</div>
+                    <div>
+                        <span class="card-label">Gestao da loja</span>
+                        <h2>Administracao</h2>
+                        <p>Gerenciar pedidos, produtos, clientes, relatorios e configuracoes.</p>
+                    </div>
+                    <button type="button">Entrar no painel</button>
+                </div>
+
+                <div class="card cozinha" id="abrirCozinha">
+                    <div class="icone">K</div>
+                    <div>
+                        <span class="card-label">Producao</span>
+                        <h2>Cozinha</h2>
+                        <p>Acompanhar pedidos recebidos, preparo, finalizacao e entrega.</p>
+                    </div>
+                    <button type="button">Abrir cozinha</button>
+                </div>
+
+                <div class="card entregas" id="abrirEntregador">
+                    <div class="icone">E</div>
+                    <div>
+                        <span class="card-label">Rua e entrega</span>
+                        <h2>Entregadores</h2>
+                        <p>Aceitar pedidos prontos, sair para entrega e finalizar corridas.</p>
+                    </div>
+                    <button type="button">Abrir entregas</button>
+                </div>
+            </section>
+        </main>
     </div>
 
     <div class="modal" id="modalLogin" aria-hidden="true">
@@ -41,14 +80,16 @@
             <input type="text" id="codigo" autocomplete="organization" placeholder="Ex.: YULIPE-001">
 
             <label for="pin">PIN</label>
-            <input type="password" id="pin" maxlength="6" inputmode="numeric" placeholder="Ex.: 123456">
+            <input type="password" id="pin" maxlength="6" inputmode="numeric" placeholder="PIN da loja">
 
+            <p class="login-message" id="loginMessage" role="status" aria-live="polite"></p>
             <button id="btnEntrar" type="button">Entrar no painel</button>
-            <small class="login-hint">Demo: YULIPE-001 / 123456</small>
+            <small class="login-hint">Acesso restrito a equipe autorizada.</small>
         </div>
     </div>
 
     <script src="js/custom.js"></script>
+    <script src="../pwa.js"></script>
 </body>
 
 </html>

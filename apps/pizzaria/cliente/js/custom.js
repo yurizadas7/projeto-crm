@@ -1,7 +1,19 @@
-const API_URL = "http://localhost:3000";
+const API_URL = "http://127.0.0.1:3000";
 const DELIVERY_FEE = 5;
+const DELIVERY_AREAS = [
+  { bairro: "Centro", km: 1.2, taxa: 5 },
+  { bairro: "Vila Nova", km: 2.4, taxa: 7 },
+  { bairro: "Jardim Europa", km: 3.1, taxa: 9 },
+  { bairro: "Santa Luzia", km: 4.6, taxa: 12 },
+  { bairro: "Parque das Aguas", km: 6.2, taxa: 16 },
+  { bairro: "Residencial Primavera", km: 8.5, taxa: 22 },
+  { bairro: "Jardim Imperial", km: 10.8, taxa: 28 },
+  { bairro: "Distrito Industrial", km: 13.4, taxa: 34 },
+  { bairro: "Chacaras Boa Vista", km: 16.8, taxa: 40 }
+];
 const CUSTOMER_PROFILE_KEY = "yulipeCustomerProfile";
 const LOCAL_ORDERS_KEY = "yulipeLocalOrders";
+const ACTIVE_ORDER_KEY = "yulipeActiveOrder";
 
 let carrinho = [];
 let pizzaAtual = null;
@@ -20,6 +32,11 @@ const checkoutCliente = document.getElementById("checkoutCliente");
 const checkoutResumo = document.getElementById("checkoutResumo");
 const trocoField = document.getElementById("trocoField");
 const trocoPara = document.getElementById("trocoPara");
+const paymentHint = document.getElementById("paymentHint");
+const pedidoTracking = document.getElementById("pedidoTracking");
+const sacolaMessage = document.getElementById("sacolaMessage");
+const checkoutMessage = document.getElementById("checkoutMessage");
+const pizzaMessage = document.getElementById("pizzaMessage");
 
 const saboresPorTipo = {
   salgada: [
@@ -83,6 +100,29 @@ function money(value) {
   return Number(value || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 }
 
+function normalizeText(value) {
+  return String(value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+}
+
+function deliveryAreaFor(profile = customerProfile) {
+  const neighborhood = normalizeText(profile?.neighborhood);
+  return DELIVERY_AREAS.find(area => normalizeText(area.bairro) === neighborhood) || null;
+}
+
+function deliveryFee() {
+  if (!carrinho.length) return 0;
+  return deliveryAreaFor()?.taxa ?? DELIVERY_FEE;
+}
+
+function deliveryAreaLabel(area = deliveryAreaFor()) {
+  if (!area) return "padrao";
+  return `${area.bairro} - ${String(area.km).replace(".", ",")} km`;
+}
+
 function escapeHTML(value) {
   const div = document.createElement("div");
   div.textContent = value;
@@ -103,6 +143,14 @@ function cartSubtotal() {
   return carrinho.reduce((sum, item) => sum + itemPrice(item), 0);
 }
 
+function loadJson(key, fallback) {
+  try {
+    return JSON.parse(localStorage.getItem(key)) || fallback;
+  } catch (error) {
+    return fallback;
+  }
+}
+
 function loadLocalOrders() {
   try {
     return JSON.parse(localStorage.getItem(LOCAL_ORDERS_KEY)) || [];
@@ -115,6 +163,12 @@ function saveLocalOrder(order) {
   const orders = loadLocalOrders();
   orders.unshift(order);
   localStorage.setItem(LOCAL_ORDERS_KEY, JSON.stringify(orders.slice(0, 80)));
+}
+
+function setMessage(element, message = "", type = "error") {
+  if (!element) return;
+  element.textContent = message;
+  element.className = `${element.classList.contains("checkout-message") ? "checkout-message" : "sacola-message"} ${message ? type : ""}`;
 }
 
 function toggleTheme() {
@@ -139,10 +193,11 @@ function resetarSabores(tipo = "salgada") {
 function limitarSabores(limite) {
   document.querySelectorAll("#saboresOpcoes input[type='checkbox']").forEach(cb => {
     cb.onchange = () => {
+      setMessage(pizzaMessage, "");
       const selecionados = document.querySelectorAll("#saboresOpcoes input[type='checkbox']:checked");
       if (selecionados.length > limite) {
         cb.checked = false;
-        alert(`Voce so pode escolher ate ${limite} sabores.`);
+        setMessage(pizzaMessage, `Voce so pode escolher ate ${limite} sabores.`);
       }
     };
   });
@@ -150,6 +205,7 @@ function limitarSabores(limite) {
 
 function abrirModal(pizza) {
   document.getElementById("tituloPizza").textContent = pizza.nome;
+  setMessage(pizzaMessage, "");
   resetarSabores(pizza.tipo);
   limitarSabores(pizza.limite);
   modal.style.display = "flex";
@@ -167,7 +223,9 @@ function pegarSabores() {
 
 function atualizarCarrinho() {
   const container = document.querySelector(".itens-sacola");
+  const sacola = document.querySelector(".sacola");
   container.innerHTML = "";
+  sacola.classList.toggle("has-items", carrinho.length > 0);
 
   if (!carrinho.length) {
     container.innerHTML = "<p>Sacola vazia</p>";
@@ -181,16 +239,23 @@ function atualizarCarrinho() {
     const totalItem = itemPrice(item);
     subtotal += totalItem;
     const detail = item.tipo === "pizza"
-      ? `<small>Sabores: ${item.sabores.join(", ") || "nao informado"}</small><br><small>Borda: ${item.bordaLabel}</small><br><small>Obs: ${item.observacao || "nenhuma"}</small>`
-      : "<small>Bebida</small>";
+      ? `
+        <span>Sabores: ${escapeHTML(item.sabores.join(", ") || "nao informado")}</span>
+        <span>Borda: ${escapeHTML(item.bordaLabel)}</span>
+        ${item.observacao ? `<span>Obs: ${escapeHTML(item.observacao)}</span>` : ""}
+      `
+      : "<span>Bebida</span>";
 
     container.innerHTML += `
       <div class="item">
-        <strong>${escapeHTML(item.nome)}</strong><br>
-        ${detail}<br>
-        <span>${money(totalItem)}</span>
-        <button class="remover-item" type="button" data-index="${index}">Remover</button>
-        <hr>
+        <div class="item-main">
+          <strong>${escapeHTML(item.nome)}</strong>
+          <div class="item-details">${detail}</div>
+        </div>
+        <div class="item-actions">
+          <span>${money(totalItem)}</span>
+          <button class="remover-item" type="button" data-index="${index}">Remover</button>
+        </div>
       </div>
     `;
   });
@@ -206,11 +271,16 @@ function atualizarCarrinho() {
 }
 
 function atualizarTotais(subtotal) {
-  const taxa = carrinho.length ? DELIVERY_FEE : 0;
+  const taxa = deliveryFee();
   const total = subtotal + taxa;
-  document.getElementById("subtotalSacola").textContent = `Subtotal: ${money(subtotal)}`;
-  document.getElementById("taxaSacola").textContent = `Taxa de entrega: ${money(taxa)}`;
-  document.getElementById("totalSacola").textContent = `Total: ${money(total)}`;
+  const subtotalEl = document.getElementById("subtotalSacola");
+  const taxaEl = document.getElementById("taxaSacola");
+  const totalEl = document.getElementById("totalSacola");
+
+  subtotalEl.textContent = `Subtotal: ${money(subtotal)}`;
+  taxaEl.textContent = `Entrega ${deliveryAreaLabel()}: ${money(taxa)}`;
+  totalEl.textContent = `Total: ${money(total)}`;
+  totalEl.dataset.total = money(total);
 }
 
 function mostrarConfirmacao(data) {
@@ -219,7 +289,7 @@ function mostrarConfirmacao(data) {
       <h2>Pedido confirmado</h2>
       <p><strong>Numero do pedido:</strong> #${escapeHTML(data.idPedido || "local")}</p>
       <p><strong>Total:</strong> ${money(data.total)}</p>
-      <p>Seu pedido foi enviado para a cozinha.</p>
+      <p>${escapeHTML(data.message || "Seu pedido foi enviado para a cozinha.")}</p>
     </div>
   `;
   pedidoCardContainer.classList.add("show");
@@ -229,9 +299,110 @@ function mostrarConfirmacao(data) {
   }, 4200);
 }
 
+function statusStep(status) {
+  const normalized = String(status || "Pendente").toLowerCase();
+  if (normalized.includes("entregue")) return 5;
+  if (normalized.includes("caminho")) return 4;
+  if (normalized.includes("pronto")) return 3;
+  if (normalized.includes("preparo")) return 2;
+  return 1;
+}
+
+function activeOrder() {
+  const saved = loadJson(ACTIVE_ORDER_KEY, null);
+  const local = loadLocalOrders().find(order => order.status !== "Entregue" && order.status !== "Cancelado");
+  return saved || local || null;
+}
+
+function saveActiveOrder(order) {
+  localStorage.setItem(ACTIVE_ORDER_KEY, JSON.stringify(order));
+}
+
+function renderPedidoTracking(order = activeOrder()) {
+  if (!pedidoTracking) return;
+
+  if (!order || ["Cancelado"].includes(order.status)) {
+    pedidoTracking.innerHTML = "";
+    return;
+  }
+
+  const step = statusStep(order.status);
+  pedidoTracking.innerHTML = `
+    <div>
+      <strong>Pedido #${escapeHTML(order.id)} - ${escapeHTML(order.status || "Pendente")}</strong>
+      <span>${money(order.total)} ${order.sync_pending ? "- aguardando sincronizacao" : ""}</span>
+    </div>
+    <ol class="tracking-steps">
+      <li class="${step >= 1 ? "active" : ""}">Recebido</li>
+      <li class="${step >= 2 ? "active" : ""}">Preparo</li>
+      <li class="${step >= 3 ? "active" : ""}">Pronto</li>
+      <li class="${step >= 4 ? "active" : ""}">Entrega</li>
+      <li class="${step >= 5 ? "active" : ""}">Entregue</li>
+    </ol>
+  `;
+}
+
+async function syncTrackedOrders() {
+  const orders = loadLocalOrders();
+  const current = activeOrder();
+  let changed = false;
+
+  for (const order of orders) {
+    if (order.sync_pending || !Number(order.id)) continue;
+    try {
+      const res = await fetch(`${API_URL}/pedidos/${order.id}`);
+      if (!res.ok) continue;
+      const data = await res.json();
+      if (data.status_pedido && data.status_pedido !== order.status) {
+        order.status = data.status_pedido;
+        changed = true;
+      }
+    } catch (error) {
+      return;
+    }
+  }
+
+  if (changed) localStorage.setItem(LOCAL_ORDERS_KEY, JSON.stringify(orders));
+
+  if (current && !current.sync_pending && Number(current.id)) {
+    try {
+      const res = await fetch(`${API_URL}/pedidos/${current.id}`);
+      if (res.ok) {
+        const data = await res.json();
+        const updated = {
+          ...current,
+          id: data.id_pedido || current.id,
+          status: data.status_pedido || current.status,
+          total: data.valor_total || current.total
+        };
+        saveActiveOrder(updated);
+        renderPedidoTracking(updated);
+        return;
+      }
+    } catch (error) {
+      // Mantem o ultimo status salvo.
+    }
+  }
+
+  renderPedidoTracking(current);
+}
+
 function selectedPayment() {
   const checked = document.querySelector("input[name='paymentMethod']:checked");
   return checked?.value || "Pix";
+}
+
+function updatePaymentUI() {
+  const method = selectedPayment();
+  trocoField.classList.toggle("show", method === "Dinheiro");
+  if (paymentHint) {
+    paymentHint.textContent = {
+      Pix: "Confirmacao rapida via Pix.",
+      "Cartao na entrega": "A maquininha sera levada junto com o pedido.",
+      Dinheiro: "Informe o valor para calcularmos o troco."
+    }[method] || "";
+  }
+  setMessage(checkoutMessage, "");
 }
 
 function renderCheckout() {
@@ -242,12 +413,14 @@ function renderCheckout() {
   }
 
   const subtotal = cartSubtotal();
-  const taxa = carrinho.length ? DELIVERY_FEE : 0;
+  const taxa = deliveryFee();
   const total = subtotal + taxa;
+  const area = deliveryAreaFor();
 
   checkoutCliente.innerHTML = `
     <strong>${escapeHTML(customerProfile.name)} - ${escapeHTML(customerProfile.phone)}</strong>
     <span>${escapeHTML(customerAddress(customerProfile))}</span>
+    <span>Taxa do bairro: ${escapeHTML(deliveryAreaLabel(area))} - ${money(taxa)}</span>
     ${customerProfile.complement ? `<span>Complemento: ${escapeHTML(customerProfile.complement)}</span>` : ""}
     ${customerProfile.reference ? `<span>Referencia: ${escapeHTML(customerProfile.reference)}</span>` : ""}
   `;
@@ -268,10 +441,11 @@ function renderCheckout() {
 
 function abrirCheckout() {
   if (!carrinho.length) {
-    alert("Carrinho vazio.");
+    setMessage(sacolaMessage, "Adicione pelo menos um item antes de finalizar.");
     return;
   }
 
+  setMessage(sacolaMessage, "");
   renderCheckout();
   checkoutModal.style.display = "flex";
   checkoutModal.setAttribute("aria-hidden", "false");
@@ -284,7 +458,7 @@ function fecharCheckout() {
 
 function localOrderPayload() {
   const subtotal = cartSubtotal();
-  const taxa = carrinho.length ? DELIVERY_FEE : 0;
+  const taxa = deliveryFee();
   const paymentMethod = selectedPayment();
 
   return {
@@ -297,6 +471,7 @@ function localOrderPayload() {
       trocoPara: paymentMethod === "Dinheiro" ? trocoPara.value.trim() : ""
     },
     itens: carrinho.map(item => ({ ...item })),
+    bairroEntrega: deliveryAreaFor()?.bairro || customerProfile?.neighborhood || "Padrao",
     subtotal,
     taxa,
     total: subtotal + taxa
@@ -343,31 +518,50 @@ async function confirmarPedido() {
 
   const pedidoLocal = localOrderPayload();
   if (pedidoLocal.pagamento.metodo === "Dinheiro" && !pedidoLocal.pagamento.trocoPara) {
-    alert("Informe o valor para troco.");
+    setMessage(checkoutMessage, "Informe o valor para troco.");
     return;
   }
 
-  saveLocalOrder(pedidoLocal);
-
   try {
+    setMessage(checkoutMessage, "Enviando pedido para a cozinha...", "info");
     const resposta = await fetch(`${API_URL}/pedidos`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ cliente: customerProfile, itens: carrinho, pagamento: pedidoLocal.pagamento })
+      body: JSON.stringify({
+        cliente: customerProfile,
+        itens: carrinho,
+        pagamento: pedidoLocal.pagamento,
+        taxaEntrega: pedidoLocal.taxa,
+        bairroEntrega: pedidoLocal.bairroEntrega
+      })
     });
 
     const data = await resposta.json();
     if (!resposta.ok) throw new Error(data.error || "Erro ao enviar pedido");
 
-    mostrarConfirmacao({ idPedido: data.idPedido || pedidoLocal.id, total: pedidoLocal.total });
+    const trackedOrder = { ...pedidoLocal, id: data.idPedido || pedidoLocal.id, status: data.status || "Pendente" };
+    saveLocalOrder(trackedOrder);
+    saveActiveOrder(trackedOrder);
+    mostrarConfirmacao({ idPedido: data.idPedido || pedidoLocal.id, total: data.total || pedidoLocal.total });
+    carrinho = [];
+    atualizarCarrinho();
+    fecharCheckout();
+    renderPedidoTracking();
   } catch (error) {
-    console.info("Pedido salvo apenas na demonstracao local.", error);
-    mostrarConfirmacao({ idPedido: pedidoLocal.id, total: pedidoLocal.total });
+    const offlineOrder = { ...pedidoLocal, sync_pending: true };
+    saveLocalOrder(offlineOrder);
+    saveActiveOrder(offlineOrder);
+    mostrarConfirmacao({
+      idPedido: pedidoLocal.id,
+      total: pedidoLocal.total,
+      message: "Backend offline. Pedido salvo localmente para a cozinha deste dispositivo."
+    });
+    carrinho = [];
+    atualizarCarrinho();
+    fecharCheckout();
+    renderPedidoTracking();
+    console.error(error);
   }
-
-  carrinho = [];
-  atualizarCarrinho();
-  fecharCheckout();
 }
 
 function filtrarCardapio() {
@@ -426,7 +620,7 @@ document.getElementById("addCarrinho").addEventListener("click", () => {
 
   const sabores = pegarSabores();
   if (!sabores.length) {
-    alert("Escolha pelo menos um sabor.");
+    setMessage(pizzaMessage, "Escolha pelo menos um sabor.");
     return;
   }
 
@@ -457,12 +651,13 @@ checkoutModal.addEventListener("click", event => {
   if (event.target === checkoutModal) fecharCheckout();
 });
 document.querySelectorAll("input[name='paymentMethod']").forEach(input => {
-  input.addEventListener("change", () => {
-    trocoField.classList.toggle("show", selectedPayment() === "Dinheiro");
-  });
+  input.addEventListener("change", updatePaymentUI);
 });
 
 requireCustomerProfile();
 renderCustomerProfile();
+renderPedidoTracking();
+setInterval(syncTrackedOrders, 5000);
 carregarProdutosAPI();
 atualizarCarrinho();
+

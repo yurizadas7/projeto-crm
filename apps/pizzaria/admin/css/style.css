@@ -291,10 +291,46 @@ td {
     padding: 12px;
 }
 
-.config-form fieldset label {
+.config-form .payment-options {
+    gap: 10px;
+    padding: 14px;
+}
+
+.config-form .payment-options legend {
+    padding: 0 6px;
+    color: #344054;
+}
+
+.config-form .payment-options label {
     display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: flex-start;
+    gap: 10px;
+    min-height: 44px;
+    border: 1px solid #e4e7ec;
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: #101828;
+    background: #f9fafb;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.config-form .payment-options label:hover {
+    border-color: #ff6b14;
+    background: #fff7ed;
+}
+
+.config-form .payment-options input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    min-height: 18px;
+    flex: 0 0 18px;
+    padding: 0;
+    accent-color: #ff6b14;
+}
+
+.config-form .payment-options span {
     color: #101828;
     font-weight: 500;
 }
@@ -325,6 +361,21 @@ td {
 .dark .config-form label,
 .dark .config-form fieldset label {
     color: #d0d5dd;
+}
+
+.dark .config-form .payment-options legend,
+.dark .config-form .payment-options span {
+    color: #f9fafb;
+}
+
+.dark .config-form .payment-options label {
+    background: #111827;
+    border-color: #374151;
+}
+
+.dark .config-form .payment-options label:hover {
+    background: #1f2937;
+    border-color: #ff6b14;
 }
 
 .dark th,
@@ -399,4 +450,646 @@ td {
         border-bottom: 0;
         padding: 6px 0;
     }
+}
+
+.form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.admin-notice {
+    display: none;
+    max-width: 320px;
+    border: 1px solid #d0d5dd;
+    border-radius: 8px;
+    padding: 9px 11px;
+    background: white;
+    color: #101828;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.admin-notice.show {
+    display: inline-flex;
+}
+
+.admin-notice.error {
+    background: #fff1f1;
+    color: #991b1b;
+    border-color: #fecaca;
+}
+
+.btn-danger {
+    background: #fee2e2 !important;
+    color: #991b1b !important;
+}
+
+.compact-form {
+    margin-bottom: 12px;
+}
+
+.report-grid {
+    margin-top: 24px;
+}
+
+.inline-check {
+    display: flex !important;
+    align-items: center;
+    grid-template-columns: auto 1fr;
+    gap: 8px !important;
+}
+
+.inline-check input {
+    width: auto !important;
+    min-height: auto !important;
+}
+
+.product-row {
+    display: grid;
+    gap: 8px;
+}
+
+.product-row .btn {
+    width: fit-content;
+    background: #e4e7ec;
+    color: #101828;
+}
+
+.dark .product-row .btn {
+    background: #374151;
+    color: white;
+}
+
+.admin-page {
+    display: none;
+    margin-top: 28px;
+}
+
+.admin-page.active {
+    display: block;
+}
+
+.page-title {
+    margin-bottom: 18px;
+}
+
+.page-title h2 {
+    margin: 0 0 6px;
+    font-size: 26px;
+}
+
+.page-title p {
+    margin: 0;
+    color: #667085;
+}
+
+.admin-page .metrics-grid,
+.admin-page .admin-grid,
+.admin-page .chart-card {
+    margin-top: 0;
+}
+
+.link-button {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dark .page-title p {
+    color: #d0d5dd;
+}
+
+/* Tema Yulipe: gestao em tomate, manjericao e creme */
+:root {
+    --tomato: #d62828;
+    --tomato-dark: #b91c1c;
+    --basil: #2e7d32;
+    --mint: #ddf7ef;
+    --cream: #fff8f0;
+    --cheese: #f2b544;
+    --ink: #1f2937;
+    --muted: #667085;
+    --line: #eadfd2;
+}
+
+body {
+    background:
+        radial-gradient(circle at 18% 0, rgba(221,247,239,.75), transparent 24%),
+        linear-gradient(135deg, var(--cream), #f7fbf6);
+    color: var(--ink);
+}
+
+.sidebar {
+    background: linear-gradient(180deg, var(--ink), #16351f);
+}
+
+.logo span {
+    color: var(--cheese);
+}
+
+.menu a:hover {
+    background: rgba(255,255,255,.12);
+}
+
+.menu .active a,
+.btn-save {
+    background: var(--tomato);
+}
+
+.btn-save:hover {
+    background: var(--tomato-dark);
+}
+
+.btn-dark {
+    background: var(--ink);
+}
+
+.content {
+    background: transparent;
+}
+
+.card,
+.section-head select,
+.summary-item,
+.config-form input,
+.config-form textarea,
+.config-form fieldset,
+.sales-list {
+    border-color: var(--line);
+}
+
+.card,
+.summary-item,
+.config-form .payment-options label {
+    background: rgba(255,255,255,.92);
+}
+
+.card {
+    border-radius: 12px;
+    box-shadow: 0 14px 34px rgba(31,41,55,.08);
+}
+
+.dashboard-card strong {
+    color: var(--basil);
+}
+
+.badge.warning {
+    background: var(--cheese);
+    color: var(--ink);
+}
+
+.badge.primary {
+    background: var(--basil);
+}
+
+.config-form input:focus,
+.config-form textarea:focus,
+.section-head select:focus {
+    outline: none;
+    border-color: var(--tomato);
+    box-shadow: 0 0 0 3px rgba(214,40,40,.12);
+}
+
+.config-form .payment-options label:hover {
+    border-color: var(--basil);
+    background: var(--mint);
+}
+
+.config-form .payment-options input[type="checkbox"] {
+    accent-color: var(--basil);
+}
+
+.product-row .btn {
+    background: var(--mint);
+    color: var(--ink);
+}
+
+.link-button {
+    background: var(--basil);
+    color: white;
+}
+
+/* Direcao visual agua: painel com base aqua, menos branco */
+:root {
+    --water: #d7f8f2;
+    --water-strong: #86dcca;
+    --water-deep: #0f766e;
+    --water-surface: #eafbf7;
+}
+
+body {
+    background:
+        radial-gradient(circle at 18% 0, rgba(134,220,202,.78), transparent 24%),
+        radial-gradient(circle at 100% 72%, rgba(214,40,40,.11), transparent 24%),
+        linear-gradient(135deg, #c9f3ec, #eefbf6 48%, #d7f8f2);
+}
+
+.sidebar {
+    background: linear-gradient(180deg, #0f3f3b, var(--water-deep));
+}
+
+.card,
+.summary-item,
+.config-form .payment-options label,
+.section-head select,
+.config-form input,
+.config-form textarea,
+.config-form fieldset,
+.sales-list {
+    background: linear-gradient(180deg, rgba(234,251,247,.96), rgba(215,248,242,.88));
+    border-color: rgba(15,118,110,.24);
+}
+
+th,
+td,
+.sales-list li {
+    border-color: rgba(15,118,110,.20);
+}
+
+.dashboard-card strong,
+.badge.primary,
+.link-button {
+    color: white;
+}
+
+.badge.primary,
+.link-button,
+.config-form .payment-options label:hover {
+    background: var(--water-deep);
+}
+
+/* Direcao final: admin operacional escuro */
+:root {
+    --ops-bg: #111827;
+    --ops-panel: #1f2937;
+    --ops-panel-2: #263241;
+    --ops-line: #374151;
+    --ops-text: #f9fafb;
+    --ops-muted: #d1d5db;
+    --ops-red: #ef4444;
+    --ops-green: #22c55e;
+    --ops-gold: #f59e0b;
+}
+
+body {
+    background:
+        radial-gradient(circle at 18% 0, rgba(239,68,68,.14), transparent 24%),
+        radial-gradient(circle at 100% 72%, rgba(34,197,94,.10), transparent 24%),
+        linear-gradient(135deg, #0b111c, var(--ops-bg));
+    color: var(--ops-text);
+}
+
+.sidebar {
+    background: linear-gradient(180deg, #0b111c, #172033);
+    border-right: 1px solid var(--ops-line);
+}
+
+.content {
+    color: var(--ops-text);
+}
+
+.topbar h1,
+.page-title h2,
+.dashboard-card h2,
+.card h2,
+th,
+td,
+.config-form .payment-options span,
+.config-form .payment-options legend {
+    color: var(--ops-text);
+}
+
+.topbar small,
+.page-title p,
+.summary-item span,
+.config-form label,
+.config-form fieldset label,
+.card p {
+    color: var(--ops-muted);
+}
+
+.card,
+.summary-item,
+.config-form .payment-options label,
+.section-head select,
+.config-form input,
+.config-form textarea,
+.config-form fieldset,
+.sales-list {
+    background: linear-gradient(180deg, rgba(31,41,55,.98), rgba(17,24,39,.96));
+    border-color: var(--ops-line);
+    color: var(--ops-text);
+}
+
+th,
+td,
+.sales-list li {
+    border-color: var(--ops-line);
+}
+
+.menu .active a,
+.btn-save {
+    background: var(--ops-red);
+}
+
+.btn-dark {
+    background: #0b111c;
+}
+
+.dashboard-card strong {
+    color: var(--ops-green);
+}
+
+.badge.primary,
+.link-button,
+.config-form .payment-options label:hover {
+    background: var(--ops-green);
+    color: #07130b;
+}
+
+.badge.warning {
+    background: var(--ops-gold);
+}
+
+/* Padrao final Yulipe: admin claro limpo, dark preto/verde */
+:root {
+    --std-bg: #f4f7f6;
+    --std-surface: #ffffff;
+    --std-surface-2: #eef4f1;
+    --std-border: #dbe7e1;
+    --std-text: #111827;
+    --std-muted: #5f6f68;
+    --std-green: #178f55;
+    --std-green-dark: #0f5132;
+    --std-black: #0b1110;
+    --std-gold: #d6a84f;
+}
+
+body {
+    background: linear-gradient(135deg, var(--std-bg), #edf5f1);
+    color: var(--std-text);
+}
+
+.sidebar {
+    background: var(--std-black);
+    border-right: 1px solid #1f3b2d;
+}
+
+.logo span {
+    color: var(--std-gold);
+}
+
+.content,
+.topbar h1,
+.page-title h2,
+.dashboard-card h2,
+.card h2,
+th,
+td,
+.config-form .payment-options span,
+.config-form .payment-options legend {
+    color: var(--std-text);
+}
+
+.topbar small,
+.page-title p,
+.summary-item span,
+.config-form label,
+.config-form fieldset label,
+.card p {
+    color: var(--std-muted);
+}
+
+.card,
+.summary-item,
+.config-form .payment-options label,
+.section-head select,
+.config-form input,
+.config-form textarea,
+.config-form fieldset,
+.sales-list {
+    background: var(--std-surface);
+    border-color: var(--std-border);
+    color: var(--std-text);
+}
+
+.menu .active a,
+.btn-save,
+.badge.primary,
+.link-button {
+    background: var(--std-green);
+    color: #ffffff;
+}
+
+.btn-dark {
+    background: var(--std-black);
+}
+
+.dashboard-card strong {
+    color: var(--std-green);
+}
+
+.badge.warning {
+    background: var(--std-gold);
+    color: var(--std-black);
+}
+
+.dark {
+    background: #050807;
+    color: #e4f5ea;
+}
+
+.dark .content {
+    background: transparent;
+}
+
+.dark .sidebar,
+.dark .btn-dark {
+    background: #050807;
+}
+
+.dark .topbar h1,
+.dark .page-title h2,
+.dark .dashboard-card h2,
+.dark .card h2,
+.dark th,
+.dark td,
+.dark .config-form .payment-options span,
+.dark .config-form .payment-options legend {
+    color: #e4f5ea;
+}
+
+.dark .topbar small,
+.dark .page-title p,
+.dark .summary-item span,
+.dark .config-form label,
+.dark .config-form fieldset label,
+.dark .card p {
+    color: #b9d5c8;
+}
+
+.dark .card,
+.dark .summary-item,
+.dark .config-form .payment-options label,
+.dark .section-head select,
+.dark .config-form input,
+.dark .config-form textarea,
+.dark .config-form fieldset,
+.dark .sales-list {
+    background: #101714;
+    border-color: #1f3b2d;
+    color: #e4f5ea;
+}
+
+.dark .menu .active a,
+.dark .btn-save,
+.dark .badge.primary,
+.dark .link-button,
+.dark .dashboard-card strong {
+    background: #49c14b;
+    color: #050807;
+}
+
+/* Admin premium: escuro elegante, verde como acento e metricas limpas */
+:root {
+    --admin-bg: #0a0f0d;
+    --admin-bg-soft: #101815;
+    --admin-panel: #121d19;
+    --admin-panel-2: #17241f;
+    --admin-border: rgba(118, 171, 145, .22);
+    --admin-text: #f2fbf5;
+    --admin-muted: #9fb8aa;
+    --admin-green: #35c878;
+    --admin-green-soft: rgba(53, 200, 120, .16);
+    --admin-gold: #d8b15f;
+}
+
+.dark {
+    background:
+        radial-gradient(circle at 18% 0, rgba(53, 200, 120, .13), transparent 26%),
+        radial-gradient(circle at 95% 12%, rgba(216, 177, 95, .09), transparent 20%),
+        linear-gradient(135deg, #050807 0%, var(--admin-bg) 48%, #07120e 100%);
+    color: var(--admin-text);
+}
+
+.dark .sidebar {
+    background: linear-gradient(180deg, #050807, #0d1713);
+    border-right: 1px solid var(--admin-border);
+}
+
+.dark .logo h3 {
+    color: var(--admin-text);
+    letter-spacing: .5px;
+}
+
+.dark .logo span {
+    color: var(--admin-gold);
+}
+
+.dark .menu a {
+    color: #dfeee5;
+    border: 1px solid transparent;
+}
+
+.dark .menu a:hover {
+    background: rgba(255,255,255,.05);
+    border-color: rgba(255,255,255,.08);
+}
+
+.dark .menu .active a {
+    background: linear-gradient(135deg, var(--admin-green), #1f9d5b);
+    color: #04100a;
+    box-shadow: 0 10px 22px rgba(53, 200, 120, .20);
+}
+
+.dark .content {
+    background: transparent;
+}
+
+.dark .topbar h1,
+.dark .page-title h2,
+.dark .dashboard-card h2,
+.dark .card h2,
+.dark th,
+.dark td,
+.dark .config-form .payment-options span,
+.dark .config-form .payment-options legend {
+    color: var(--admin-text);
+}
+
+.dark .topbar small,
+.dark .page-title p,
+.dark .summary-item span,
+.dark .config-form label,
+.dark .config-form fieldset label,
+.dark .card p {
+    color: var(--admin-muted);
+}
+
+.dark .card,
+.dark .summary-item,
+.dark .section-head select,
+.dark .config-form input,
+.dark .config-form textarea,
+.dark .config-form fieldset,
+.dark .config-form .payment-options label,
+.dark .sales-list {
+    background:
+        linear-gradient(180deg, rgba(23, 36, 31, .96), rgba(12, 20, 17, .96));
+    border-color: var(--admin-border);
+    color: var(--admin-text);
+    box-shadow: 0 18px 42px rgba(0,0,0,.22);
+}
+
+.dark .dashboard-card {
+    min-height: 132px;
+    position: relative;
+    overflow: hidden;
+}
+
+.dark .dashboard-card::after {
+    content: "";
+    position: absolute;
+    inset: auto 18px 16px 18px;
+    height: 3px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--admin-green), rgba(216,177,95,.65));
+    opacity: .8;
+}
+
+.dark .dashboard-card strong {
+    display: block;
+    width: auto;
+    margin-top: 18px;
+    background: transparent !important;
+    color: var(--admin-green) !important;
+    font-size: 34px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 0;
+}
+
+.dark .btn-save,
+.dark .badge.primary,
+.dark .link-button {
+    background: linear-gradient(135deg, var(--admin-green), #1f9d5b);
+    color: #04100a;
+}
+
+.dark .btn-dark {
+    background: rgba(255,255,255,.08);
+    border: 1px solid var(--admin-border);
+    color: var(--admin-text);
+}
+
+.dark .avatar {
+    border: 2px solid rgba(216,177,95,.42);
+    box-shadow: 0 0 0 4px rgba(216,177,95,.08);
+}
+
+.dark .badge.warning {
+    background: var(--admin-gold);
+    color: #17110a;
 }

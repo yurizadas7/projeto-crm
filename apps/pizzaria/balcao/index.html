@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atendimento no Balcão - Template Operacional</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <span class="eyebrow" id="businessLabel">Template operacional</span>
+        <h1 id="pageTitle">Atendimento no balcão</h1>
+        <p class="subtitle" id="pageSubtitle">Painel operacional genérico para consumo no local, retirada e atendimento rápido.</p>
+      </div>
+
+      <div class="topbar-actions">
+        <div class="order-badge">
+          <span>Comanda</span>
+          <strong id="comandaNumero">#104</strong>
+        </div>
+        <button type="button" class="btn btn-secondary" id="abrirNovaComanda">Nova comanda</button>
+      </div>
+    </header>
+
+    <section class="performance-row">
+      <div class="performance-card">
+        <span>Mesas ocupadas</span>
+        <strong id="mesasOcupadasCount">04</strong>
+      </div>
+      <div class="performance-card">
+        <span>Pedidos ativos</span>
+        <strong id="pedidosAtivosCount">08</strong>
+      </div>
+      <div class="performance-card">
+        <span>Tempo médio</span>
+        <strong>18 min</strong>
+      </div>
+    </section>
+
+    <section class="operations-grid">
+      <div class="panel-card">
+        <div class="panel-head">
+          <div>
+            <h2>Status das mesas</h2>
+            <p>Controle rápido do atendimento em sala.</p>
+          </div>
+          <span class="status-pill">Monitor</span>
+        </div>
+        <div id="mesasPanel" class="mesas-grid"></div>
+      </div>
+
+      <div class="panel-card">
+        <div class="panel-head">
+          <div>
+            <h2>Comandas recentes</h2>
+            <p>Historico do fechamento da operação.</p>
+          </div>
+          <span class="status-pill">Resumo</span>
+        </div>
+        <div id="comandasRecentes" class="history-list"></div>
+      </div>
+    </section>
+
+    <main class="layout-grid">
+      <section class="catalog-section">
+        <div class="filters-card">
+          <div class="filters-head">
+            <div>
+              <h2>Catálogo de itens</h2>
+              <p>Selecione os produtos para compor a comanda do cliente.</p>
+            </div>
+            <div class="status-pill">Atendimento ativo</div>
+          </div>
+
+          <input type="search" id="buscaProduto" placeholder="Buscar prato, bebida, sobremesa ou adicional...">
+          <div class="pill-row" id="filterPills"></div>
+        </div>
+
+        <div class="workflow-card">
+          <div class="workflow-step active">1. Solicitação</div>
+          <div class="workflow-step">2. Preparo</div>
+          <div class="workflow-step">3. Entrega</div>
+          <div class="workflow-step">4. Fechamento</div>
+        </div>
+
+        <div class="catalog-grid" id="catalogGrid"></div>
+      </section>
+
+      <aside class="order-sidebar">
+        <div class="summary-card">
+          <div class="summary-head">
+            <h2>Resumo do atendimento</h2>
+            <span id="statusPedido">Em aberto</span>
+          </div>
+
+          <div class="service-grid">
+            <div class="field-group">
+              <label for="nomeAtendente">Atendente</label>
+              <input id="nomeAtendente" type="text" placeholder="Nome do atendente">
+            </div>
+            <div class="field-group">
+              <label for="mesaPedido">Mesa</label>
+              <select id="mesaPedido">
+                <option value="Mesa 01">Mesa 01</option>
+                <option value="Mesa 02">Mesa 02</option>
+                <option value="Mesa 03">Mesa 03</option>
+                <option value="Mesa 04">Mesa 04</option>
+                <option value="Mesa 05">Mesa 05</option>
+                <option value="Mesa 06">Mesa 06</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="service-grid">
+            <div class="field-group">
+              <label for="nomeCliente">Cliente</label>
+              <input id="nomeCliente" type="text" placeholder="Nome do cliente">
+            </div>
+            <div class="field-group">
+              <label for="tipoAtendimento">Modo</label>
+              <select id="tipoAtendimento">
+                <option value="consumo-local">Consumo no local</option>
+                <option value="retirada">Retirada</option>
+                <option value="delivery">Delivery</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="order-header-line">
+            <h3>Itens da comanda</h3>
+            <span id="itensCount">0 itens</span>
+          </div>
+          <div id="listaPedido" class="order-list"></div>
+
+          <div class="totals">
+            <div><span>Subtotal</span><strong id="subtotalPedido">R$ 0,00</strong></div>
+            <div><span>Taxa de serviço</span><strong id="taxaPedido">R$ 0,00</strong></div>
+            <div class="total-row"><span>Total</span><strong id="totalPedido">R$ 0,00</strong></div>
+          </div>
+
+          <div class="payment-grid">
+            <button type="button" class="btn btn-pay active" data-payment="dinheiro">Dinheiro</button>
+            <button type="button" class="btn btn-pay" data-payment="pix">Pix</button>
+            <button type="button" class="btn btn-pay" data-payment="cartao">Cartão</button>
+          </div>
+
+          <label class="obs-block">
+            <span>Observação do pedido</span>
+            <textarea id="observacaoPedido" rows="3" placeholder="Ex.: sem cebola, tirar azeitona, sem gelo..."></textarea>
+          </label>
+
+          <button type="button" class="btn btn-primary btn-full" id="finalizarPedido">Fechar comanda</button>
+          <p id="mensagemPedido" class="message" aria-live="polite"></p>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,37 +1,15 @@
-const API_URL = "http://localhost:3000";
+const API_URL = "http://127.0.0.1:3000";
 const LOCAL_ORDERS_KEY = "yulipeLocalOrders";
 
 let pedidos = [];
 let apiOffline = false;
 let hasLoadedOnce = false;
+let knownOrderIds = new Set();
 
 const novos = document.getElementById("novos");
 const preparando = document.getElementById("preparando");
 const prontosColuna = document.getElementById("prontosColuna");
 const statusMessage = document.getElementById("statusMessage");
-
-const pedidosDemo = [
-  {
-    id: 1025,
-    status: "Pendente",
-    criadoEm: new Date(Date.now() - 8 * 60000).toISOString(),
-    total: 72,
-    itens: 2,
-    cliente: { name: "Joao", neighborhood: "Centro" },
-    pagamento: { metodo: "Pix" },
-    detalhes: [{ nome: "Broto salgada" }, { nome: "Coca-Cola 2L" }]
-  },
-  {
-    id: 1026,
-    status: "Em preparo",
-    criadoEm: new Date(Date.now() - 18 * 60000).toISOString(),
-    total: 95,
-    itens: 3,
-    cliente: { name: "Maria", neighborhood: "Jardim" },
-    pagamento: { metodo: "Cartao na entrega" },
-    detalhes: [{ nome: "Grande salgada" }, { nome: "Broto doce" }]
-  }
-];
 
 function money(value) {
   return Number(value || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
@@ -45,9 +23,8 @@ function loadLocalOrders() {
   }
 }
 
-function localOrDemoOrders() {
-  const locais = loadLocalOrders().map(mapLocalOrder);
-  return locais.length ? locais : pedidosDemo.map(pedido => ({ ...pedido, demo: true }));
+function localOrders() {
+  return loadLocalOrders().map(mapLocalOrder);
 }
 
 function saveLocalOrders(orders) {
@@ -77,10 +54,24 @@ function showStatus(message, type = "info") {
   }, 3000);
 }
 
+function notifyNewOrders(nextOrders) {
+  const nextIds = new Set(nextOrders.map(order => String(order.id)));
+  const hasNew = [...nextIds].some(id => !knownOrderIds.has(id));
+  if (hasLoadedOnce && hasNew) {
+    showStatus("Novo pedido recebido.", "info");
+    document.title = "Novo pedido - Yulipe Cozinha";
+    setTimeout(() => {
+      document.title = "Yulipe Cozinha";
+    }, 4000);
+  }
+  knownOrderIds = nextIds;
+}
+
 async function buscarPedidos() {
   if (!hasLoadedOnce) {
-    pedidos = localOrDemoOrders();
+    pedidos = localOrders();
     hasLoadedOnce = true;
+    knownOrderIds = new Set(pedidos.map(order => String(order.id)));
     renderizar();
   }
 
@@ -93,27 +84,28 @@ async function buscarPedidos() {
     const data = await res.json();
     if (!Array.isArray(data)) throw new Error("O backend nao retornou uma lista de pedidos");
 
-    if (data.length) {
-      pedidos = data.map(p => ({
+    const apiOrders = data.map(p => ({
         id: p.id_pedido,
         status: p.status_pedido || "Pendente",
         criadoEm: p.data_pedido,
         total: p.valor_total || 0,
-        itens: p.total_itens || 0
+        itens: p.total_itens || p.detalhes?.length || 0,
+        cliente: p.cliente,
+        pagamento: p.pagamento,
+        detalhes: p.detalhes || []
       }));
-    } else {
-      pedidos = localOrDemoOrders();
-    }
+    pedidos = apiOrders.length ? apiOrders : localOrders();
 
     apiOffline = false;
+    notifyNewOrders(pedidos);
     renderizar();
   } catch (erro) {
     apiOffline = true;
-    pedidos = localOrDemoOrders();
+    pedidos = localOrders();
     renderizar();
 
     if (!showStatus.offlineShown) {
-      showStatus("Backend offline. Exibindo pedidos locais/demo.", "error");
+      showStatus("Backend offline. Exibindo pedidos locais deste navegador.", "error");
       showStatus.offlineShown = true;
     }
   } finally {
@@ -161,7 +153,8 @@ function cardPedido(pedido) {
     <div class="acoes-card">
       ${pedido.status !== "Pendente" ? `<button class="btn-voltar" type="button" data-action="voltar" data-id="${pedido.id}">Voltar</button>` : ""}
       ${pedido.status === "Pendente" ? `<button class="btn-iniciar" type="button" data-action="iniciar" data-id="${pedido.id}">Iniciar</button>` : ""}
-      ${pedido.status === "Em preparo" ? `<button class="btn-finalizar" type="button" data-action="finalizar" data-id="${pedido.id}">Finalizar</button>` : ""}
+      ${pedido.status === "Em preparo" ? `<button class="btn-finalizar" type="button" data-action="finalizar" data-id="${pedido.id}">Marcar pronto</button>` : ""}
+      ${pedido.status === "Pronto para entrega" ? `<button class="btn-motoboy" type="button" data-action="motoboy" data-id="${pedido.id}">Enviar para motoboy</button>` : ""}
     </div>
   `;
   card.addEventListener("dragstart", dragStart);
@@ -178,8 +171,8 @@ function renderizar() {
     const card = cardPedido(pedido);
 
     if (status === "Pendente") novos.appendChild(card);
-    else if (status === "Em preparo" || status === "A caminho") preparando.appendChild(card);
-    else if (status === "Entregue") prontosColuna.appendChild(card);
+    else if (status === "Em preparo") preparando.appendChild(card);
+    else if (["Pronto para entrega", "A caminho", "Entregue"].includes(status)) prontosColuna.appendChild(card);
     else novos.appendChild(card);
   });
 
@@ -212,14 +205,16 @@ function updateLocalStatus(id, status) {
 }
 
 async function atualizarStatus(id, status) {
-  if (updateLocalStatus(id, status)) return;
+  const pedidoAtual = pedidos.find(pedido => Number(pedido.id) === Number(id));
+
+  if (pedidoAtual?.local) {
+    if (updateLocalStatus(id, status)) return;
+  }
 
   if (apiOffline) {
-    const pedidoDemo = pedidosDemo.find(pedido => Number(pedido.id) === Number(id));
-    if (pedidoDemo) pedidoDemo.status = status;
-    pedidos = pedidosDemo.map(pedido => ({ ...pedido }));
-    renderizar();
-    showStatus("Status atualizado na demonstracao local.", "info");
+    if (!updateLocalStatus(id, status)) {
+      showStatus("Backend offline. So pedidos locais podem ser atualizados.", "error");
+    }
     return;
   }
 
@@ -234,14 +229,17 @@ async function atualizarStatus(id, status) {
     await buscarPedidos();
   } catch (error) {
     apiOffline = true;
-    showStatus("Backend offline. Status atualizado apenas na demonstracao.", "error");
-    updateLocalStatus(id, status);
+    if (updateLocalStatus(id, status)) {
+      showStatus("Backend offline. Status atualizado apenas na demonstracao.", "error");
+    } else {
+      showStatus("Nao foi possivel atualizar o pedido real. Verifique a API.", "error");
+    }
   }
 }
 
 function statusAnterior(status) {
-  if (status === "Entregue") return "Em preparo";
-  if (status === "Em preparo" || status === "A caminho") return "Pendente";
+  if (["Pronto para entrega", "A caminho", "Entregue"].includes(status)) return "Em preparo";
+  if (status === "Em preparo") return "Pendente";
   return "Pendente";
 }
 
@@ -250,7 +248,11 @@ async function iniciar(id) {
 }
 
 async function finalizar(id) {
-  await atualizarStatus(id, "Entregue");
+  await atualizarStatus(id, "Pronto para entrega");
+}
+
+async function enviarMotoboy(id) {
+  await atualizarStatus(id, "A caminho");
 }
 
 async function voltar(id) {
@@ -265,8 +267,8 @@ function dragStart(e) {
 
 function atualizarIndicadores() {
   document.getElementById("totalPedidos").textContent = pedidos.length;
-  document.getElementById("emPreparo").textContent = pedidos.filter(p => p.status === "Em preparo" || p.status === "A caminho").length;
-  document.getElementById("prontos").textContent = pedidos.filter(p => p.status === "Entregue").length;
+  document.getElementById("emPreparo").textContent = pedidos.filter(p => p.status === "Em preparo").length;
+  document.getElementById("prontos").textContent = pedidos.filter(p => ["Pronto para entrega", "A caminho"].includes(p.status)).length;
 }
 
 document.querySelectorAll(".dropzone").forEach(zona => {
@@ -285,6 +287,7 @@ document.addEventListener("click", event => {
   if (!action || !id) return;
   if (action === "iniciar") iniciar(id);
   if (action === "finalizar") finalizar(id);
+  if (action === "motoboy") enviarMotoboy(id);
   if (action === "voltar") voltar(id);
 });
 
@@ -300,3 +303,4 @@ document.getElementById("btnFullscreen").addEventListener("click", () => {
 });
 
 buscarPedidos();
+

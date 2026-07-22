@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yulipe Entregas</title>
+    <meta name="theme-color" content="#0f5132">
+    <link rel="manifest" href="../manifest.webmanifest">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="brand">
+            <span class="brand-mark">E</span>
+            <div>
+                <strong>Yulipe Entregas</strong>
+                <small>Area do entregador</small>
+            </div>
+        </div>
+        <a class="back-link" href="../acesso/index.html">Voltar</a>
+    </header>
+
+    <main class="app">
+        <section class="hero">
+            <span class="eyebrow">Operacao de rua</span>
+            <h1>Entregas prontas para sair.</h1>
+            <p>Veja pedidos liberados pela cozinha, aceite uma corrida e atualize o status ate a entrega.</p>
+
+            <label class="driver-field" for="driverName">
+                <span>Entregador</span>
+                <input id="driverName" autocomplete="name" placeholder="Seu nome">
+            </label>
+        </section>
+
+        <section class="summary" aria-label="Resumo de entregas">
+            <div class="summary-card">
+                <strong id="metricDisponiveis">0</strong>
+                <span>Disponiveis</span>
+            </div>
+            <div class="summary-card">
+                <strong id="metricMinhas">0</strong>
+                <span>Minhas</span>
+            </div>
+            <div class="summary-card">
+                <strong id="metricFinalizadas">0</strong>
+                <span>Finalizadas</span>
+            </div>
+        </section>
+
+        <nav class="tabs" aria-label="Filtro de entregas">
+            <button class="active" type="button" data-tab="disponiveis">Disponiveis</button>
+            <button type="button" data-tab="minhas">Minhas entregas</button>
+            <button type="button" data-tab="finalizadas">Finalizadas</button>
+        </nav>
+
+        <section id="statusMessage" class="status-message" aria-live="polite"></section>
+        <section id="ordersList" class="orders-list" aria-label="Lista de entregas"></section>
+    </main>
+
+    <script src="js/custom.js?v=2"></script>
+    <script src="../pwa.js"></script>
+</body>
+
+</html>

@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yulipe Admin</title>
+    <meta name="theme-color" content="#0f5132">
+    <link rel="manifest" href="../manifest.webmanifest">
     <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -17,12 +19,13 @@
             </div>
 
             <ul class="menu">
-                <li class="active"><a href="#dashboard">Dashboard</a></li>
-                <li><a href="../cozinha/index.html">Pedidos</a></li>
-                <li><a href="#produtos">Produtos</a></li>
-                <li><a href="#clientes">Clientes</a></li>
-                <li><a href="#relatorios">Relatorios</a></li>
-                <li><a href="#configuracoes">Configuracoes</a></li>
+                <li class="active"><a href="#dashboard" data-page-link="dashboard">Dashboard</a></li>
+                <li><a href="#pedidos" data-page-link="pedidos">Pedidos</a></li>
+                <li><a href="#caixa" data-page-link="caixa">Caixa</a></li>
+                <li><a href="#produtos" data-page-link="produtos">Produtos</a></li>
+                <li><a href="#clientes" data-page-link="clientes">Clientes</a></li>
+                <li><a href="#relatorios" data-page-link="relatorios">Relatorios</a></li>
+                <li><a href="#configuracoes" data-page-link="configuracoes">Configuracoes</a></li>
             </ul>
         </aside>
 
@@ -34,61 +37,62 @@
                 </div>
 
                 <div class="top-actions">
-                    <button id="darkModeBtn" class="btn btn-dark" type="button">Lua</button>
+                    <span id="adminNotice" class="admin-notice" role="status" aria-live="polite"></span>
                     <img src="perfil admin/img.jpg" class="avatar" alt="Perfil da pizzaria">
                 </div>
             </header>
 
-            <section class="metrics-grid" id="dashboard" aria-label="Resumo da operacao">
-                <div class="card dashboard-card">
-                    <h2>Pedidos Hoje</h2>
-                    <strong>148</strong>
+            <section class="admin-page active" id="dashboard" data-page="dashboard">
+                <div class="page-title">
+                    <h2>Dashboard</h2>
+                    <p>Resumo geral da operacao da pizzaria.</p>
                 </div>
-                <div class="card dashboard-card">
-                    <h2>Faturamento</h2>
-                    <strong>R$ 8.920</strong>
-                </div>
-                <div class="card dashboard-card">
-                    <h2>Clientes</h2>
-                    <strong>324</strong>
-                </div>
-                <div class="card dashboard-card">
-                    <h2>Ticket Medio</h2>
-                    <strong>R$ 60,27</strong>
-                </div>
-                <div class="card dashboard-card">
-                    <h2>Faturamento Mensal</h2>
-                    <strong>R$ 52.800</strong>
-                </div>
-                <div class="card dashboard-card">
-                    <h2>Pedidos no Mes</h2>
-                    <strong>863</strong>
-                </div>
-                <div class="card dashboard-card">
-                    <h2>Clientes Recorrentes</h2>
-                    <strong>74%</strong>
-                </div>
-                <div class="card dashboard-card">
-                    <h2>Taxa de Cancelamento</h2>
-                    <strong>2,1%</strong>
+                <div class="metrics-grid" aria-label="Resumo da operacao">
+                    <div class="card dashboard-card">
+                        <h2>Pedidos Hoje</h2>
+                        <strong id="metricPedidosHoje">0</strong>
+                    </div>
+                    <div class="card dashboard-card">
+                        <h2>Faturamento</h2>
+                        <strong id="metricFaturamentoHoje">R$ 0,00</strong>
+                    </div>
+                    <div class="card dashboard-card">
+                        <h2>Clientes</h2>
+                        <strong id="metricClientes">0</strong>
+                    </div>
+                    <div class="card dashboard-card">
+                        <h2>Ticket Medio</h2>
+                        <strong id="metricTicketMedio">R$ 0,00</strong>
+                    </div>
+                    <div class="card dashboard-card">
+                        <h2>Faturamento Mensal</h2>
+                        <strong id="metricFaturamentoMensal">R$ 0,00</strong>
+                    </div>
+                    <div class="card dashboard-card">
+                        <h2>Pedidos no Mes</h2>
+                        <strong id="metricPedidosMes">0</strong>
+                    </div>
+                    <div class="card dashboard-card">
+                        <h2>Clientes Recorrentes</h2>
+                        <strong id="metricRecorrentes">0%</strong>
+                    </div>
+                    <div class="card dashboard-card">
+                        <h2>Taxa de Cancelamento</h2>
+                        <strong id="metricCancelamento">0%</strong>
+                    </div>
                 </div>
             </section>
 
-            <section class="card chart-card" id="relatorios">
-                <div class="section-head">
-                    <h2>Analise de Vendas</h2>
-                    <select id="periodoGrafico">
-                        <option value="semana">Ultimos 7 dias</option>
-                        <option value="mes">Ultimos 30 dias</option>
-                        <option value="ano">Ultimos 12 meses</option>
-                    </select>
+            <section class="admin-page" id="pedidos" data-page="pedidos">
+                <div class="page-title">
+                    <h2>Pedidos</h2>
+                    <p>Acompanhe os pedidos recentes e abra a tela operacional da cozinha.</p>
                 </div>
-                <canvas id="graficoVendas"></canvas>
-            </section>
-
-            <section class="admin-grid">
                 <div class="card table-card">
-                    <h2>Pedidos Recentes</h2>
+                    <div class="section-head">
+                        <h2>Pedidos Recentes</h2>
+                        <a class="btn btn-save link-button" href="../cozinha/index.html">Abrir cozinha</a>
+                    </div>
                     <table>
                         <thead>
                             <tr>
@@ -98,41 +102,141 @@
                                 <th>Valor</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>1025</td>
-                                <td>Joao</td>
-                                <td><span class="badge warning">Preparando</span></td>
-                                <td>R$ 72,00</td>
-                            </tr>
-                            <tr>
-                                <td>1026</td>
-                                <td>Maria</td>
-                                <td><span class="badge primary">Entrega</span></td>
-                                <td>R$ 95,00</td>
-                            </tr>
-                        </tbody>
+                        <tbody id="pedidosRecentesBody"></tbody>
                     </table>
-                </div>
-
-                <div class="card" id="produtos">
-                    <h2>Mais Vendidas</h2>
-                    <ul class="sales-list">
-                        <li>Calabresa</li>
-                        <li>Portuguesa</li>
-                        <li>Frango Catupiry</li>
-                        <li>Chocolate</li>
-                    </ul>
                 </div>
             </section>
 
-            <section class="admin-grid">
-                <div class="card" id="clientes">
+            <section class="admin-page" id="caixa" data-page="caixa">
+                <div class="page-title">
+                    <h2>Caixa</h2>
+                    <p>Resumo financeiro do dia, formas de pagamento e comandas para impressao.</p>
+                </div>
+                <div class="metrics-grid caixa-metrics">
+                    <div class="card dashboard-card">
+                        <h2>Vendas Hoje</h2>
+                        <strong id="caixaVendasHoje">R$ 0,00</strong>
+                    </div>
+                    <div class="card dashboard-card">
+                        <h2>Pedidos Pagos</h2>
+                        <strong id="caixaPedidosHoje">0</strong>
+                    </div>
+                    <div class="card dashboard-card">
+                        <h2>Taxas de Entrega</h2>
+                        <strong id="caixaTaxasEntrega">R$ 0,00</strong>
+                    </div>
+                    <div class="card dashboard-card">
+                        <h2>Ticket Medio</h2>
+                        <strong id="caixaTicketMedio">R$ 0,00</strong>
+                    </div>
+                </div>
+                <div class="admin-grid">
+                    <div class="card">
+                        <h2>Por pagamento</h2>
+                        <div id="caixaPagamentos" class="summary-list"></div>
+                    </div>
+                    <div class="card">
+                        <h2>Comandas recentes</h2>
+                        <div id="caixaComandas" class="summary-list"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="admin-page" id="produtos" data-page="produtos">
+                <div class="page-title">
+                    <h2>Produtos</h2>
+                    <p>Cadastre e edite itens do cardapio.</p>
+                </div>
+                <div class="admin-grid">
+                    <div class="card">
+                        <h2>Cadastro de Produto</h2>
+                    <form id="productForm" class="config-form product-form">
+                        <input type="hidden" id="productId" name="id_produto">
+                        <label>Nome
+                            <input id="productName" name="nome_produto" placeholder="Ex.: Grande salgada" required>
+                        </label>
+                        <label>Categoria
+                            <input id="productCategory" name="categoria" list="categoryOptions" placeholder="Pizzas" required>
+                            <datalist id="categoryOptions"></datalist>
+                        </label>
+                        <label>Preco
+                            <input id="productPrice" name="preco" inputmode="decimal" placeholder="54,99" required>
+                        </label>
+                        <label>Descricao
+                            <textarea id="productDescription" name="descricao" rows="2" placeholder="Ate 3 sabores"></textarea>
+                        </label>
+                        <label class="inline-check"><input id="productAvailable" name="disponivel" type="checkbox" checked> Disponivel</label>
+                        <div class="form-actions">
+                            <button class="btn btn-save" type="submit">Salvar produto</button>
+                            <button class="btn" id="clearProductForm" type="button">Limpar</button>
+                        </div>
+                    </form>
+                    </div>
+                    <div class="card">
+                        <h2>Cardapio</h2>
+                    <div id="produtosLista" class="summary-list"></div>
+                    </div>
+                    <div class="card">
+                        <h2>Categorias</h2>
+                        <form id="categoryForm" class="config-form compact-form">
+                            <input type="hidden" id="categoryId" name="id_categoria">
+                            <label>Nome da categoria
+                                <input id="categoryName" name="nome_categoria" placeholder="Ex.: Pizzas doces">
+                            </label>
+                            <div class="form-actions">
+                                <button class="btn btn-save" type="submit">Salvar categoria</button>
+                                <button class="btn" id="clearCategoryForm" type="button">Limpar</button>
+                            </div>
+                        </form>
+                        <div id="categoriasLista" class="summary-list"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="admin-page" id="clientes" data-page="clientes">
+                <div class="page-title">
                     <h2>Clientes</h2>
+                    <p>Veja os clientes cadastrados e o historico resumido de compras.</p>
+                </div>
+                <div class="card">
                     <div id="clientesResumo" class="summary-list"></div>
                 </div>
-                <div class="card" id="configuracoes">
+            </section>
+
+            <section class="admin-page" id="relatorios" data-page="relatorios">
+                <div class="page-title">
+                    <h2>Relatorios</h2>
+                    <p>Analise o desempenho de vendas por periodo.</p>
+                </div>
+                <div class="card chart-card">
+                    <div class="section-head">
+                        <h2>Analise de Vendas</h2>
+                        <select id="periodoGrafico">
+                            <option value="semana">Ultimos 7 dias</option>
+                            <option value="mes">Ultimos 30 dias</option>
+                            <option value="ano">Ultimos 12 meses</option>
+                        </select>
+                    </div>
+                    <canvas id="graficoVendas"></canvas>
+                </div>
+                <div class="admin-grid report-grid">
+                    <div class="card">
+                        <h2>Produtos mais vendidos</h2>
+                        <ul id="maisVendidasLista" class="sales-list"></ul>
+                    </div>
+                    <div class="card">
+                        <h2>Resumo operacional</h2>
+                        <div id="relatorioResumo" class="summary-list"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="admin-page" id="configuracoes" data-page="configuracoes">
+                <div class="page-title">
                     <h2>Configuracoes</h2>
+                    <p>Controle dados da loja, entrega e formas de pagamento.</p>
+                </div>
+                <div class="card">
                     <form id="storeConfigForm" class="config-form">
                         <label>Nome da pizzaria
                             <input id="storeName" name="name" placeholder="Pizzaria do Yulipe">
@@ -149,14 +253,24 @@
                         <label>Horario de funcionamento
                             <input id="openingHours" name="openingHours" placeholder="18h as 23h">
                         </label>
-                        <label>Bairros atendidos
-                            <textarea id="deliveryAreas" name="deliveryAreas" rows="3" placeholder="Centro, Jardim, Vila Nova"></textarea>
+                        <label>Bairros atendidos e taxas
+                            <textarea id="deliveryAreas" name="deliveryAreas" rows="9"
+                                placeholder="Centro | 1,2 km | R$ 5,00&#10;Vila Nova | 2,4 km | R$ 7,00&#10;Chacaras Boa Vista | 16,8 km | R$ 40,00"></textarea>
                         </label>
-                        <fieldset>
+                        <fieldset class="payment-options">
                             <legend>Pagamentos aceitos</legend>
-                            <label><input type="checkbox" name="payments" value="Pix"> Pix</label>
-                            <label><input type="checkbox" name="payments" value="Cartao na entrega"> Cartao na entrega</label>
-                            <label><input type="checkbox" name="payments" value="Dinheiro"> Dinheiro</label>
+                            <label>
+                                <input type="checkbox" name="payments" value="Pix">
+                                <span>Pix</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="payments" value="Cartao na entrega">
+                                <span>Cartao na entrega</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="payments" value="Dinheiro">
+                                <span>Dinheiro</span>
+                            </label>
                         </fieldset>
                         <button class="btn btn-save" type="submit">Salvar configuracoes</button>
                     </form>
@@ -167,6 +281,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/custom.js"></script>
+    <script src="../pwa.js"></script>
 </body>
 
 </html>
+

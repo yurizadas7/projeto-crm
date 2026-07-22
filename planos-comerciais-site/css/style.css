@@ -184,6 +184,23 @@ body {
   gap: 12px;
 }
 
+.compare-strip {
+  margin-top: 18px;
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
+}
+
+.compare-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.compare-grid div,
 .value-strip div,
 .process-grid div {
   border: 1px solid rgba(216, 173, 85, 0.2);
@@ -195,6 +212,8 @@ body {
 .value-strip strong,
 .value-strip span,
 .value-strip a,
+.compare-grid strong,
+.compare-grid span,
 .plan-card span,
 .plan-card small,
 .process-grid span,
@@ -203,6 +222,7 @@ body {
 }
 
 .value-strip span,
+.compare-grid span,
 .section-head p,
 .plan-card p,
 .plan-card li,

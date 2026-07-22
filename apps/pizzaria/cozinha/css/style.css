@@ -177,6 +177,7 @@ body {
 
 .btn-iniciar { background: #2563eb; }
 .btn-finalizar { background: #16a34a; }
+.btn-motoboy { background: #d97706; }
 .btn-voltar { background: #6b7280; }
 .acoes-card button:hover { opacity: .9; }
 
@@ -255,4 +256,314 @@ body {
     .kanban {
         padding: 12px;
     }
+}
+
+/* Tema Yulipe: tomate, manjericao, creme e status operacionais */
+:root {
+    --tomato: #d62828;
+    --tomato-dark: #b91c1c;
+    --basil: #2e7d32;
+    --mint: #ddf7ef;
+    --cream: #fff8f0;
+    --cheese: #f2b544;
+    --ink: #1f2937;
+    --muted: #667085;
+    --line: #eadfd2;
+}
+
+body {
+    background:
+        radial-gradient(circle at 0 0, rgba(221,247,239,.9), transparent 25%),
+        linear-gradient(135deg, var(--cream), #f7fbf6);
+}
+
+.topbar {
+    background: linear-gradient(135deg, var(--ink), #16351f);
+}
+
+#btnFullscreen,
+.btn-finalizar,
+.verde {
+    background: var(--basil);
+}
+
+.coluna {
+    background: rgba(255,255,255,.76);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+}
+
+.coluna h3 {
+    color: var(--ink);
+}
+
+.card-pedido {
+    border: 1px solid var(--line);
+    border-left: 6px solid var(--tomato);
+    border-radius: 12px;
+}
+
+.card-pedido h5 {
+    color: var(--tomato);
+}
+
+.amarelo {
+    background: var(--cheese);
+    color: var(--ink);
+}
+
+.vermelho,
+.btn-iniciar,
+.status-message.error {
+    background: var(--tomato);
+}
+
+/* Direcao visual agua: operacao com fundo aqua e colunas coloridas */
+:root {
+    --water: #d7f8f2;
+    --water-strong: #86dcca;
+    --water-deep: #0f766e;
+    --water-surface: #eafbf7;
+}
+
+body {
+    background:
+        radial-gradient(circle at 0 0, rgba(134,220,202,.88), transparent 26%),
+        radial-gradient(circle at 100% 70%, rgba(214,40,40,.12), transparent 24%),
+        linear-gradient(135deg, #c9f3ec, #eefbf6 48%, #d7f8f2);
+}
+
+.topbar {
+    background: linear-gradient(135deg, #0f3f3b, var(--water-deep));
+}
+
+.coluna {
+    background: linear-gradient(180deg, rgba(234,251,247,.94), rgba(215,248,242,.88));
+    border-color: rgba(15,118,110,.24);
+}
+
+.card-pedido {
+    background: rgba(234,251,247,.96);
+    border-color: rgba(15,118,110,.24);
+    border-left-color: var(--tomato);
+}
+
+#btnFullscreen,
+.btn-finalizar,
+.verde {
+    background: var(--water-deep);
+}
+
+/* Direcao final: cozinha operacional escura */
+:root {
+    --ops-bg: #111827;
+    --ops-panel: #1f2937;
+    --ops-panel-2: #263241;
+    --ops-line: #374151;
+    --ops-text: #f9fafb;
+    --ops-muted: #d1d5db;
+    --ops-red: #ef4444;
+    --ops-green: #22c55e;
+    --ops-gold: #f59e0b;
+}
+
+body {
+    background:
+        radial-gradient(circle at 0 0, rgba(239,68,68,.15), transparent 24%),
+        radial-gradient(circle at 100% 70%, rgba(34,197,94,.10), transparent 24%),
+        linear-gradient(135deg, #0b111c, var(--ops-bg));
+    color: var(--ops-text);
+}
+
+.topbar {
+    background: linear-gradient(135deg, #0b111c, #172033);
+    border-bottom: 1px solid var(--ops-line);
+}
+
+.coluna {
+    background: linear-gradient(180deg, rgba(31,41,55,.98), rgba(17,24,39,.96));
+    border-color: var(--ops-line);
+}
+
+.coluna h3,
+.card-pedido h5 {
+    color: var(--ops-text);
+}
+
+.empty-state,
+.card-pedido small,
+.stat span {
+    color: var(--ops-muted);
+}
+
+.card-pedido {
+    background: var(--ops-panel-2);
+    border-color: var(--ops-line);
+    border-left-color: var(--ops-red);
+}
+
+#btnFullscreen,
+.btn-finalizar,
+.verde {
+    background: var(--ops-green);
+}
+
+.btn-iniciar,
+.vermelho,
+.status-message.error {
+    background: var(--ops-red);
+}
+
+.amarelo {
+    background: var(--ops-gold);
+    color: #111827;
+}
+
+/* Padrao final Yulipe: cozinha clara limpa, pronta para dark preto/verde */
+:root {
+    --std-bg: #f4f7f6;
+    --std-surface: #ffffff;
+    --std-surface-2: #eef4f1;
+    --std-border: #dbe7e1;
+    --std-text: #111827;
+    --std-muted: #5f6f68;
+    --std-green: #178f55;
+    --std-green-dark: #0f5132;
+    --std-black: #0b1110;
+    --std-gold: #d6a84f;
+}
+
+body {
+    background: linear-gradient(135deg, var(--std-bg), #edf5f1);
+    color: var(--std-text);
+}
+
+.topbar {
+    background: var(--std-black);
+    border-bottom: 1px solid #1f3b2d;
+}
+
+.coluna,
+.card-pedido {
+    background: var(--std-surface);
+    border-color: var(--std-border);
+    color: var(--std-text);
+}
+
+.coluna h3,
+.card-pedido h5 {
+    color: var(--std-text);
+}
+
+.empty-state,
+.card-pedido small {
+    color: var(--std-muted);
+}
+
+#btnFullscreen,
+.btn-finalizar,
+.verde {
+    background: var(--std-green);
+}
+
+.btn-iniciar,
+.vermelho {
+    background: var(--std-black);
+}
+
+.amarelo {
+    background: var(--std-gold);
+    color: var(--std-black);
+}
+
+/* Cozinha dark fixa: operacional, elegante e sem branco estourado */
+body.dark {
+    background:
+        radial-gradient(circle at 10% 0, rgba(53,200,120,.12), transparent 24%),
+        radial-gradient(circle at 96% 18%, rgba(216,177,95,.08), transparent 18%),
+        linear-gradient(135deg, #050807, #0a0f0d 48%, #07120e);
+    color: #f2fbf5;
+}
+
+body.dark .topbar {
+    background: linear-gradient(135deg, #050807, #0d1713);
+    border-bottom: 1px solid rgba(118,171,145,.22);
+    box-shadow: 0 16px 36px rgba(0,0,0,.28);
+}
+
+body.dark .logo h2,
+body.dark .stat strong,
+body.dark #relogio {
+    color: #f2fbf5;
+}
+
+body.dark .stat span {
+    color: #9fb8aa;
+}
+
+body.dark .kanban {
+    background: transparent;
+}
+
+body.dark .coluna {
+    background: linear-gradient(180deg, rgba(23,36,31,.96), rgba(12,20,17,.96));
+    border: 1px solid rgba(118,171,145,.22);
+    box-shadow: 0 18px 42px rgba(0,0,0,.20);
+}
+
+body.dark .coluna h3 {
+    color: #f2fbf5;
+}
+
+body.dark .dropzone {
+    border-radius: 12px;
+}
+
+body.dark .empty-state {
+    background: rgba(255,255,255,.03);
+    border-color: rgba(118,171,145,.28);
+    color: #9fb8aa;
+}
+
+body.dark .card-pedido {
+    background: linear-gradient(180deg, #17241f, #101714);
+    border: 1px solid rgba(118,171,145,.24);
+    border-left: 6px solid #35c878;
+    box-shadow: 0 14px 30px rgba(0,0,0,.22);
+    color: #f2fbf5;
+}
+
+body.dark .card-pedido h5 {
+    color: #35c878;
+}
+
+body.dark .card-pedido small,
+body.dark .card-pedido div {
+    color: #c7ddd1;
+}
+
+body.dark #btnFullscreen,
+body.dark .btn-finalizar,
+body.dark .verde {
+    background: linear-gradient(135deg, #35c878, #1f9d5b);
+    color: #04100a;
+}
+
+body.dark .btn-iniciar {
+    background: #35c878;
+    color: #04100a;
+}
+
+body.dark .btn-voltar {
+    background: #263d33;
+}
+
+body.dark .amarelo {
+    background: #d8b15f;
+    color: #17110a;
+}
+
+body.dark .vermelho,
+body.dark .status-message.error {
+    background: #dc2626;
 }

@@ -100,6 +100,58 @@ main {
     gap: 14px;
 }
 
+.pedido-tracking {
+    margin-bottom: 18px;
+}
+
+.pedido-tracking:empty {
+    display: none;
+}
+
+.pedido-tracking {
+    border: 1px solid rgba(224,168,55,.22);
+    border-radius: 10px;
+    padding: 14px 16px;
+    background: linear-gradient(180deg, #2a1a14, #1f1410);
+    color: #fff4e6;
+    display: grid;
+    gap: 12px;
+}
+
+.pedido-tracking strong,
+.pedido-tracking span {
+    display: block;
+}
+
+.pedido-tracking span {
+    margin-top: 3px;
+    color: #dfc7b5;
+    font-size: 13px;
+}
+
+.tracking-steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    list-style: none;
+}
+
+.tracking-steps li {
+    border: 1px solid rgba(224,168,55,.22);
+    border-radius: 999px;
+    padding: 8px;
+    color: #dfc7b5;
+    font-size: 12px;
+    font-weight: 800;
+    text-align: center;
+}
+
+.tracking-steps li.active {
+    background: #49c14b;
+    border-color: #49c14b;
+    color: #121212;
+}
+
 .cliente-status strong,
 .cliente-status span {
     display: block;
@@ -340,6 +392,31 @@ main {
 .checkout-line span:last-child {
     text-align: right;
     font-weight: 700;
+}
+
+.sacola-message,
+.checkout-message,
+.pizza-message {
+    display: none;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 13px;
+    line-height: 1.35;
+}
+
+.sacola-message.error,
+.checkout-message.error,
+.pizza-message.error {
+    display: block;
+    background: #fff1f1;
+    color: #991b1b;
+}
+
+.checkout-message.info {
+    display: block;
+    background: #eef8ef;
+    color: #1f7a4d;
 }
 
 .payment-options {
@@ -618,5 +695,1351 @@ body.dark .categorias button:hover {
 @media (max-width: 520px) {
     .sabores-opcoes {
         grid-template-columns: 1fr;
+    }
+}
+
+/* Tema Yulipe: tomate, manjericao, creme e detalhes fluidos */
+:root {
+    --tomato: #d62828;
+    --tomato-dark: #b91c1c;
+    --basil: #2e7d32;
+    --mint: #ddf7ef;
+    --cream: #fff8f0;
+    --cheese: #f2b544;
+    --ink: #1f2937;
+    --muted: #667085;
+    --line: #eadfd2;
+}
+
+body {
+    background:
+        radial-gradient(circle at 0 8%, rgba(221,247,239,.92), transparent 22%),
+        linear-gradient(135deg, var(--cream), #f7fbf6);
+    color: var(--ink);
+}
+
+header {
+    background: rgba(255,255,255,.94);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 10px 28px rgba(31,41,55,.06);
+}
+
+.busca input {
+    background: #fff;
+    border: 1px solid var(--line);
+}
+
+nav a,
+.produto strong {
+    color: var(--ink);
+}
+
+nav a:hover,
+.link-action,
+.pedido-confirmado h2 {
+    color: var(--tomato);
+}
+
+#tema-btn {
+    background: var(--ink);
+}
+
+.perfil-cliente-btn,
+.categorias button,
+.info-pizzaria span,
+.cliente-status,
+.produto,
+.sacola,
+.checkout-content,
+.checkout-box,
+.modal-content,
+.payment-options label {
+    border-color: var(--line);
+}
+
+.cliente-status {
+    background: linear-gradient(135deg, var(--mint), #fff);
+}
+
+.banner,
+.produto,
+.sacola,
+.checkout-content,
+.modal-content {
+    box-shadow: 0 14px 34px rgba(31,41,55,.08);
+}
+
+.banner {
+    border: 1px solid var(--line);
+}
+
+.info-pizzaria h1,
+.produtos h2 {
+    color: var(--ink);
+}
+
+.info-pizzaria span {
+    background: white;
+    color: var(--basil);
+}
+
+.categorias button {
+    background: white;
+    color: var(--ink);
+}
+
+.categorias button:hover {
+    background: var(--basil);
+    color: white;
+}
+
+.produto:hover {
+    border-color: var(--tomato);
+}
+
+.produto button,
+.sacola button,
+#addCarrinho,
+#confirmarPedido {
+    background: var(--tomato);
+}
+
+.produto button:hover,
+.sacola button:hover,
+#addCarrinho:hover,
+#confirmarPedido:hover {
+    background: var(--tomato-dark);
+}
+
+.remover-item {
+    background: var(--mint) !important;
+    color: var(--ink) !important;
+}
+
+.payment-options label {
+    background: #fffdf9;
+}
+
+/* Direcao visual agua: cardapio com base aqua e superfícies coloridas */
+:root {
+    --water: #d7f8f2;
+    --water-strong: #86dcca;
+    --water-deep: #0f766e;
+    --water-surface: #eafbf7;
+}
+
+body {
+    background:
+        radial-gradient(circle at 0 8%, rgba(134,220,202,.82), transparent 24%),
+        radial-gradient(circle at 100% 28%, rgba(242,181,68,.16), transparent 22%),
+        linear-gradient(135deg, #c9f3ec, #eefbf6 48%, #d7f8f2);
+}
+
+header,
+.produto,
+.sacola,
+.checkout-content,
+.modal-content,
+.banner {
+    background: linear-gradient(180deg, rgba(234,251,247,.96), rgba(215,248,242,.90));
+    border-color: rgba(15,118,110,.22);
+}
+
+.cliente-status {
+    background: linear-gradient(135deg, rgba(134,220,202,.48), rgba(234,251,247,.92));
+    border-color: rgba(15,118,110,.24);
+}
+
+.busca input,
+.perfil-cliente-btn,
+.categorias button,
+.info-pizzaria span,
+.checkout-box,
+.payment-options label {
+    background: rgba(234,251,247,.78);
+    border-color: rgba(15,118,110,.22);
+}
+
+.info-pizzaria span,
+nav a:hover,
+.link-action {
+    color: var(--water-deep);
+}
+
+.categorias button:hover {
+    background: var(--water-deep);
+}
+
+/* Direcao final: italiano moderno para cardapio */
+:root {
+    --italy-bg: #f6efe4;
+    --italy-panel: #fff8ec;
+    --italy-panel-2: #f8ead6;
+    --italy-line: #ead8bf;
+    --italy-text: #2a211b;
+    --italy-muted: #6f6258;
+    --italy-red: #c62828;
+    --italy-green: #1f7a4d;
+    --italy-gold: #e0a837;
+}
+
+body {
+    background:
+        radial-gradient(circle at 0 8%, rgba(224,168,55,.20), transparent 24%),
+        radial-gradient(circle at 100% 28%, rgba(31,122,77,.12), transparent 22%),
+        linear-gradient(135deg, var(--italy-bg), #f3e4cf);
+    color: var(--italy-text);
+}
+
+header,
+.produto,
+.sacola,
+.checkout-content,
+.modal-content,
+.banner {
+    background: linear-gradient(180deg, var(--italy-panel), var(--italy-panel-2));
+    border-color: var(--italy-line);
+}
+
+.busca input,
+.perfil-cliente-btn,
+.categorias button,
+.info-pizzaria span,
+.checkout-box,
+.payment-options label {
+    background: #fffaf2;
+    border-color: var(--italy-line);
+}
+
+nav a,
+.produto strong,
+.info-pizzaria h1,
+.produtos h2 {
+    color: var(--italy-text);
+}
+
+.produto p,
+.item small,
+.cliente-status span,
+.checkout-box {
+    color: var(--italy-muted);
+}
+
+nav a:hover,
+.link-action,
+.info-pizzaria span {
+    color: var(--italy-green);
+}
+
+.cliente-status {
+    background: linear-gradient(135deg, rgba(31,122,77,.12), #fffaf2);
+    border-color: var(--italy-line);
+}
+
+.categorias button:hover {
+    background: var(--italy-green);
+}
+
+.produto:hover {
+    border-color: var(--italy-red);
+}
+
+.produto button,
+.sacola button,
+#addCarrinho,
+#confirmarPedido {
+    background: var(--italy-red);
+}
+
+.produto button:hover,
+.sacola button:hover,
+#addCarrinho:hover,
+#confirmarPedido:hover {
+    background: #a61f1f;
+}
+
+/* Direcao final ajustada: cardapio com clima de forno/pizzaria */
+:root {
+    --oven-bg: #1c130f;
+    --oven-bg-2: #3a2117;
+    --oven-panel: #fff4df;
+    --oven-panel-2: #f4dcc0;
+    --oven-card: #2a1a14;
+    --oven-card-2: #372219;
+    --oven-line: #6f412b;
+    --oven-text: #fff4e6;
+    --oven-ink: #221611;
+    --oven-muted: #7b675b;
+    --oven-red: #c62828;
+    --oven-red-dark: #961b1b;
+    --oven-green: #2e7d32;
+    --oven-gold: #e0a837;
+}
+
+body,
+body.dark {
+    background:
+        radial-gradient(circle at 8% 0, rgba(224,168,55,.18), transparent 24%),
+        radial-gradient(circle at 100% 20%, rgba(198,40,40,.13), transparent 28%),
+        linear-gradient(135deg, #21150f 0%, #3a2117 44%, #1c130f 100%);
+    color: var(--oven-text);
+}
+
+header,
+body.dark header {
+    background: rgba(28,19,15,.94);
+    border-bottom: 1px solid rgba(224,168,55,.18);
+    box-shadow: 0 14px 30px rgba(0,0,0,.22);
+}
+
+.cliente-status,
+body.dark .cliente-status,
+.sacola,
+body.dark .sacola {
+    background: linear-gradient(180deg, #2a1a14, #1f1410);
+    border-color: rgba(224,168,55,.22);
+    color: var(--oven-text);
+}
+
+.banner,
+body.dark .banner {
+    background: #1f1410;
+    border: 1px solid rgba(224,168,55,.24);
+    box-shadow: 0 18px 48px rgba(0,0,0,.28);
+}
+
+.info-pizzaria h1,
+.produtos h2,
+.sacola h2,
+.sacola h3,
+body.dark .info-pizzaria h1,
+body.dark .produtos h2,
+body.dark .sacola h2,
+body.dark .sacola h3 {
+    color: var(--oven-text);
+}
+
+.info-pizzaria p,
+.produto p,
+.item small,
+.cliente-status span,
+body.dark .info-pizzaria p,
+body.dark .produto p,
+body.dark .item small,
+body.dark .cliente-status span {
+    color: #dfc7b5;
+}
+
+.info-pizzaria span,
+.categorias button,
+.perfil-cliente-btn,
+.busca input,
+body.dark .info-pizzaria span,
+body.dark .categorias button,
+body.dark .perfil-cliente-btn,
+body.dark .busca input {
+    background: rgba(255,244,223,.10);
+    border: 1px solid rgba(224,168,55,.22);
+    color: var(--oven-text);
+}
+
+.info-pizzaria span:first-of-type,
+body.dark .info-pizzaria span:first-of-type {
+    color: #4ade80;
+}
+
+.categorias button:hover,
+body.dark .categorias button:hover {
+    background: var(--oven-red);
+    color: white;
+}
+
+.produto,
+body.dark .produto {
+    background: linear-gradient(180deg, var(--oven-card-2), var(--oven-card));
+    border: 1px solid rgba(224,168,55,.18);
+    color: var(--oven-text);
+    box-shadow: 0 14px 34px rgba(0,0,0,.22);
+}
+
+.produto:hover,
+body.dark .produto:hover {
+    border-color: var(--oven-gold);
+}
+
+.produto h3,
+.produto strong,
+body.dark .produto h3,
+body.dark .produto strong {
+    color: var(--oven-text);
+}
+
+.produto strong,
+body.dark .produto strong {
+    color: #4ade80;
+}
+
+.produto button,
+.sacola button,
+#addCarrinho,
+#confirmarPedido,
+body.dark .produto button,
+body.dark .sacola button,
+body.dark #addCarrinho,
+body.dark #confirmarPedido {
+    background: var(--oven-red);
+    color: white;
+}
+
+.produto button:hover,
+.sacola button:hover,
+#addCarrinho:hover,
+#confirmarPedido:hover,
+body.dark .produto button:hover,
+body.dark .sacola button:hover,
+body.dark #addCarrinho:hover,
+body.dark #confirmarPedido:hover {
+    background: var(--oven-red-dark);
+}
+
+.checkout-content,
+.modal-content,
+body.dark .checkout-content,
+body.dark .modal-content {
+    background: linear-gradient(180deg, var(--oven-panel), var(--oven-panel-2));
+    color: var(--oven-ink);
+}
+
+.checkout-box,
+.payment-options label,
+body.dark .checkout-box,
+body.dark .payment-options label {
+    background: #fff7ea;
+    border-color: #e5c89d;
+    color: var(--oven-ink);
+}
+
+/* Modo escuro do cardapio: verde e preto */
+body.dark {
+    background: #121212;
+    color: #e4e4e4;
+}
+
+body.dark header,
+body.dark .produto,
+body.dark .sacola,
+body.dark .modal-content,
+body.dark .checkout-content,
+body.dark .checkout-box,
+body.dark .payment-options label,
+body.dark .banner,
+body.dark .cliente-status,
+body.dark .perfil-cliente-btn,
+body.dark .info-pizzaria span,
+body.dark .categorias button {
+    background: #1e1e1e;
+    border-color: #2c2c2c;
+    box-shadow: none;
+}
+
+body.dark nav a,
+body.dark .produto strong,
+body.dark .cliente-status strong,
+body.dark .perfil-cliente-btn,
+body.dark .info-pizzaria span,
+body.dark .produtos h2,
+body.dark .info-pizzaria h1,
+body.dark .sacola h2,
+body.dark .sacola h3 {
+    color: #49c14b;
+}
+
+body.dark .busca input,
+body.dark .modal-content select,
+body.dark .modal-content textarea,
+body.dark .field-troco input {
+    background: #2c2c2c;
+    color: #ffffff;
+    border: 1px solid #444;
+}
+
+body.dark .produto p,
+body.dark .item small,
+body.dark .cliente-status span,
+body.dark .checkout-box,
+body.dark .info-pizzaria p {
+    color: #cfcfcf;
+}
+
+body.dark .produto button,
+body.dark .sacola button,
+body.dark #addCarrinho,
+body.dark #confirmarPedido,
+body.dark .categorias button:hover {
+    background: #49c14b;
+    color: #121212;
+}
+
+body.dark .produto button:hover,
+body.dark .sacola button:hover,
+body.dark #addCarrinho:hover,
+body.dark #confirmarPedido:hover {
+    background: #3fb242;
+}
+
+/* Ajuste de visibilidade do topo no modo padrao */
+body:not(.dark) header {
+    background: linear-gradient(180deg, #2a1a14, #21150f);
+    border-bottom: 1px solid rgba(224,168,55,.24);
+}
+
+body:not(.dark) nav a {
+    color: #f5dcc2;
+    opacity: 1;
+}
+
+body:not(.dark) nav a:hover {
+    color: #e0a837;
+}
+
+body:not(.dark) .perfil-cliente-btn {
+    background: rgba(255,244,223,.10);
+    border-color: rgba(224,168,55,.34);
+    color: #fff4e6;
+}
+
+body:not(.dark) #tema-btn {
+    background: #111827;
+    color: #ffffff;
+}
+
+/* Padrao final Yulipe: claro limpo, dark preto/verde, perfil/pagamento com agua */
+:root {
+    --std-bg: #f4f7f6;
+    --std-surface: #ffffff;
+    --std-surface-2: #eef4f1;
+    --std-border: #dbe7e1;
+    --std-text: #111827;
+    --std-muted: #5f6f68;
+    --std-green: #178f55;
+    --std-green-dark: #0f5132;
+    --std-black: #0b1110;
+    --std-gold: #d6a84f;
+    --water-soft: #dff8f1;
+    --water-mid: #9de2d2;
+}
+
+body,
+body:not(.dark) {
+    background: linear-gradient(135deg, var(--std-bg), #edf5f1);
+    color: var(--std-text);
+}
+
+body:not(.dark) header,
+body:not(.dark) .produto,
+body:not(.dark) .sacola,
+body:not(.dark) .banner,
+body:not(.dark) .modal-content {
+    background: var(--std-surface);
+    border-color: var(--std-border);
+    color: var(--std-text);
+    box-shadow: 0 12px 30px rgba(17,24,39,.07);
+}
+
+body:not(.dark) header {
+    border-bottom: 1px solid var(--std-border);
+}
+
+body:not(.dark) nav a,
+body:not(.dark) .produto h3,
+body:not(.dark) .produto strong,
+body:not(.dark) .info-pizzaria h1,
+body:not(.dark) .produtos h2,
+body:not(.dark) .sacola h2,
+body:not(.dark) .sacola h3 {
+    color: var(--std-text);
+}
+
+body:not(.dark) nav a:hover,
+body:not(.dark) .link-action {
+    color: var(--std-green);
+}
+
+body:not(.dark) .produto p,
+body:not(.dark) .item small,
+body:not(.dark) .info-pizzaria p,
+body:not(.dark) .cliente-status span {
+    color: var(--std-muted);
+}
+
+body:not(.dark) .busca input,
+body:not(.dark) .perfil-cliente-btn,
+body:not(.dark) .categorias button,
+body:not(.dark) .info-pizzaria span {
+    background: var(--std-surface-2);
+    border-color: var(--std-border);
+    color: var(--std-text);
+}
+
+body:not(.dark) .cliente-status,
+body:not(.dark) .pedido-tracking,
+body:not(.dark) .checkout-content,
+body:not(.dark) .checkout-box,
+body:not(.dark) .payment-options label {
+    background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(223,248,241,.70));
+    border-color: var(--std-border);
+    color: var(--std-text);
+}
+
+body:not(.dark) .pedido-tracking strong,
+body:not(.dark) .cliente-status strong {
+    color: var(--std-black);
+}
+
+body:not(.dark) .pedido-tracking span,
+body:not(.dark) .checkout-box {
+    color: var(--std-muted);
+}
+
+body:not(.dark) .tracking-steps li {
+    background: rgba(255,255,255,.62);
+    border-color: rgba(23,143,85,.22);
+    color: var(--std-green-dark);
+}
+
+body:not(.dark) .tracking-steps li.active {
+    background: var(--std-green);
+    border-color: var(--std-green);
+    color: #ffffff;
+}
+
+body:not(.dark) .produto button,
+body:not(.dark) .sacola button,
+body:not(.dark) #addCarrinho,
+body:not(.dark) #confirmarPedido,
+body:not(.dark) .categorias button:hover {
+    background: var(--std-green);
+    color: #ffffff;
+}
+
+body:not(.dark) .produto button:hover,
+body:not(.dark) .sacola button:hover,
+body:not(.dark) #addCarrinho:hover,
+body:not(.dark) #confirmarPedido:hover {
+    background: var(--std-green-dark);
+}
+
+body:not(.dark) #tema-btn {
+    background: var(--std-black);
+    color: #ffffff;
+}
+
+body.dark {
+    background: #050807;
+    color: #e4f5ea;
+}
+
+body.dark header,
+body.dark .produto,
+body.dark .sacola,
+body.dark .modal-content,
+body.dark .checkout-content,
+body.dark .checkout-box,
+body.dark .payment-options label,
+body.dark .banner,
+body.dark .cliente-status,
+body.dark .pedido-tracking,
+body.dark .perfil-cliente-btn,
+body.dark .info-pizzaria span,
+body.dark .categorias button {
+    background: #101714;
+    border-color: #1f3b2d;
+    color: #e4f5ea;
+}
+
+body.dark nav a,
+body.dark .produto strong,
+body.dark .cliente-status strong,
+body.dark .pedido-tracking strong,
+body.dark .perfil-cliente-btn,
+body.dark .info-pizzaria span,
+body.dark .produtos h2,
+body.dark .info-pizzaria h1,
+body.dark .sacola h2,
+body.dark .sacola h3 {
+    color: #49c14b;
+}
+
+body.dark .busca input,
+body.dark .modal-content select,
+body.dark .modal-content textarea,
+body.dark .field-troco input {
+    background: #07100c;
+    color: #ffffff;
+    border: 1px solid #1f3b2d;
+}
+
+body.dark .produto p,
+body.dark .item small,
+body.dark .cliente-status span,
+body.dark .pedido-tracking span,
+body.dark .checkout-box,
+body.dark .info-pizzaria p {
+    color: #b9d5c8;
+}
+
+body.dark .produto button,
+body.dark .sacola button,
+body.dark #addCarrinho,
+body.dark #confirmarPedido,
+body.dark .categorias button:hover,
+body.dark .tracking-steps li.active {
+    background: #49c14b;
+    color: #050807;
+}
+
+/* Refinamento premium: hero, produtos e sacola */
+body:not(.dark) main {
+    padding-top: 38px;
+}
+
+.banner {
+    position: relative;
+    height: 470px;
+    border-radius: 14px;
+    isolation: isolate;
+}
+
+.banner::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(90deg, rgba(5,8,7,.72), rgba(5,8,7,.16) 54%, rgba(5,8,7,.08)),
+        linear-gradient(180deg, transparent 54%, rgba(5,8,7,.52));
+    z-index: 1;
+}
+
+.hero-copy {
+    position: absolute;
+    left: 28px;
+    bottom: 26px;
+    z-index: 2;
+    max-width: 460px;
+    color: #fff4e6;
+}
+
+.hero-copy span,
+.produto-tag {
+    display: inline-flex;
+    width: fit-content;
+    border-radius: 999px;
+    padding: 6px 10px;
+    background: rgba(53,200,120,.14);
+    color: #35c878;
+    font-size: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.hero-copy h1 {
+    margin: 12px 0 8px;
+    font-size: clamp(34px, 4vw, 58px);
+    line-height: 1;
+}
+
+.hero-copy p {
+    color: #f5dcc2;
+    font-size: 17px;
+    line-height: 1.45;
+}
+
+body:not(.dark) .info-pizzaria {
+    margin-top: 28px;
+}
+
+body:not(.dark) .categorias {
+    position: sticky;
+    top: 86px;
+    z-index: 10;
+    padding: 10px 0;
+    backdrop-filter: blur(10px);
+}
+
+.produto {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 18px;
+    min-height: 126px;
+}
+
+.produto-info {
+    min-width: 0;
+}
+
+.produto-tag {
+    margin-bottom: 10px;
+    background: rgba(214,168,79,.16);
+    color: #9a6b18;
+}
+
+.produto h3 {
+    font-size: 21px;
+}
+
+.produto p {
+    max-width: 520px;
+}
+
+.produto strong {
+    min-width: 96px;
+    color: var(--std-green);
+    font-size: 20px;
+    text-align: right;
+}
+
+.produto button {
+    min-width: 112px;
+    min-height: 42px;
+}
+
+.sacola {
+    overflow: hidden;
+}
+
+.sacola::before {
+    content: "";
+    display: block;
+    height: 4px;
+    margin: -25px -25px 20px;
+    background: linear-gradient(90deg, var(--std-green), var(--std-gold));
+}
+
+.sacola-empty-hint {
+    margin-bottom: 14px;
+    border: 1px dashed var(--std-border);
+    border-radius: 10px;
+    padding: 12px;
+    color: var(--std-muted);
+    font-size: 13px;
+    line-height: 1.35;
+}
+
+.sacola:has(.item) .sacola-empty-hint {
+    display: none;
+}
+
+body.dark .banner::after {
+    background:
+        linear-gradient(90deg, rgba(5,8,7,.82), rgba(5,8,7,.24) 54%, rgba(5,8,7,.12)),
+        linear-gradient(180deg, transparent 54%, rgba(5,8,7,.62));
+}
+
+body.dark .produto-tag {
+    background: rgba(73,193,75,.12);
+    color: #49c14b;
+}
+
+body.dark .produto strong {
+    color: #49c14b;
+}
+
+body.dark .sacola::before {
+    background: linear-gradient(90deg, #49c14b, rgba(216,177,95,.72));
+}
+
+body.dark .sacola-empty-hint {
+    border-color: #1f3b2d;
+    color: #b9d5c8;
+}
+
+@media (max-width: 768px) {
+    .banner {
+        height: 360px;
+    }
+
+    .hero-copy {
+        left: 18px;
+        right: 18px;
+        bottom: 18px;
+    }
+
+    .produto {
+        grid-template-columns: 1fr;
+        align-items: stretch;
+    }
+
+    .produto strong {
+        text-align: left;
+    }
+
+    .produto button {
+        width: 100%;
+    }
+
+    body:not(.dark) .categorias {
+        position: static;
+    }
+}
+
+/* Area de pagamento do cliente */
+.payment-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.payment-head span {
+    color: var(--std-green);
+    font-size: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.payment-head small {
+    color: var(--std-muted);
+    font-size: 13px;
+    text-align: right;
+}
+
+.payment-cards label {
+    position: relative;
+    min-height: 108px;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.payment-cards label::after {
+    content: "";
+    position: absolute;
+    inset: auto -24px -36px auto;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: rgba(157,226,210,.32);
+}
+
+.payment-cards input {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    accent-color: var(--std-green);
+}
+
+.payment-cards strong {
+    color: var(--std-text);
+    font-size: 18px;
+    line-height: 1.1;
+}
+
+.payment-cards span {
+    max-width: 150px;
+    color: var(--std-muted);
+    font-size: 13px;
+    line-height: 1.35;
+}
+
+.payment-cards label:has(input:checked) {
+    border-color: var(--std-green);
+    background:
+        radial-gradient(circle at 100% 100%, rgba(214,168,79,.16), transparent 36%),
+        linear-gradient(180deg, rgba(223,248,241,.96), rgba(255,255,255,.96));
+    box-shadow: 0 12px 26px rgba(23,143,85,.12);
+}
+
+.field-troco.show {
+    border: 1px solid var(--std-border);
+    border-radius: 10px;
+    padding: 12px;
+    background: rgba(223,248,241,.58);
+}
+
+body.dark .payment-head span {
+    color: #49c14b;
+}
+
+body.dark .payment-head small {
+    color: #b9d5c8;
+}
+
+body.dark .payment-cards label {
+    background:
+        radial-gradient(circle at 100% 100%, rgba(73,193,75,.10), transparent 38%),
+        #101714;
+}
+
+body.dark .payment-cards label::after {
+    background: rgba(73,193,75,.14);
+}
+
+body.dark .payment-cards strong {
+    color: #e4f5ea;
+}
+
+body.dark .payment-cards span {
+    color: #b9d5c8;
+}
+
+body.dark .payment-cards label:has(input:checked) {
+    border-color: #49c14b;
+    background:
+        radial-gradient(circle at 100% 100%, rgba(216,177,95,.12), transparent 36%),
+        linear-gradient(180deg, #12241a, #07100c);
+    box-shadow: 0 12px 26px rgba(73,193,75,.12);
+}
+
+body.dark .field-troco.show {
+    background: #07100c;
+    border-color: #1f3b2d;
+}
+
+/* Sacola refinada: checkout limpo e legivel */
+.sacola {
+    padding: 22px;
+}
+
+.sacola h2 {
+    margin-bottom: 16px;
+    font-size: 24px;
+}
+
+.itens-sacola {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.itens-sacola > p {
+    margin: 0;
+    border: 1px dashed var(--std-border);
+    border-radius: 10px;
+    padding: 14px;
+    color: var(--std-muted);
+    font-size: 14px;
+}
+
+.item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 12px;
+    align-items: start;
+    margin: 0;
+    border: 1px solid var(--std-border);
+    border-radius: 12px;
+    padding: 12px;
+    background: rgba(255,255,255,.72);
+}
+
+.item-main {
+    min-width: 0;
+}
+
+.item strong {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--std-text);
+    font-size: 15px;
+    line-height: 1.2;
+}
+
+.item-details {
+    display: grid;
+    gap: 3px;
+}
+
+.item-details span {
+    color: var(--std-muted);
+    font-size: 12px;
+    line-height: 1.28;
+}
+
+.item-actions {
+    display: grid;
+    justify-items: end;
+    gap: 8px;
+}
+
+.item-actions span {
+    color: var(--std-text);
+    font-size: 14px;
+    font-weight: 900;
+    white-space: nowrap;
+}
+
+.remover-item {
+    width: auto !important;
+    min-height: 30px;
+    margin: 0 !important;
+    padding: 6px 9px !important;
+    border-radius: 999px !important;
+    background: #eef4f1 !important;
+    color: var(--std-green-dark) !important;
+    font-size: 12px;
+}
+
+.remover-item:hover {
+    background: #fee2e2 !important;
+    color: #991b1b !important;
+}
+
+.sacola > hr {
+    margin: 14px 0;
+    border: 0;
+    border-top: 1px solid var(--std-border);
+}
+
+.sacola > p[id$="Sacola"],
+.sacola > h3 {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.sacola > p[id$="Sacola"] {
+    color: var(--std-muted);
+    font-size: 14px;
+}
+
+.sacola > h3 {
+    border-top: 1px solid var(--std-border);
+    padding-top: 12px;
+    color: var(--std-text);
+    font-size: 19px;
+}
+
+.sacola > h3::before {
+    content: "Total";
+}
+
+#totalSacola {
+    font-size: 0;
+}
+
+#totalSacola::after {
+    content: attr(data-total);
+    font-size: 19px;
+}
+
+body.dark .item,
+body.dark .itens-sacola > p {
+    background: #101714;
+    border-color: #1f3b2d;
+}
+
+body.dark .item strong,
+body.dark .item-actions span,
+body.dark .sacola > h3 {
+    color: #e4f5ea;
+}
+
+body.dark .item-details span,
+body.dark .sacola > p[id$="Sacola"],
+body.dark .itens-sacola > p {
+    color: #b9d5c8;
+}
+
+body.dark .remover-item {
+    background: #10231a !important;
+    color: #49c14b !important;
+}
+
+/* Sacola v2: resumo lateral mais elegante */
+.sacola {
+    position: sticky;
+    top: 96px;
+    align-self: start;
+    overflow: hidden;
+    border-color: rgba(12, 96, 55, .14);
+    background:
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,252,249,.96)),
+        radial-gradient(circle at 100% 0%, rgba(25,151,91,.14), transparent 34%);
+    box-shadow: 0 22px 50px rgba(2, 22, 14, .10);
+}
+
+.sacola::before {
+    content: "";
+    display: block;
+    height: 4px;
+    margin: -22px -22px 18px;
+    background: linear-gradient(90deg, #0d7d48, #22c55e, #d9b55f);
+}
+
+.sacola h2 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 0 0 10px;
+    color: #06150e;
+    line-height: 1.1;
+}
+
+.sacola h2::after {
+    content: "Pedido";
+    border: 1px solid rgba(13,125,72,.16);
+    border-radius: 999px;
+    padding: 6px 9px;
+    background: rgba(13,125,72,.08);
+    color: #0d7d48;
+    font-size: 11px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+
+.sacola-empty-hint {
+    margin-bottom: 14px;
+    color: #5c6b62;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.sacola.has-items .sacola-empty-hint {
+    display: none;
+}
+
+.item {
+    border-color: rgba(6, 57, 34, .10);
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: 0 10px 22px rgba(2, 22, 14, .06);
+}
+
+.item strong {
+    font-size: 16px;
+}
+
+.item-details span {
+    color: #54645b;
+}
+
+.item-actions span {
+    color: #073f25;
+}
+
+.remover-item {
+    border: 1px solid rgba(185,28,28,.14) !important;
+    background: #fff5f5 !important;
+    color: #9f1d1d !important;
+}
+
+.sacola > p[id$="Sacola"] {
+    margin: 0;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(6, 57, 34, .08);
+}
+
+.sacola > h3 {
+    margin: 6px 0 12px;
+    border: 0;
+    border-top: 1px solid rgba(13,125,72,.14);
+    border-radius: 0;
+    padding: 12px 0 0;
+    background: transparent;
+    color: #06150e;
+}
+
+.sacola > h3::before {
+    color: #0d7d48;
+}
+
+#totalSacola::after {
+    color: #0a2f1d;
+    font-weight: 950;
+}
+
+.sacola #finalizarPedido {
+    width: 100%;
+    min-height: 48px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #168d54, #22c55e);
+    color: #03130c;
+    font-weight: 900;
+    box-shadow: 0 14px 26px rgba(22, 141, 84, .22);
+}
+
+body.dark .sacola {
+    border-color: #1f3b2d;
+    background:
+        radial-gradient(circle at 100% 0%, rgba(216,177,95,.10), transparent 34%),
+        linear-gradient(180deg, #0d1511, #060b08);
+    box-shadow: 0 24px 60px rgba(0,0,0,.32);
+}
+
+body.dark .sacola h2 {
+    color: #f0fff6;
+}
+
+body.dark .sacola h2::after {
+    border-color: #25543c;
+    background: #10231a;
+    color: #6ee787;
+}
+
+body.dark .sacola-empty-hint {
+    color: #a7c5b7;
+}
+
+body.dark .item {
+    background: #101714;
+    border-color: #244434;
+    box-shadow: none;
+}
+
+body.dark .remover-item {
+    border-color: rgba(248,113,113,.24) !important;
+    background: rgba(127,29,29,.28) !important;
+    color: #fecaca !important;
+}
+
+body.dark .sacola > p[id$="Sacola"] {
+    border-bottom-color: #1d3328;
+}
+
+body.dark .sacola > h3 {
+    background: transparent;
+    border-top-color: #1d3328;
+    color: #f0fff6;
+}
+
+body.dark #totalSacola::after {
+    color: #d9b55f;
+}
+
+/* Acompanhamento do pedido: fluxo completo */
+.pedido-tracking {
+    align-items: stretch;
+    gap: 16px;
+}
+
+.pedido-tracking > div {
+    display: grid;
+    gap: 4px;
+}
+
+.tracking-steps {
+    grid-template-columns: repeat(5, minmax(82px, 1fr));
+    overflow-x: auto;
+    padding-bottom: 2px;
+}
+
+.tracking-steps li {
+    min-height: 34px;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    white-space: nowrap;
+}
+
+@media (max-width: 680px) {
+    .tracking-steps {
+        grid-template-columns: repeat(5, minmax(94px, 1fr));
     }
 }
